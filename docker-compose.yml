@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  programminglanguages_redis:
+    image: redis
+
+  programminglanguages_postgres:
+    image: postgres
+
+  programminglanguages_api:
+    image: ${DOCKER_REGISTRY-}programminglanguagesapi
+    build:
+      context: .
+      dockerfile: System/Api/ProgrammingLanguages.Api/Dockerfile
+    depends_on:
+      - programminglanguages.redis
+      - programminglanguages.postgres
+
+  programminglanguages_identity:
+    image: ${DOCKER_REGISTRY-}programminglanguagesidentity
+    build:
+      context: .
+      dockerfile: System/Identity/ProgrammingLanguages.Identity/Dockerfile
+    depends_on:
+      - programminglanguages.redis
+      - programminglanguages.postgres

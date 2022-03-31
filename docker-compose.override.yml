@@ -1,0 +1,49 @@
+version: '3.4'
+
+services:
+
+  programminglanguages_redis:
+    image: redis
+    ports:
+      - "26379:6379"
+    networks:
+      - shared-programminglanguages-net
+
+  programminglanguages_postgres:
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456789
+      - POSTGRES_DB=postgres
+    ports:
+      - "25432:5432"
+    volumes:
+      - postgresvolume:/var/lib/postgresql/data
+
+  programminglanguages_api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "20000:80"
+    networks:
+      - shared-programminglanguages-net
+    env_file:
+      - env.api
+  
+  programminglanguages_identity:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "20001:80"
+    networks:
+      - shared-programminglanguages-net
+    env_file:
+      - env.identity
+
+volumes:
+  postgresvolume:
+  rabbitmq-data:
+
+networks:
+  shared-programminglanguages-net:
+    name: ProgrammingLanguages
+    driver: bridge
