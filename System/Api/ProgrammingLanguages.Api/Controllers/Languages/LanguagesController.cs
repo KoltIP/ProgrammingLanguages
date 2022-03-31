@@ -44,7 +44,6 @@ namespace ProgrammingLanguages.Api.Controllers.Languages
         {
             var model = mapper.Map<AddLanguageModel>(request);
             var language = await languageService.AddLanguage(model);
-
             var result = mapper.Map<LanguageResponse>(language);
             return result;
         }
@@ -54,6 +53,14 @@ namespace ProgrammingLanguages.Api.Controllers.Languages
         {
             var model = mapper.Map<UpdateLanguageModel>(request);
             await languageService.UpdateLanguage(id, model);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteLanguageAsync([FromRoute] int id)
+        {
+
+            await languageService.DeleteLanguage(id);
             return Ok();
         }
     }

@@ -7,8 +7,8 @@ namespace ProgrammingLanguages.LanguageService
     {
         Task<LanguageModel> AddLanguage(AddLanguageModel model);
         Task<LanguageModel> GetLanguage(int id);
-        Task<IEnumerable<LanguageModel>> GetLanguages();       
+        Task<IEnumerable<LanguageModel>> GetLanguages(int offset = 0, int limit = 10);       
         Task UpdateLanguage(int id, UpdateLanguageModel model);
-        Task DeleteBook(int bookId);
+        Task DeleteLanguage(int bookId);
     }
 }

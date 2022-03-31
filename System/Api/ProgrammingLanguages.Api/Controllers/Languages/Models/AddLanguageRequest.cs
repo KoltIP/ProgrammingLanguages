@@ -6,6 +6,7 @@ namespace ProgrammingLanguages.Api.Controllers.Languages.Models
 {
     public class AddLanguageRequest
     {
+        public int CategoryId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
     }
