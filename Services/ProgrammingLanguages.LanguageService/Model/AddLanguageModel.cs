@@ -1,9 +1,12 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
+using ProgrammingLanguages.Db.Entities;
 
 namespace ProgrammingLanguages.LanguageService.Models
 {
     public class AddLanguageModel
     {
+        public int CategoryId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
     }
@@ -18,6 +21,14 @@ namespace ProgrammingLanguages.LanguageService.Models
 
             RuleFor(x => x.Description)
                 .MaximumLength(200).WithMessage("Description is long.");
+        }
+    }
+
+    public class AddLanguageRequestProfile : Profile
+    {
+        public AddLanguageRequestProfile()
+        {
+            CreateMap<AddLanguageModel, Language>();
         }
     }
 }

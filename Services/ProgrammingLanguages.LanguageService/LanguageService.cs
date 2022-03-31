@@ -1,4 +1,9 @@
-﻿using ProgrammingLanguages.LanguageService.Models;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using ProgrammingLanguages.Db.Context.Context;
+using ProgrammingLanguages.Db.Entities;
+using ProgrammingLanguages.LanguageService.Models;
+using ProgrammingLanguages.Shared.Common.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,29 +14,72 @@ namespace ProgrammingLanguages.LanguageService
 {
     public class LanguageService : ILanguageService
     {
+        private readonly IMapper mapper;
+        private readonly IDbContextFactory<MainDbContext> contextFactory;
+        public LanguageService(IDbContextFactory<MainDbContext> contextFactory, IMapper mapper)
+        {
+            this.contextFactory = contextFactory;
+            this.mapper = mapper;
+        }
+
         public async Task<LanguageModel> AddLanguage(AddLanguageModel model)
         {
-            
+            using var context = await contextFactory.CreateDbContextAsync();
+
+            var language = mapper.Map<Language>(model);
+            await context.Languages.AddAsync(language);
+            context.SaveChanges();
+
+            return mapper.Map<LanguageModel>(language);
         }
 
         public async Task<LanguageModel> GetLanguage(int id)
         {
-            
+            using var context = await contextFactory.CreateDbContextAsync();
+
+            var language = context.Languages.FirstOrDefault(x => x.Id.Equals(id));
+
+            var data = mapper.Map<LanguageModel>(language);
+
+            return data;
         }
 
-        public async Task<IEnumerable<LanguageModel>> GetLanguages()
+        public async Task<IEnumerable<LanguageModel>> GetLanguages(int offset = 0, int limit =10)
         {
-           
+            using var context = await contextFactory.CreateDbContextAsync();
+
+            var languages = context.Languages.AsQueryable();
+
+            languages = languages
+                        .Skip(Math.Max(offset, 0))
+                        .Take(Math.Min(limit, 1000));
+
+            var data = (await languages.ToListAsync()).Select(language => mapper.Map<LanguageModel>(language));
+            return data;
         }
 
         public async Task UpdateLanguage(int id, UpdateLanguageModel model)
         {
-           
+            using var context = await contextFactory.CreateDbContextAsync();
+
+            var language = await context.Languages.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            ProcessException.ThrowIf(() => language is null, $"The book (id: {id}) was not found");
+
+            language = mapper.Map(model, language);
+
+            context.Languages.Update(language);
+            context.SaveChanges();
         }
 
-        public async Task DeleteBook(int bookId)
+        public async Task DeleteLanguage(int id)
         {
-           
+            using var context = await contextFactory.CreateDbContextAsync();
+
+            var language = await context.Languages.FirstOrDefaultAsync(x => x.Id.Equals(id))
+                ?? throw new ProcessException($"The book (id: {id}) was not found");
+
+            context.Remove(language);
+            context.SaveChanges();
         }
     }
 }
