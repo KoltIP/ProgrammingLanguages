@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ProgrammingLanguages.Db.Contex.Migrations
 {
-    public partial class _11_M : Migration
+    public partial class MyFirst_01 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,6 +17,7 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
                     Uid = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -30,7 +31,7 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CategoryId = table.Column<int>(type: "integer", nullable: true),
+                    CategoryId = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Uid = table.Column<Guid>(type: "uuid", nullable: false)
@@ -38,30 +39,12 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_languages", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "language_categories",
-                columns: table => new
-                {
-                    CategoriesId = table.Column<int>(type: "integer", nullable: false),
-                    LanguagesId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_language_categories", x => new { x.CategoriesId, x.LanguagesId });
                     table.ForeignKey(
-                        name: "FK_language_categories_category_CategoriesId",
-                        column: x => x.CategoriesId,
+                        name: "FK_languages_category_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "category",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_language_categories_languages_LanguagesId",
-                        column: x => x.LanguagesId,
-                        principalTable: "languages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,9 +82,9 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_language_categories_LanguagesId",
-                table: "language_categories",
-                column: "LanguagesId");
+                name: "IX_languages_CategoryId",
+                table: "languages",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_languages_Name",
@@ -136,16 +119,13 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "language_categories");
-
-            migrationBuilder.DropTable(
                 name: "operator");
 
             migrationBuilder.DropTable(
-                name: "category");
+                name: "languages");
 
             migrationBuilder.DropTable(
-                name: "languages");
+                name: "category");
         }
     }
 }

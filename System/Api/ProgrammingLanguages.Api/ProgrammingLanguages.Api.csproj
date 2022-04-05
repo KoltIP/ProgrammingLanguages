@@ -10,17 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\Categories\**" />
-    <Compile Remove="Controllers\Operators\**" />
-    <Content Remove="Controllers\Categories\**" />
-    <Content Remove="Controllers\Operators\**" />
-    <EmbeddedResource Remove="Controllers\Categories\**" />
-    <EmbeddedResource Remove="Controllers\Operators\**" />
-    <None Remove="Controllers\Categories\**" />
-    <None Remove="Controllers\Operators\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="FluentValidation" Version="10.3.6" />
@@ -42,7 +31,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Data\ProgrammingLanguages.Db.Contex\ProgrammingLanguages.Db.Contex.csproj" />
+    <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.CategoryService\ProgrammingLanguages.CategoryService.csproj" />
     <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.LanguageService\ProgrammingLanguages.LanguageService.csproj" />
+    <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.OperatorService\ProgrammingLanguages.OperatorService.csproj" />
     <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.Settings\ProgrammingLanguages.Settings.csproj" />
     <ProjectReference Include="..\..\..\Shared\ProgrammingLanguages.Shared.Common\ProgrammingLanguages.Shared.Common.csproj" />
   </ItemGroup>

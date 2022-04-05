@@ -1,4 +1,6 @@
-﻿using ProgrammingLanguages.LanguageService;
+﻿using ProgrammingLanguages.CategoryService;
+using ProgrammingLanguages.LanguageService;
+using ProgrammingLanguages.OperatorService;
 using ProgrammingLanguages.Settings;
 
 namespace ProgrammingLanguages.Api
@@ -9,7 +11,9 @@ namespace ProgrammingLanguages.Api
         {
             services
                 .AddSettings()
-                .AddLanguageService();
+                .AddLanguageService()
+                .AddCategoryService()
+                .AddOperatorService();
         }
     }
 }

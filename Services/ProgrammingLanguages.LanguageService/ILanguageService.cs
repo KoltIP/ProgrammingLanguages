@@ -1,5 +1,4 @@
-﻿
-using ProgrammingLanguages.LanguageService.Models;
+﻿using ProgrammingLanguages.LanguageService.Models;
 
 namespace ProgrammingLanguages.LanguageService
 {
