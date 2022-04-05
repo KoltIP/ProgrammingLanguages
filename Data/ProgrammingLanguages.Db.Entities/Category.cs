@@ -9,6 +9,7 @@ namespace ProgrammingLanguages.Db.Entities
     public class Category:BaseEntity
     {
         public string Name { get; set; }
+        public string Description { get; set; }
         public virtual ICollection<Language> Languages { get; set; }
     }
 }

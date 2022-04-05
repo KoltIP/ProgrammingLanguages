@@ -22,21 +22,6 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoryLanguage", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("LanguagesId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("CategoriesId", "LanguagesId");
-
-                    b.HasIndex("LanguagesId");
-
-                    b.ToTable("language_categories", (string)null);
-                });
-
             modelBuilder.Entity("ProgrammingLanguages.Db.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -44,6 +29,10 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -73,6 +62,7 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CategoryId")
+                        .IsRequired()
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
@@ -88,6 +78,8 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -135,19 +127,15 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                     b.ToTable("operator", (string)null);
                 });
 
-            modelBuilder.Entity("CategoryLanguage", b =>
+            modelBuilder.Entity("ProgrammingLanguages.Db.Entities.Language", b =>
                 {
-                    b.HasOne("ProgrammingLanguages.Db.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("ProgrammingLanguages.Db.Entities.Category", "Category")
+                        .WithMany("Languages")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ProgrammingLanguages.Db.Entities.Language", null)
-                        .WithMany()
-                        .HasForeignKey("LanguagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("ProgrammingLanguages.Db.Entities.Operator", b =>
@@ -159,6 +147,11 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                         .IsRequired();
 
                     b.Navigation("Language");
+                });
+
+            modelBuilder.Entity("ProgrammingLanguages.Db.Entities.Category", b =>
+                {
+                    b.Navigation("Languages");
                 });
 
             modelBuilder.Entity("ProgrammingLanguages.Db.Entities.Language", b =>

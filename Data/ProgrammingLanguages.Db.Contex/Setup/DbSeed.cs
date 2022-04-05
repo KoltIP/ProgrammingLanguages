@@ -11,30 +11,33 @@ namespace ProgrammingLanguages.Db.Context.Setup
         {
             if (context.Languages.Any() || context.Categories.Any() || context.Operators.Any())
                 return;
+                        
+            var c1 = new Entities.Category()
+            {
+                Name = "Объекто-ориентированные",
+                Description= "1",
+                Id = 1,
+            };
+            context.Categories.Add(c1);
 
-
-            var a1 = new Entities.Language()
+            var l1 = new Entities.Language()
             {
                 Id = 1,
                 Name = "C#",
                 Description = "1",
-                CategoryId =1,
+                CategoryId = 1,
             };
-            context.Languages.Add(a1);
-            var b1 = new Entities.Category()
-            {
-                Name = "Объекто-ориентированные",
-                Id = 1,
-            };
-            context.Categories.Add(b1);
-            var c1 = new Entities.Operator()
+            context.Languages.Add(l1);
+
+            
+            var o1 = new Entities.Operator()
             {
                 Id = 1,
                 LanguageId = 1,
                 Name = "Plus",
                 Description = "...",
             };
-            context.Operators.Add(c1);
+            context.Operators.Add(o1);
 
             context.SaveChanges();
         }

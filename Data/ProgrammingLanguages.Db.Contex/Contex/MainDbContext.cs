@@ -33,7 +33,7 @@ namespace ProgrammingLanguages.Db.Context.Context
             modelBuilder.Entity<Category>().Property(x => x.Name).HasMaxLength(50);
             modelBuilder.Entity<Category>().HasIndex(x => x.Name).IsUnique();
 
-            modelBuilder.Entity<Language>().HasMany(x => x.Categories).WithMany(x => x.Languages).UsingEntity(t => t.ToTable("language_categories"));
+            modelBuilder.Entity<Language>().HasOne(x => x.Category).WithMany(x => x.Languages).HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Operator>().HasOne(x => x.Language).WithMany(x => x.Operators).HasForeignKey(x => x.LanguageId).OnDelete(DeleteBehavior.Restrict);
         }
     }

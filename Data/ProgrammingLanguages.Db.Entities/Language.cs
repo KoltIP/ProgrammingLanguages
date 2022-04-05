@@ -11,7 +11,7 @@ namespace ProgrammingLanguages.Db.Entities
         public int? CategoryId { get; set; }
         public string Name { get; set; } 
         public string Description { get; set; } 
-        public virtual ICollection<Category> Categories { get; set; }
+        public virtual Category Category { get; set; }
         public virtual ICollection<Operator> Operators { get; set; }
 
     }
