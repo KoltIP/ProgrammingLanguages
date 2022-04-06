@@ -4,6 +4,7 @@ using ProgrammingLanguages.Db.Context.Context;
 using ProgrammingLanguages.Db.Entities;
 using ProgrammingLanguages.LanguageService.Models;
 using ProgrammingLanguages.Shared.Common.Exceptions;
+using ProgrammingLanguages.Shared.Common.Validator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +17,21 @@ namespace ProgrammingLanguages.LanguageService
     {
         private readonly IMapper mapper;
         private readonly IDbContextFactory<MainDbContext> contextFactory;
-        public LanguageService(IDbContextFactory<MainDbContext> contextFactory, IMapper mapper)
+        private readonly IModelValidator<AddLanguageModel> addLanguageModelValidator;
+        private readonly IModelValidator<UpdateLanguageModel> updateLanguageModelValidator;
+        public LanguageService(IDbContextFactory<MainDbContext> contextFactory, IMapper mapper,
+            IModelValidator<AddLanguageModel> addLanguageModelValidator,
+             IModelValidator<UpdateLanguageModel> updateLanguageModelValidator)
         {
             this.contextFactory = contextFactory;
             this.mapper = mapper;
+            this.addLanguageModelValidator = addLanguageModelValidator;
+            this.updateLanguageModelValidator = updateLanguageModelValidator;
         }
 
         public async Task<LanguageModel> AddLanguage(AddLanguageModel model)
         {
+            addLanguageModelValidator.Check(model);
             using var context = await contextFactory.CreateDbContextAsync();
 
             var language = mapper.Map<Language>(model);
@@ -60,6 +68,7 @@ namespace ProgrammingLanguages.LanguageService
 
         public async Task UpdateLanguage(int id, UpdateLanguageModel model)
         {
+            updateLanguageModelValidator.Check(model);
             using var context = await contextFactory.CreateDbContextAsync();
 
             var language = await context.Languages.FirstOrDefaultAsync(x => x.Id.Equals(id));

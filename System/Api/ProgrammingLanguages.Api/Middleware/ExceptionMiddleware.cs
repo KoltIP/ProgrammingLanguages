@@ -1,4 +1,6 @@
-﻿using ProgrammingLanguages.Shared.Common.Extensions;
+﻿using FluentValidation;
+using ProgrammingLanguages.Shared.Common.Exceptions;
+using ProgrammingLanguages.Shared.Common.Extensions;
 using ProgrammingLanguages.Shared.Common.Responses;
 using System.Text.Json;
 
@@ -19,6 +21,14 @@ namespace ProgrammingLanguages.Api.Middlewares
             try
             {
                 await next.Invoke(context);
+            }
+            catch (ValidationException e)
+            {
+                response = e.ToErrorResponse();
+            }
+            catch (ProcessException e)
+            {
+                response = e.ToErrorResponse();
             }
             catch (Exception e)
             {
