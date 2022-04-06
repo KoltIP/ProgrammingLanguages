@@ -36,7 +36,7 @@ services.AddAppServices();
 
 services.AddControllers().AddValidator();
 
-services.AddRazorPages();//.AddValidator();
+services.AddRazorPages();
 
 services.AddAutoMappers();
 
