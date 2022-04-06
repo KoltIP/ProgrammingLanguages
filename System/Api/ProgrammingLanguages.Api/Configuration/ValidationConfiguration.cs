@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ProgrammingLanguages.Shared.Common.Helpers;
 using ProgrammingLanguages.Shared.Common.Responses;
+using ProgrammingLanguages.Shared.Common.Validator;
 
 namespace ProgrammingLanguages.Api.Configuration
 {
@@ -46,7 +47,7 @@ namespace ProgrammingLanguages.Api.Configuration
             //ValidatorsRegisterHelper
             FluentValidatorHelper.Register(builder.Services);
 
-            //builder.Services.AddSingleton(typeof(IModelValidator<>), typeof(ModelValidator<>));
+            builder.Services.AddSingleton(typeof(IModelValidator<>), typeof(ModelValidator<>));
 
             return builder;
         }

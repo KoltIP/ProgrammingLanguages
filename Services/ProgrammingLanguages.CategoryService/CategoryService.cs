@@ -4,6 +4,7 @@ using ProgrammingLanguages.CategoryService.Models;
 using ProgrammingLanguages.Db.Context.Context;
 using ProgrammingLanguages.Db.Entities;
 using ProgrammingLanguages.Shared.Common.Exceptions;
+using ProgrammingLanguages.Shared.Common.Validator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,16 @@ namespace ProgrammingLanguages.CategoryService
     {
         private readonly IMapper mapper;
         private readonly IDbContextFactory<MainDbContext> contextFactory;
-        public CategoryService(IDbContextFactory<MainDbContext> contextFactory, IMapper mapper)
+        private readonly IModelValidator<AddCategoryModel> addCategoryModelValidator;
+        private readonly IModelValidator<UpdateCategoryModel> updateCategoryModelValidator;
+        public CategoryService(IDbContextFactory<MainDbContext> contextFactory, IMapper mapper,
+            IModelValidator<AddCategoryModel> addCategoryModelValidator,
+            IModelValidator<UpdateCategoryModel> updateCategoryModelValidator)
         {
             this.contextFactory = contextFactory;
             this.mapper = mapper;
+            this.addCategoryModelValidator = addCategoryModelValidator;
+            this.updateCategoryModelValidator = updateCategoryModelValidator;
         }
 
         public async Task<CategoryModel> GetCategory(int id)
@@ -50,6 +57,7 @@ namespace ProgrammingLanguages.CategoryService
 
         public async Task<CategoryModel> AddCategory(AddCategoryModel model)
         {
+            addCategoryModelValidator.Check(model);
             using var context = await contextFactory.CreateDbContextAsync();
 
             var category = mapper.Map<Category>(model);
@@ -61,6 +69,7 @@ namespace ProgrammingLanguages.CategoryService
 
         public async Task UpdateCategory(int id, UpdateCategoryModel model)
         {
+            updateCategoryModelValidator.Check(model);
             using var context = await contextFactory.CreateDbContextAsync();
 
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id.Equals(id));

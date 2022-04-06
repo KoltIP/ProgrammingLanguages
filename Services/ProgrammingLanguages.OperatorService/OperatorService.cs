@@ -5,6 +5,7 @@ using ProgrammingLanguages.Db.Entities;
 using ProgrammingLanguages.LanguageService.Models;
 using ProgrammingLanguages.OperatorService.Models;
 using ProgrammingLanguages.Shared.Common.Exceptions;
+using ProgrammingLanguages.Shared.Common.Validator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +18,21 @@ namespace ProgrammingLanguages.OperatorService
     {
         private readonly IMapper mapper;
         private readonly IDbContextFactory<MainDbContext> contextFactory;
-        public OperatorService(IDbContextFactory<MainDbContext> contextFactory, IMapper mapper)
+        private readonly IModelValidator<AddOperatorModel> addOperatorModelValidator;
+        private readonly IModelValidator<UpdateOperatorModel> updateOperatorModelValidator;
+        public OperatorService(IDbContextFactory<MainDbContext> contextFactory, IMapper mapper,
+            IModelValidator<AddOperatorModel> addOperatorModelValidator,
+            IModelValidator<UpdateOperatorModel> updateOperatorModelValidator)
         {
             this.contextFactory = contextFactory;
             this.mapper = mapper;
+            this.addOperatorModelValidator = addOperatorModelValidator;
+            this.updateOperatorModelValidator = updateOperatorModelValidator;
         }
 
         public async Task<OperatorModel> AddOperator(AddOperatorModel model)
         {
+            addOperatorModelValidator.Check(model);
             using var context = await contextFactory.CreateDbContextAsync();
 
             var _operator = mapper.Map<Operator>(model);
@@ -61,6 +69,7 @@ namespace ProgrammingLanguages.OperatorService
 
         public async Task UpdateOperator(int id, UpdateOperatorModel model)
         {
+            updateOperatorModelValidator.Check(model);
             using var context = await contextFactory.CreateDbContextAsync();
 
             var _operator = await context.Operators.FirstOrDefaultAsync(x => x.Id.Equals(id));
