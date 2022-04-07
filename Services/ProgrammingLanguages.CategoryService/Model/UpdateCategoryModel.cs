@@ -10,7 +10,7 @@ namespace ProgrammingLanguages.CategoryService.Models
         public string Description { get; set; }=string.Empty;
     }
 
-    public class UpdateCategoryResponseValidator : AbstractValidator<AddCategoryModel>
+    public class UpdateCategoryResponseValidator : AbstractValidator<UpdateCategoryModel>
     {
         public UpdateCategoryResponseValidator()
         {

@@ -1,15 +1,36 @@
+using ProgrammingLanguages.Identity;
+using ProgrammingLanguages.Identity.Configuration;
+using ProgrammingLanguages.Settings;
+using ProgrammingLanguages.Settings.Settings;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var settings = new IS4Settings(new SettingsSource());
 
-builder.Services.AddControllers();
+var services = builder.Services;
 
+services.AddAppCors();
+
+services.AddAppDbContext(settings.Db);
+
+services.AddHttpContextAccessor();
+
+services.AddAppServices();
+
+builder.Services.AddIS4();
+
+
+//Start
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseAppCors();
 
-app.UseAuthorization();
+app.UseStaticFiles();
 
-app.MapControllers();
+app.UseRouting();
+
+app.UseAppDbContext();
+
+app.UseIS4();
 
 app.Run();

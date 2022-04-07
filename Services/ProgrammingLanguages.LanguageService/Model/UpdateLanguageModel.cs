@@ -11,7 +11,7 @@ namespace ProgrammingLanguages.LanguageService.Models
         public string Description { get; set; } = string.Empty;
     }
 
-    public class UpdateLanguageResponseValidator : AbstractValidator<AddLanguageModel>
+    public class UpdateLanguageResponseValidator : AbstractValidator<UpdateLanguageModel>
     {
         public UpdateLanguageResponseValidator()
         {

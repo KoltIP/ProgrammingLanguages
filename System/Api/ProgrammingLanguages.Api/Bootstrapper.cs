@@ -14,6 +14,7 @@ namespace ProgrammingLanguages.Api
                 .AddLanguageService()
                 .AddCategoryService()
                 .AddOperatorService();
+                
         }
     }
 }

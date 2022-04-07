@@ -1,15 +1,19 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 using ProgrammingLanguages.Api.Controllers.Languages.Models;
 using ProgrammingLanguages.LanguageService;
 using ProgrammingLanguages.LanguageService.Models;
+using ProgrammingLanguages.Shared.Common.Security;
 
 namespace ProgrammingLanguages.Api.Controllers.Languages
 {
     [Route("api/v{version:apiVersion}/language")]
     [ApiController]
     [ApiVersion("1.0")]
+    [Authorize]
     public class LanguagesController : ControllerBase
     {
         private readonly IMapper mapper;
@@ -22,6 +26,7 @@ namespace ProgrammingLanguages.Api.Controllers.Languages
             this.languageService = languageService;
         }
 
+        [RequiredScope(AppScopes.LanguageRead)]
         [HttpGet("")]
         public async Task<IEnumerable<LanguageResponse>> GetLanguagesAsync()
         {
@@ -30,6 +35,7 @@ namespace ProgrammingLanguages.Api.Controllers.Languages
             return response;
         }
 
+        [RequiredScope(AppScopes.LanguageRead)]
         [HttpGet("{id}")]
         public async Task<LanguageResponse> GetLanguageById([FromRoute] int id)
         {
@@ -38,7 +44,7 @@ namespace ProgrammingLanguages.Api.Controllers.Languages
             return response;
         }
 
-
+        [RequiredScope(AppScopes.LanguageWrite)]
         [HttpPost("")]
         public async Task<LanguageResponse> AddLanguageAsync([FromBody] AddLanguageRequest request)
         {
@@ -48,6 +54,7 @@ namespace ProgrammingLanguages.Api.Controllers.Languages
             return result;
         }
 
+        [RequiredScope(AppScopes.LanguageWrite)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateLanguageAsync([FromRoute] int id, [FromBody] UpdateLanguageRequest request)
         {
@@ -56,6 +63,7 @@ namespace ProgrammingLanguages.Api.Controllers.Languages
             return Ok();
         }
 
+        [RequiredScope(AppScopes.LanguageWrite)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLanguageAsync([FromRoute] int id)
         {
