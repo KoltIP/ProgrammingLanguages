@@ -12,7 +12,7 @@ namespace ProgrammingLanguages.LanguageService.Models
         public string Description { get; set; } = string.Empty;
     }
 
-    public class UpdateOperatorResponseValidator : AbstractValidator<AddOperatorModel>
+    public class UpdateOperatorResponseValidator : AbstractValidator<UpdateOperatorModel>
     {
         public UpdateOperatorResponseValidator()
         {
