@@ -10,13 +10,13 @@ namespace ProgrammingLanguages.Identity.Configuration.IS4
             new TestUser
             {
                 SubjectId = "1",
-                Username = "alice@tst.com",
+                Username = "ilya@gmail.com",
                 Password = "password"
             },
             new TestUser
             {
                 SubjectId = "2",
-                Username = "bob@tst.com",
+                Username = "kolt@mail.com",
                 Password = "password"
             }
             };

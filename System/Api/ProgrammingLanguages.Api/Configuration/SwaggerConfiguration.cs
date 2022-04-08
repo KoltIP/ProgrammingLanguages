@@ -7,6 +7,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using static IdentityModel.OidcConstants;
 using ProgrammingLanguages.Settings.Interface;
+using ProgrammingLanguages.Shared.Common.Security;
 
 namespace ProgrammingLanguages.Api.Configuration
 {
@@ -47,36 +48,54 @@ namespace ProgrammingLanguages.Api.Configuration
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
 
-                //options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-                //{
-                //    Name = IdentityServerAuthenticationDefaults.AuthenticationScheme,
-                //    Type = SecuritySchemeType.OAuth2,
-                //    Scheme = "oauth2",
-                //    BearerFormat = "JWT",
-                //    In = ParameterLocation.Header,
-                //    Flows = new OpenApiOAuthFlows
-                //    {
-                //        Password = new OpenApiOAuthFlow
-                //        {
-                //            TokenUrl = new Uri($"{settings.IdentityServer.Url}/connect/token")
-                //        }
-                //    }
-                //});
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Name = IdentityServerAuthenticationDefaults.AuthenticationScheme,
+                    Type = SecuritySchemeType.OAuth2,
+                    Scheme = "oauth2",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        Password = new OpenApiOAuthFlow
+                        {
+                            TokenUrl = new Uri($"{settings.IdentityServer.Url}/connect/token"),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                
+                                    { AppScopes.LanguageRead, "languageRead" },
+                                    { AppScopes.LanguageWrite, "languageWrite" },
+                                
+                            },                             
+                        },
+                        ClientCredentials = new OpenApiOAuthFlow
+                        {
+                            TokenUrl = new Uri($"{settings.IdentityServer.Url}/connect/token"),
+                            Scopes = new Dictionary<string, string>
+                            {
 
-                //options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                //{
-                //    {
-                //        new OpenApiSecurityScheme
-                //        {
-                //            Reference = new OpenApiReference
-                //            {
-                //                Type = ReferenceType.SecurityScheme,
-                //                Id = "oauth2"
-                //            }
-                //        },
-                //        new List<string>()
-                //    }
-                //});
+                                    { AppScopes.LanguageRead, "languageRead" },
+                                    { AppScopes.LanguageWrite, "languageWrite" },
+
+                            },
+                        }
+                    }
+                }); 
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "oauth2"
+                            }
+                        },
+                        new List<string>()
+                    }
+                });
             });
 
             return services;

@@ -35,9 +35,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguages.Db.Ent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguages.LanguageService", "Services\ProgrammingLanguages.LanguageService\ProgrammingLanguages.LanguageService.csproj", "{90D63FC1-9E68-4273-AF17-2D631B00A098}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguages.CategoryService", "Services\ProgrammingLanguages.CategoryService\ProgrammingLanguages.CategoryService.csproj", "{E49E2282-8616-4F92-AA30-616C77D5B8E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguages.CategoryService", "Services\ProgrammingLanguages.CategoryService\ProgrammingLanguages.CategoryService.csproj", "{E49E2282-8616-4F92-AA30-616C77D5B8E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguages.OperatorService", "Services\ProgrammingLanguages.OperatorService\ProgrammingLanguages.OperatorService.csproj", "{5EAA6B0E-DB2C-44B5-AD18-4B36D400C3A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguages.OperatorService", "Services\ProgrammingLanguages.OperatorService\ProgrammingLanguages.OperatorService.csproj", "{5EAA6B0E-DB2C-44B5-AD18-4B36D400C3A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguage.Web", "System\Web\ProgrammingLanguage.Web\ProgrammingLanguage.Web.csproj", "{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +87,10 @@ Global
 		{5EAA6B0E-DB2C-44B5-AD18-4B36D400C3A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EAA6B0E-DB2C-44B5-AD18-4B36D400C3A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EAA6B0E-DB2C-44B5-AD18-4B36D400C3A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +109,7 @@ Global
 		{90D63FC1-9E68-4273-AF17-2D631B00A098} = {EEDBDCA8-CA2D-4CC6-A059-36B5C8FD845E}
 		{E49E2282-8616-4F92-AA30-616C77D5B8E2} = {EEDBDCA8-CA2D-4CC6-A059-36B5C8FD845E}
 		{5EAA6B0E-DB2C-44B5-AD18-4B36D400C3A4} = {EEDBDCA8-CA2D-4CC6-A059-36B5C8FD845E}
+		{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48} = {634C9BC1-740E-4253-8064-C643C02659D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A8C6B01-93CA-4B74-8C40-B1F8E536F5EE}
