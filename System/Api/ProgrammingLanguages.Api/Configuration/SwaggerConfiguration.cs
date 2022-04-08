@@ -44,9 +44,9 @@ namespace ProgrammingLanguages.Api.Configuration
 
                 options.OperationFilter<SwaggerDefaultValues>();
 
-                var xmlFile = "api.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                options.IncludeXmlComments(xmlPath);
+                //var xmlFile = "api.xml";
+               // var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                //options.IncludeXmlComments(xmlPath);
 
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
