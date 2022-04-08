@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.OperatorService\ProgrammingLanguages.OperatorService.csproj" />
     <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.Settings\ProgrammingLanguages.Settings.csproj" />
     <ProjectReference Include="..\..\..\Shared\ProgrammingLanguages.Shared.Common\ProgrammingLanguages.Shared.Common.csproj" />
+    <ProjectReference Include="..\..\Identity\ProgrammingLanguages.Identity\ProgrammingLanguages.Identity.csproj" />
   </ItemGroup>
 
 </Project>

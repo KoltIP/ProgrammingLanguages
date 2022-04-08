@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using ProgrammingLanguages.Api.Controllers.Languages.Models;
+using ProgrammingLanguages.Db.Entities;
 using ProgrammingLanguages.LanguageService;
 using ProgrammingLanguages.LanguageService.Models;
 using ProgrammingLanguages.Shared.Common.Security;
@@ -19,11 +21,13 @@ namespace ProgrammingLanguages.Api.Controllers.Languages
         private readonly IMapper mapper;
         private readonly ILogger<LanguagesController> logger;
         private readonly ILanguageService languageService;
-        public LanguagesController(IMapper mapper, ILogger<LanguagesController> logger, ILanguageService languageService)
+        private readonly UserManager<User> userManager;
+        public LanguagesController(IMapper mapper, ILogger<LanguagesController> logger, ILanguageService languageService, UserManager<User> userManager)
         {
             this.mapper = mapper;
             this.logger = logger;
             this.languageService = languageService;
+            this.userManager = userManager;
         }
 
         [RequiredScope(AppScopes.LanguageRead)]

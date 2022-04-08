@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ProgrammingLanguages.Db.Context.Context
 {
-    public class MainDbContext : DbContext
+    public class MainDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public DbSet<Language> Languages { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -17,18 +17,26 @@ namespace ProgrammingLanguages.Db.Context.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<IdentityRole<Guid>>().ToTable("user_roles");
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("user_tokens");
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("user_role_owners");
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("user_role_claims");
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("user_logins");
+            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("user_claims");
+
             modelBuilder.Entity<Language>().ToTable("languages");
             modelBuilder.Entity<Language>().Property(x => x.Name).IsRequired();
             modelBuilder.Entity<Language>().Property(x => x.Description).HasMaxLength(50);
             modelBuilder.Entity<Language>().HasIndex(x => x.Name).IsUnique();
 
 
-            modelBuilder.Entity<Operator>().ToTable("operator");
+            modelBuilder.Entity<Operator>().ToTable("operators");
             modelBuilder.Entity<Operator>().Property(x => x.Name).IsRequired();
             modelBuilder.Entity<Operator>().Property(x => x.Description).HasMaxLength(50);
             modelBuilder.Entity<Operator>().HasIndex(x => x.Name).IsUnique();
 
-            modelBuilder.Entity<Category>().ToTable("category");
+            modelBuilder.Entity<Category>().ToTable("categories");
             modelBuilder.Entity<Category>().Property(x => x.Name).IsRequired();
             modelBuilder.Entity<Category>().Property(x => x.Name).HasMaxLength(50);
             modelBuilder.Entity<Category>().HasIndex(x => x.Name).IsUnique();

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProgrammingLanguages.Db.Context.Context;
@@ -11,9 +12,10 @@ using ProgrammingLanguages.Db.Context.Context;
 namespace ProgrammingLanguages.Db.Contex.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220407131548_add-identity")]
+    partial class addidentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +48,7 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("user_roles", (string)null);
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -70,7 +72,7 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("user_role_claims", (string)null);
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -94,7 +96,7 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("user_claims", (string)null);
+                    b.ToTable("AspNetUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -115,7 +117,7 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("user_logins", (string)null);
+                    b.ToTable("AspNetUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -130,7 +132,7 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("user_role_owners", (string)null);
+                    b.ToTable("AspNetUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -149,7 +151,7 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("user_tokens", (string)null);
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("ProgrammingLanguages.Db.Entities.Category", b =>
@@ -180,7 +182,7 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                     b.HasIndex("Uid")
                         .IsUnique();
 
-                    b.ToTable("categories", (string)null);
+                    b.ToTable("category", (string)null);
                 });
 
             modelBuilder.Entity("ProgrammingLanguages.Db.Entities.Language", b =>
@@ -254,7 +256,7 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                     b.HasIndex("Uid")
                         .IsUnique();
 
-                    b.ToTable("operators", (string)null);
+                    b.ToTable("operator", (string)null);
                 });
 
             modelBuilder.Entity("ProgrammingLanguages.Db.Entities.User", b =>
@@ -326,7 +328,7 @@ namespace ProgrammingLanguages.Db.Contex.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

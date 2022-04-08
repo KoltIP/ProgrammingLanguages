@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProgrammingLanguages.Api.Controllers.Operators.Models;
+using ProgrammingLanguages.Db.Entities;
 using ProgrammingLanguages.LanguageService.Models;
 using ProgrammingLanguages.OperatorService;
 using ProgrammingLanguages.OperatorService.Models;
@@ -16,11 +18,13 @@ namespace ProgrammingLanguages.Api.Controllers.Operators
         private readonly IMapper mapper;
         private readonly ILogger<OperatorsController> logger;
         private readonly IOperatorService operatorService;
-        public OperatorsController(IMapper mapper, ILogger<OperatorsController> logger, IOperatorService operatorService)
+        private readonly UserManager<User> userManager;
+        public OperatorsController(IMapper mapper, ILogger<OperatorsController> logger, IOperatorService operatorService, UserManager<User> userManager)
         {
             this.mapper = mapper;
             this.logger = logger;
             this.operatorService = operatorService;
+            this.userManager = userManager;
         }
 
         [HttpGet("")]

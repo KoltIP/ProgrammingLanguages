@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProgrammingLanguages.Api.Controllers.Categories.Models;
 using ProgrammingLanguages.CategoryService;
 using ProgrammingLanguages.CategoryService.Models;
+using ProgrammingLanguages.Db.Entities;
 
 namespace ProgrammingLanguages.Api.Controllers.Categories
 {
@@ -15,11 +17,13 @@ namespace ProgrammingLanguages.Api.Controllers.Categories
         private readonly IMapper mapper;
         private readonly ILogger<CategoriesController> logger;
         private readonly ICategoryService categoryService;
-        public CategoriesController(IMapper mapper, ILogger<CategoriesController> logger, ICategoryService categoryService)
+        private readonly UserManager<User> userManager;
+        public CategoriesController(IMapper mapper, ILogger<CategoriesController> logger, ICategoryService categoryService, UserManager<User> userManager)
         {
             this.mapper = mapper;
             this.logger = logger;
             this.categoryService = categoryService;
+            this.userManager = userManager;
         }
 
         [HttpGet("")]
