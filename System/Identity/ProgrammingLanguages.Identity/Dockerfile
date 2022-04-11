@@ -7,6 +7,10 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["System/Identity/ProgrammingLanguages.Identity/ProgrammingLanguages.Identity.csproj", "System/Identity/ProgrammingLanguages.Identity/"]
+COPY ["Services/ProgrammingLanguages.Settings/ProgrammingLanguages.Settings.csproj", "Services/ProgrammingLanguages.Settings/"]
+COPY ["Data/ProgrammingLanguages.Db.Contex/ProgrammingLanguages.Db.Contex.csproj", "Data/ProgrammingLanguages.Db.Contex/"]
+COPY ["Data/ProgrammingLanguages.Db.Entities/ProgrammingLanguages.Db.Entities.csproj", "Data/ProgrammingLanguages.Db.Entities/"]
+COPY ["Shared/ProgrammingLanguages.Shared.Common/ProgrammingLanguages.Shared.Common.csproj", "Shared/ProgrammingLanguages.Shared.Common/"]
 RUN dotnet restore "System/Identity/ProgrammingLanguages.Identity/ProgrammingLanguages.Identity.csproj"
 COPY . .
 WORKDIR "/src/System/Identity/ProgrammingLanguages.Identity"

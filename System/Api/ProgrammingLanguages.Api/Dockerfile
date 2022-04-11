@@ -7,9 +7,13 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["System/Api/ProgrammingLanguages.Api/ProgrammingLanguages.Api.csproj", "System/Api/ProgrammingLanguages.Api/"]
-COPY ["Services/ProgrammingLanguages.Settings/ProgrammingLanguages.Settings.csproj", "Services/ProgrammingLanguages.Settings/"]
+COPY ["Services/ProgrammingLanguages.LanguageService/ProgrammingLanguages.LanguageService.csproj", "Services/ProgrammingLanguages.LanguageService/"]
 COPY ["Shared/ProgrammingLanguages.Shared.Common/ProgrammingLanguages.Shared.Common.csproj", "Shared/ProgrammingLanguages.Shared.Common/"]
-COPY ["Shared/ProgrammingLanguages.Shared.Settings/ProgrammingLanguages.Shared.Settings.csproj", "Shared/ProgrammingLanguages.Shared.Settings/"]
+COPY ["Data/ProgrammingLanguages.Db.Contex/ProgrammingLanguages.Db.Contex.csproj", "Data/ProgrammingLanguages.Db.Contex/"]
+COPY ["Data/ProgrammingLanguages.Db.Entities/ProgrammingLanguages.Db.Entities.csproj", "Data/ProgrammingLanguages.Db.Entities/"]
+COPY ["Services/ProgrammingLanguages.Settings/ProgrammingLanguages.Settings.csproj", "Services/ProgrammingLanguages.Settings/"]
+COPY ["Services/ProgrammingLanguages.CategoryService/ProgrammingLanguages.CategoryService.csproj", "Services/ProgrammingLanguages.CategoryService/"]
+COPY ["Services/ProgrammingLanguages.OperatorService/ProgrammingLanguages.OperatorService.csproj", "Services/ProgrammingLanguages.OperatorService/"]
 RUN dotnet restore "System/Api/ProgrammingLanguages.Api/ProgrammingLanguages.Api.csproj"
 COPY . .
 WORKDIR "/src/System/Api/ProgrammingLanguages.Api"
