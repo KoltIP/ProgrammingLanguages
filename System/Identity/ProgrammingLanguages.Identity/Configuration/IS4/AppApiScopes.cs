@@ -8,8 +8,8 @@ namespace ProgrammingLanguages.Identity.Configuration.IS4
         public static IEnumerable<ApiScope> ApiScopes =>
             new List<ApiScope>
             {
-            new ApiScope(AppScopes.LanguageRead, "Access to books API - Read data"),
-            new ApiScope(AppScopes.LanguageWrite, "Access to books API - Write data")
+            new ApiScope(AppScopes.LanguageRead, "Access to language API - Read data"),
+            new ApiScope(AppScopes.LanguageWrite, "Access to language API - Write data")
             };
     }
 }

@@ -36,7 +36,18 @@
     <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.OperatorService\ProgrammingLanguages.OperatorService.csproj" />
     <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.Settings\ProgrammingLanguages.Settings.csproj" />
     <ProjectReference Include="..\..\..\Shared\ProgrammingLanguages.Shared.Common\ProgrammingLanguages.Shared.Common.csproj" />
-    <ProjectReference Include="..\..\Identity\ProgrammingLanguages.Identity\ProgrammingLanguages.Identity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.design.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.Development.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
