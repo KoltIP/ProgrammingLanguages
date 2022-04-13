@@ -1,0 +1,91 @@
+﻿@using ProgrammingLanguage.Web.Pages.Languages.Models 
+@inherits MudComponentBase
+
+@inject ILanguageService languageService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Title" @bind-Value="model.Name"
+                                  For="@(() => model.Name)"
+                                  Required="true"
+                                  RequiredError="Title is required!"
+                                  >
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectCategory" T="int" Label="Category" @bind-Value="model.CategoryId" For="@(() => model.CategoryId)">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var category in _categories)
+                        {
+                            <MudSelectItem T="int" Value="@category.Id">@category.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" >
+                    <MudTextField Label="Description"
+                                  Lines="5"
+                                  For="@(() => model.Description)"
+                                  @bind-Value="model.Description"></MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+    MudSelect<int> selectCategory = default!;
+
+    LanguageModelValidator modelValidator = new LanguageModelValidator();
+
+    private List<CategoryModel> _categories { get; set; } = new List<CategoryModel>();
+
+    bool isNew = false;
+
+    [Parameter]
+    public int? LanguageId { get; set; } = default;
+
+    [Parameter]
+    public LanguageModel model { get; set; } = new() { CategoryId = 0 };
+
+    protected override async Task OnInitializedAsync()
+    {
+        var data = await languageService.GetCategoryList();
+        _categories.AddRange(data);
+
+        isNew = LanguageId == null;
+        if (!isNew)
+        {
+            var language = await languageService.GetLanguage(LanguageId ?? 0);
+
+            model.Id = language.Id;
+            model.CategoryId = language.CategoryId;
+            model.Name = language.Name;
+            model.Description = language.Description;
+        }
+
+        await selectCategory.SelectOption(model.CategoryId);
+        form.ResetValidation();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

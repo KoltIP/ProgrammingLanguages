@@ -45,7 +45,7 @@ namespace ProgrammingLanguages.LanguageService
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
-            var language = context.Languages.FirstOrDefault(x => x.Id.Equals(id));
+            var language = context.Languages.Include(x => x.Category).FirstOrDefault(x => x.Id.Equals(id));
 
             var data = mapper.Map<LanguageModel>(language);
 
@@ -56,7 +56,7 @@ namespace ProgrammingLanguages.LanguageService
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
-            var languages = context.Languages.AsQueryable();
+            var languages = context.Languages.Include(x=>x.Category).AsQueryable();
 
             languages = languages
                         .Skip(Math.Max(offset, 0))

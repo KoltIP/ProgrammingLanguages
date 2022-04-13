@@ -46,7 +46,7 @@ namespace ProgrammingLanguages.OperatorService
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
-            var _operator = context.Operators.FirstOrDefault(x => x.Id.Equals(id));
+            var _operator = context.Operators.Include(x => x.Language).FirstOrDefault(x => x.Id.Equals(id));
 
             var data = mapper.Map<OperatorModel>(_operator);
 
@@ -57,7 +57,7 @@ namespace ProgrammingLanguages.OperatorService
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
-            var operators = context.Operators.AsQueryable();
+            var operators = context.Operators.Include(x => x.Language).AsQueryable();
 
             operators = operators
                         .Skip(Math.Max(offset, 0))
@@ -73,7 +73,7 @@ namespace ProgrammingLanguages.OperatorService
             using var context = await contextFactory.CreateDbContextAsync();
 
             var _operator = await context.Operators.FirstOrDefaultAsync(x => x.Id.Equals(id));
-            ProcessException.ThrowIf(() => _operator is null, $"The book (id: {id}) was not found");
+            ProcessException.ThrowIf(() => _operator is null, $"The operator (id: {id}) was not found");
 
             _operator = mapper.Map(model, _operator);
 
@@ -86,7 +86,7 @@ namespace ProgrammingLanguages.OperatorService
             using var context = await contextFactory.CreateDbContextAsync();
 
             var _operator = await context.Operators.FirstOrDefaultAsync(x => x.Id.Equals(id))
-                ?? throw new ProcessException($"The book (id: {id}) was not found");
+                ?? throw new ProcessException($"The operator (id: {id}) was not found");
 
             context.Remove(_operator);
             context.SaveChanges();

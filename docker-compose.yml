@@ -24,3 +24,14 @@ services:
     depends_on:
       - programminglanguages.redis
       - programminglanguages.postgres
+
+  programminglanguages_web:
+    image: ${DOCKER_REGISTRY-}programminglanguage
+    build:
+      context: .
+      dockerfile: System/Web/ProgrammingLanguage.Web/Dockerfile
+    depends_on:
+      - programminglanguages_redis
+      - programminglanguages_postgres
+      
+

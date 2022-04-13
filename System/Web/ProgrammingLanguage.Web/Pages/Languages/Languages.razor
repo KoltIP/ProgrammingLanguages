@@ -1,0 +1,142 @@
+﻿@page "/languages"
+@layout MainLayout
+
+@using ProgrammingLanguage.Web.Components
+@using ProgrammingLanguage.Web.Pages.Languages.Models
+
+@attribute [Authorize]
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject ILanguageService languageService
+@inject NavigationManager navigationManager
+
+<MudText Typo="Typo.h4" Class="ma-8">Languages</MudText>
+
+<MudTable Items="@LanguageListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<LanguageListItem,bool>(FilterFuncSimple)">
+    <ColGroup>
+        <col style="width:50px;" />
+        <col />
+        <col />
+        <col />
+        <col style="width:100px;" />
+    </ColGroup>
+    <ToolBarContent>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddLanguage())">Add</MudButton>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Category</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Category">@context.Category</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditLanguage(context.Id))" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteLanguage(context.Id))" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+
+@code {
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = false;
+
+    private string searchString = "";
+
+    private IEnumerable<LanguageListItem> LanguageListItems = new List<LanguageListItem>();
+
+    private async Task ReloadData()
+    {
+        LanguageListItems = await languageService.GetLanguages(0, 10000);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ReloadData();
+        }
+        catch(Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+    private bool FilterFuncSimple(LanguageListItem LanguageListItem) => FilterFunc(LanguageListItem, searchString);
+
+    private bool FilterFunc(LanguageListItem LanguageListItem, string searchString)
+    {
+        return 
+            string.IsNullOrWhiteSpace(searchString)
+            ||
+            
+            LanguageListItem.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ||
+            LanguageListItem.Description.Contains(searchString)
+        ;
+    }
+
+    private async Task AddLanguage()
+    {
+        var parameters = new DialogParameters {};
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<LanguageDialog>("Add language", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await languageService.AddLanguage(((LanguageDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task EditLanguage(int languageId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("LanguageId", languageId);
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<LanguageDialog>("Edit language", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await languageService.EditLanguage(languageId, ((LanguageDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task DeleteLanguage(int languageId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete this language? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = DialogService.Show<ConfirmationDialog>("Delete language", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await languageService.DeleteLanguage(languageId);
+            await ReloadData();
+        }
+    }
+}

@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguages.Catego
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguages.OperatorService", "Services\ProgrammingLanguages.OperatorService\ProgrammingLanguages.OperatorService.csproj", "{5EAA6B0E-DB2C-44B5-AD18-4B36D400C3A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguage.Web", "System\Web\ProgrammingLanguage.Web\ProgrammingLanguage.Web.csproj", "{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguage.Web", "System\Web\ProgrammingLanguage.Web\ProgrammingLanguage.Web.csproj", "{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
