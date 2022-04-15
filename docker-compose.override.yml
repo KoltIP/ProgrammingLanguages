@@ -39,6 +39,12 @@ services:
     env_file:
       - env.identity
 
+  programminglanguages_web:
+    ports:
+      - "20002:80"
+    networks:
+      - shared-programminglanguages-net
+
 volumes:
   postgresvolume:
   rabbitmq-data:
@@ -47,3 +53,4 @@ networks:
   shared-programminglanguages-net:
     name: ProgrammingLanguages
     driver: bridge
+
