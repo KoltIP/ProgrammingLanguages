@@ -1,0 +1,92 @@
+﻿@using ProgrammingLanguage.Web.Pages.Operators.Models 
+@using ProgrammingLanguage.Web.Pages.Operators.Services
+@inherits MudComponentBase
+
+@inject IOperatorService operatorService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Title" @bind-Value="model.Name"
+                                  For="@(() => model.Name)"
+                                  Required="true"
+                                  RequiredError="Title is required!"
+                                  >
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectLanguage" T="int" Label="Language" @bind-Value="model.LanguageId" For="@(() => model.LanguageId)">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var language in _languages)
+                        {
+                            <MudSelectItem T="int" Value="@language.Id">@language.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" >
+                    <MudTextField Label="Description"
+                                  Lines="5"
+                                  For="@(() => model.Description)"
+                                  @bind-Value="model.Description"></MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+    MudSelect<int> selectLanguage = default!;
+
+    OperatorModelValidator modelValidator = new OperatorModelValidator();
+
+    private List<LanguageModel> _languages { get; set; } = new List<LanguageModel>();
+
+    bool isNew = false;
+
+    [Parameter]
+    public int? OperatorId { get; set; } = default;
+
+    [Parameter]
+    public OperatorModel model { get; set; } = new() { LanguageId = 0 };
+
+   protected override async Task OnInitializedAsync()
+    {
+        var data = await operatorService.GetLanguageList();
+        _languages.AddRange(data);
+
+        isNew = OperatorId == null;
+        if (!isNew)
+        {
+            var _operator = await operatorService.GetOperator(OperatorId ?? 0);
+
+            model.Id = _operator.Id;
+            model.LanguageId = _operator.LanguageId;
+            model.Name = _operator.Name;
+            model.Description = _operator.Description;
+        }
+
+        await selectLanguage.SelectOption(model.LanguageId);
+        form.ResetValidation();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

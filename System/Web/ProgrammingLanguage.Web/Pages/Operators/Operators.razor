@@ -1,10 +1,144 @@
 ﻿@page "/operators"
 @layout MainLayout
 
+
+@using ProgrammingLanguage.Web.Components
+@using ProgrammingLanguage.Web.Pages.Operators.Models
+@using ProgrammingLanguage.Web.Pages.Operators.Services
+
 @attribute [Authorize]
 
-<PageTitle>Index</PageTitle>
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IOperatorService operatorService
+@inject NavigationManager navigationManager
 
-<MudTHeadRow>
-    <MudText Typo="Typo.h4" Class="ma-4">Operators</MudText><br />
-</MudTHeadRow>
+<MudText Typo="Typo.h4" Class="ma-8">Operators</MudText>
+
+<MudTable Items="@OperatorListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<OperatorListItem,bool>(FilterFuncSimple)">
+    <ColGroup>
+        <col style="width:50px;" />
+        <col />
+        <col />
+        <col />
+        <col style="width:100px;" />
+    </ColGroup>
+    <ToolBarContent>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddOperator())">Add</MudButton>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Language</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Language">@context.Language</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditOperator(context.Id))" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteOperator(context.Id))" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+
+@code {
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = false;
+
+    private string searchString = "";
+
+    private IEnumerable<OperatorListItem> OperatorListItems = new List<OperatorListItem>();
+
+    private async Task ReloadData()
+    {
+        OperatorListItems = await operatorService.GetOperators(0, 10000);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ReloadData();
+        }
+        catch(Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+    private bool FilterFuncSimple(OperatorListItem OperatorListItem) => FilterFunc(OperatorListItem, searchString);
+
+    private bool FilterFunc(OperatorListItem OperatorListItem, string searchString)
+    {
+        return 
+            string.IsNullOrWhiteSpace(searchString)
+            ||
+            
+            OperatorListItem.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ||
+            OperatorListItem.Description.Contains(searchString)
+        ;
+    }
+
+    private async Task AddOperator()
+    {
+        var parameters = new DialogParameters {};
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<OperatorDialog>("Add operator", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await operatorService.AddOperator(((OperatorDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task EditOperator(int operatorId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("OperatorId", operatorId);
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<OperatorDialog>("Edit operator", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await operatorService.EditOperator(operatorId, ((OperatorDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task DeleteOperator(int operatorId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete this operator? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = DialogService.Show<ConfirmationDialog>("Delete operator", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await operatorService.DeleteOperator(operatorId);
+            await ReloadData();
+        }
+    }
+}

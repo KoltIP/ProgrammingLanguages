@@ -1,0 +1,76 @@
+﻿@using ProgrammingLanguage.Web.Pages.Categories.Models
+@using ProgrammingLanguage.Web.Pages.Categories.Services
+
+@inherits MudComponentBase
+
+@inject ICategoryService categoryService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Title" @bind-Value="model.Name"
+                                  For="@(() => model.Name)"
+                                  Required="true"
+                                  RequiredError="Title is required!"
+                                  >
+                    </MudTextField>
+                </MudItem>                
+                <MudItem xs="12" >
+                    <MudTextField Label="Description"
+                                  Lines="5"
+                                  For="@(() => model.Description)"
+                                  @bind-Value="model.Description"></MudTextField>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+
+    CategoryModelValidator modelValidator = new CategoryModelValidator();
+
+    bool isNew = false;
+
+    [Parameter]
+    public int? CategoryId { get; set; } = default;
+
+    [Parameter]
+    public CategoryModel model { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {        
+
+        isNew = CategoryId == null;
+        if (!isNew)
+        {
+            var category = await categoryService.GetCategory(CategoryId ?? 0);
+
+            model.Id = category.Id;
+            model.Name = category.Name;
+            model.Description = category.Description;
+        }
+        form.ResetValidation();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

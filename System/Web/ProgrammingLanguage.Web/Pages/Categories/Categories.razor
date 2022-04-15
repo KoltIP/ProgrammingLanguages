@@ -3,8 +3,141 @@
 
 @attribute [Authorize]
 
-<PageTitle>Index</PageTitle>
+@using ProgrammingLanguage.Web.Components
+@using ProgrammingLanguage.Web.Pages.Categories.Models
+@using ProgrammingLanguage.Web.Pages.Categories.Services
 
-<MudTHeadRow>
-    <MudText Typo="Typo.h4" Class="ma-4">Categories</MudText><br />
-</MudTHeadRow>
+@attribute [Authorize]
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject ICategoryService categoryService
+@inject NavigationManager navigationManager
+
+<MudText Typo="Typo.h4" Class="ma-8">Categories</MudText>
+
+<MudTable Items="@CategoryListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<CategoryListItem,bool>(FilterFuncSimple)">
+    <ColGroup>
+        <col style="width:50px;" />
+        <col />
+        <col />
+        <col />
+        <col style="width:100px;" />
+    </ColGroup>
+    <ToolBarContent>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddCategory())">Add</MudButton>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditCategory(context.Id))" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteCategory(context.Id))" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+
+@code {
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = false;
+
+    private string searchString = "";
+
+    private IEnumerable<CategoryListItem> CategoryListItems = new List<CategoryListItem>();
+
+    private async Task ReloadData()
+    {
+        CategoryListItems = await categoryService.GetCategories(0, 10000);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ReloadData();
+        }
+        catch(Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+    private bool FilterFuncSimple(CategoryListItem CategoryListItem) => FilterFunc(CategoryListItem, searchString);
+
+    private bool FilterFunc(CategoryListItem CategoryListItem, string searchString)
+    {
+        return 
+            string.IsNullOrWhiteSpace(searchString)
+            ||
+            
+            CategoryListItem.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ||
+            CategoryListItem.Description.Contains(searchString)
+        ;
+    }
+
+    private async Task AddCategory()
+    {
+        var parameters = new DialogParameters {};
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<CategoryDialog>("Add category", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await categoryService.AddCategory(((CategoryDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task EditCategory(int categoryId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("CategoryId", categoryId);
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<CategoryDialog>("Edit category", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await categoryService.EditCategory(categoryId, ((CategoryDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task DeleteCategory(int categoryId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete this category? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = DialogService.Show<ConfirmationDialog>("Delete category", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await categoryService.DeleteCategory(categoryId);
+            await ReloadData();
+        }
+    }
+}
