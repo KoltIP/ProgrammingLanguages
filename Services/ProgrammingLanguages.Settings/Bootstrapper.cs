@@ -19,6 +19,9 @@ namespace ProgrammingLanguages.Settings
             services.AddSingleton<IIdentityServerConnectSettings, IdentityServerConnectSettings>();
             services.AddSingleton<IGeneralSettings, GeneralSettings>();
             services.AddSingleton<IDbSettings, DbSettings>();
+            services.AddSingleton<IEmailSettings, EmailSettings>();
+            services.AddSingleton<IRabbitMqSettings, RabbitMqSettings>();
+            services.AddSingleton<IWorkerSettings, WorkerSettings>();
 
             return services;
         }

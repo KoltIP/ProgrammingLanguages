@@ -34,9 +34,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Data\ProgrammingLanguages.Db.Contex\ProgrammingLanguages.Db.Contex.csproj" />
     <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.CategoryService\ProgrammingLanguages.CategoryService.csproj" />
+    <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.EmailService\ProgrammingLanguages.EmailService.csproj" />
     <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.LanguageService\ProgrammingLanguages.LanguageService.csproj" />
     <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.OperatorService\ProgrammingLanguages.OperatorService.csproj" />
+    <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.RabbitMqService\ProgrammingLanguages.RabbitMqService.csproj" />
     <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.Settings\ProgrammingLanguages.Settings.csproj" />
+    <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.UserAccount\ProgrammingLanguages.UserAccount.csproj" />
     <ProjectReference Include="..\..\..\Shared\ProgrammingLanguages.Shared.Common\ProgrammingLanguages.Shared.Common.csproj" />
   </ItemGroup>
 

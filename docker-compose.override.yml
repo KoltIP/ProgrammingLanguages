@@ -9,6 +9,16 @@ services:
     networks:
       - shared-programminglanguages-net
 
+  programminglanguages_rabbitmq:
+    ports:
+      - "25672:5672"
+      - "25673:5673"
+      - "35672:15672" 
+    networks:
+      - shared-programminglanguages-net
+    volumes:      
+      - rabbitmq-data:/var/lib/rabbitmq/
+
   programminglanguages_postgres:
     environment:
       - POSTGRES_USER=postgres
@@ -45,6 +55,14 @@ services:
     networks:
       - shared-programminglanguages-net
 
+  programminglanguages.worker:
+    ports:
+      - "20003:80"
+    networks:
+      - shared-programminglanguages-net
+    env_file:
+      - env.worker
+
 volumes:
   postgresvolume:
   rabbitmq-data:
@@ -53,4 +71,5 @@ networks:
   shared-programminglanguages-net:
     name: ProgrammingLanguages
     driver: bridge
+
 

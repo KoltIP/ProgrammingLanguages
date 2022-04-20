@@ -41,6 +41,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguages.Operat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguage.Web", "System\Web\ProgrammingLanguage.Web\ProgrammingLanguage.Web.csproj", "{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Worker", "Worker", "{6EF31BD1-5CC9-4D2B-B46C-EC9688A76979}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F20F8A98-7E75-4187-9D10-FF3D9CD907E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguages.EmailService", "Services\ProgrammingLanguages.EmailService\ProgrammingLanguages.EmailService.csproj", "{73669589-BAED-4E1F-ADA0-9C1BDEDF1FBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguages.RabbitMqService", "Services\ProgrammingLanguages.RabbitMqService\ProgrammingLanguages.RabbitMqService.csproj", "{5F82D23C-1E7A-42F2-AD05-5239F4F8CF3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguages.UserAccount", "Services\ProgrammingLanguages.UserAccount\ProgrammingLanguages.UserAccount.csproj", "{12CB39BC-98AF-409E-8F2A-59FD77B781F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguages.Worker", "System\Worker\ProgrammingLanguages.Worker\ProgrammingLanguages.Worker.csproj", "{39AA6899-3D7C-4768-84CB-6BF92EF7DDB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +103,22 @@ Global
 		{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73669589-BAED-4E1F-ADA0-9C1BDEDF1FBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73669589-BAED-4E1F-ADA0-9C1BDEDF1FBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73669589-BAED-4E1F-ADA0-9C1BDEDF1FBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73669589-BAED-4E1F-ADA0-9C1BDEDF1FBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F82D23C-1E7A-42F2-AD05-5239F4F8CF3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F82D23C-1E7A-42F2-AD05-5239F4F8CF3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F82D23C-1E7A-42F2-AD05-5239F4F8CF3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F82D23C-1E7A-42F2-AD05-5239F4F8CF3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12CB39BC-98AF-409E-8F2A-59FD77B781F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12CB39BC-98AF-409E-8F2A-59FD77B781F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12CB39BC-98AF-409E-8F2A-59FD77B781F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12CB39BC-98AF-409E-8F2A-59FD77B781F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39AA6899-3D7C-4768-84CB-6BF92EF7DDB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39AA6899-3D7C-4768-84CB-6BF92EF7DDB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39AA6899-3D7C-4768-84CB-6BF92EF7DDB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39AA6899-3D7C-4768-84CB-6BF92EF7DDB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,6 +138,11 @@ Global
 		{E49E2282-8616-4F92-AA30-616C77D5B8E2} = {EEDBDCA8-CA2D-4CC6-A059-36B5C8FD845E}
 		{5EAA6B0E-DB2C-44B5-AD18-4B36D400C3A4} = {EEDBDCA8-CA2D-4CC6-A059-36B5C8FD845E}
 		{5A9CB7ED-FC2B-4ED1-979F-AA6598E27B48} = {634C9BC1-740E-4253-8064-C643C02659D2}
+		{6EF31BD1-5CC9-4D2B-B46C-EC9688A76979} = {E3A86D63-1B33-41D6-9317-CE4AACBE6F7A}
+		{73669589-BAED-4E1F-ADA0-9C1BDEDF1FBE} = {EEDBDCA8-CA2D-4CC6-A059-36B5C8FD845E}
+		{5F82D23C-1E7A-42F2-AD05-5239F4F8CF3A} = {EEDBDCA8-CA2D-4CC6-A059-36B5C8FD845E}
+		{12CB39BC-98AF-409E-8F2A-59FD77B781F2} = {EEDBDCA8-CA2D-4CC6-A059-36B5C8FD845E}
+		{39AA6899-3D7C-4768-84CB-6BF92EF7DDB2} = {6EF31BD1-5CC9-4D2B-B46C-EC9688A76979}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A8C6B01-93CA-4B74-8C40-B1F8E536F5EE}

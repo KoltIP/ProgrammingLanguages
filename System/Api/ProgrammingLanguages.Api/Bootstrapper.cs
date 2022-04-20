@@ -1,7 +1,10 @@
 ﻿using ProgrammingLanguages.CategoryService;
+using ProgrammingLanguages.EmailService;
 using ProgrammingLanguages.LanguageService;
 using ProgrammingLanguages.OperatorService;
+using ProgrammingLanguages.RabbitMqService;
 using ProgrammingLanguages.Settings;
+using ProgrammingLanguages.UserAccount;
 
 namespace ProgrammingLanguages.Api
 {
@@ -13,8 +16,12 @@ namespace ProgrammingLanguages.Api
                 .AddSettings()
                 .AddLanguageService()
                 .AddCategoryService()
-                .AddOperatorService();
-                
+                .AddOperatorService()
+                .AddEmailSender()
+                .AddRabbitMq()
+                .AddUserAccountService();
+
+
         }
     }
 }
