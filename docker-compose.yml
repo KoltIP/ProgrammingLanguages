@@ -31,7 +31,7 @@ services:
       - programminglanguages.postgres
 
   programminglanguages_web:
-    image: ${DOCKER_REGISTRY-}programminglanguage
+    image: ${DOCKER_REGISTRY-}programminglanguageweb
     build:
       context: .
       dockerfile: System/Web/ProgrammingLanguage.Web/Dockerfile
@@ -41,7 +41,7 @@ services:
       - programminglanguages_postgres     
 
   programminglanguages_worker:
-    image: ${DOCKER_REGISTRY-}programminglanguage
+    image: ${DOCKER_REGISTRY-}programminglanguageworker
     build:
       context: .
       dockerfile: System/Worker/ProgrammingLanguages.Worker/Dockerfile
