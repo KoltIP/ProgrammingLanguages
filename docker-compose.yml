@@ -40,7 +40,7 @@ services:
       - programminglanguages_rabbitmq 
       - programminglanguages_postgres     
 
-  programminglanguages.worker:
+  programminglanguages_worker:
     image: ${DOCKER_REGISTRY-}programminglanguage
     build:
       context: .

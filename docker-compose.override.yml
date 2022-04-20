@@ -55,7 +55,7 @@ services:
     networks:
       - shared-programminglanguages-net
 
-  programminglanguages.worker:
+  programminglanguages_worker:
     ports:
       - "20003:80"
     networks:
