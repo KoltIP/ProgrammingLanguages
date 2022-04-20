@@ -7,6 +7,9 @@ services:
   programminglanguages_postgres:
     image: postgres
 
+  programminglanguages_rabbitmq:
+    image: rabbitmq:3-management
+
   programminglanguages_api:
     image: ${DOCKER_REGISTRY-}programminglanguagesapi
     build:
@@ -14,6 +17,7 @@ services:
       dockerfile: System/Api/ProgrammingLanguages.Api/Dockerfile
     depends_on:
       - programminglanguages.redis
+      - programminglanguages_rabbitmq 
       - programminglanguages.postgres
 
   programminglanguages_identity:
@@ -23,6 +27,7 @@ services:
       dockerfile: System/Identity/ProgrammingLanguages.Identity/Dockerfile
     depends_on:
       - programminglanguages.redis
+      - programminglanguages_rabbitmq 
       - programminglanguages.postgres
 
   programminglanguages_web:
@@ -32,6 +37,18 @@ services:
       dockerfile: System/Web/ProgrammingLanguage.Web/Dockerfile
     depends_on:
       - programminglanguages_redis
+      - programminglanguages_rabbitmq 
+      - programminglanguages_postgres     
+
+  programminglanguages.worker:
+    image: ${DOCKER_REGISTRY-}programminglanguage
+    build:
+      context: .
+      dockerfile: System/Worker/ProgrammingLanguage.Worker/Dockerfile
+    depends_on:
       - programminglanguages_postgres
-      
+      - programminglanguages_rabbitmq 
+      - programminglanguages_redis 
+
+  
 

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Bootstrapper.cs~RF2a02e461.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\ProgrammingLanguages.Db.Entities\ProgrammingLanguages.Db.Entities.csproj" />
+    <ProjectReference Include="..\..\Shared\ProgrammingLanguages.Shared.Common\ProgrammingLanguages.Shared.Common.csproj" />
+    <ProjectReference Include="..\ProgrammingLanguages.RabbitMqService\ProgrammingLanguages.RabbitMqService.csproj" />
+  </ItemGroup>
+
+</Project>
