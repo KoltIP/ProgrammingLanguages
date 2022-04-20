@@ -13,5 +13,5 @@ FROM nginx:alpine
 WORKDIR /var/www/web
 
 COPY --from=publish /app/publish/wwwroot .
-COPY System/Web/ProgrammingLanguage.Web/nginx.conf /etc/nginx.conf
+COPY System/Web/ProgrammingLanguage.Web/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80

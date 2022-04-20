@@ -44,7 +44,7 @@ services:
     image: ${DOCKER_REGISTRY-}programminglanguage
     build:
       context: .
-      dockerfile: System/Worker/ProgrammingLanguage.Worker/Dockerfile
+      dockerfile: System/Worker/ProgrammingLanguages.Worker/Dockerfile
     depends_on:
       - programminglanguages_postgres
       - programminglanguages_rabbitmq 
