@@ -8,6 +8,7 @@ using ProgrammingLanguage.Web.Pages.Auth.Services;
 using ProgrammingLanguage.Web.Pages.Categories.Services;
 using ProgrammingLanguage.Web.Pages.Languages.Models;
 using ProgrammingLanguage.Web.Pages.Operators.Services;
+using ProgrammingLanguage.Web.Pages.Profile.Services;
 using ProgrammingLanguage.Web.Providers;
 using ProgrammingLanguage.Web.Services;
 
@@ -25,6 +26,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<IOperatorService, OperatorService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 builder.Services.AddMudServices();
 

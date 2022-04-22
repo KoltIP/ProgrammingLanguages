@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using ProgrammingLanguage.Web.Pages.Auth;
+using ProgrammingLanguage.Web.Pages.Auth.Registr;
 using ProgrammingLanguage.Web.Providers;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -71,5 +72,45 @@ namespace ProgrammingLanguage.Web.Pages.Auth.Services
 
             _httpClient.DefaultRequestHeaders.Authorization = null;
         }
+
+        public async Task<RegistrErrorResponse> Registration(RegistrModel registrationModel)
+        {
+
+            string url = $"{Settings.ApiRoot}/v1/accounts";
+
+            var body = JsonSerializer.Serialize(registrationModel);
+            var request = new StringContent(body, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(url, request);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+
+            var result = new RegistrErrorResponse();
+            if (!response.IsSuccessStatusCode)
+            {
+                result = JsonSerializer.Deserialize<RegistrErrorResponse>(content);
+                return result;
+            }
+            return result;
+        }
+
+        public async Task<bool> InspectConfirmEmail(string email)
+        {
+            string url = $"{Settings.ApiRoot}/v1/accounts/{email}";
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(content);
+            }
+
+            var result = JsonSerializer.Deserialize<bool>(content);
+
+            return result;
+        }
+
     }
 }

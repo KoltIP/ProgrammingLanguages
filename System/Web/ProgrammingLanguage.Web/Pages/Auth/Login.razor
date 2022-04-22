@@ -5,6 +5,7 @@
 @using ProgrammingLanguage.Web.Pages.Auth.Services
 
 @inject IAuthService AuthService
+@inject ISnackbar Snackbar
 @inject NavigationManager NavigationManager
 
 <MudGrid Justify="Justify.Center" Class="pa-10">
@@ -40,6 +41,7 @@
                 <div Class="d-flex justify-space-between align-center">
                     <MudCheckBox For="@(() => model.RememberMe)" @bind-Checked="model.RememberMe" Label="Remember me?" Color="Color.Primary" Class="ml-n1 my-3"></MudCheckBox>
                     <MudLink Href="/forgot-password">Forgot pwd?</MudLink>
+                     <MudLink Href="/registration">Registration</MudLink>
                 </div>
 
                 <MudButton Variant="Variant.Filled"
@@ -57,7 +59,7 @@
 
     private LoginModel model = new LoginModel()
     {
-        Email = "ilya@gmail.com",
+        Email = "IKoltak02@yandex.com",
         Password = "password"
     };
 
@@ -91,17 +93,27 @@
         Error = "";
         ErrorDetail = "";
 
-        var result = await AuthService.Login(model);
 
-        if (result.Successful)
+        if (await AuthService.InspectConfirmEmail(model.Email))
         {
-            NavigationManager.NavigateTo("/");
+
+            var result = await AuthService.Login(model);
+
+            if (result.Successful)
+            {
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                Error = result.Error;
+                ErrorDetail = result.ErrorDescription;
+                ShowErrors = true;
+            }
         }
         else
         {
-            Error = result.Error;
-            ErrorDetail = result.ErrorDescription;
-            ShowErrors = true;
+            throw new Exception();
         }
+
     }
 }

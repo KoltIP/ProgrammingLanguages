@@ -45,13 +45,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Worker", "Worker", "{6EF31B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F20F8A98-7E75-4187-9D10-FF3D9CD907E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguages.EmailService", "Services\ProgrammingLanguages.EmailService\ProgrammingLanguages.EmailService.csproj", "{73669589-BAED-4E1F-ADA0-9C1BDEDF1FBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguages.EmailService", "Services\ProgrammingLanguages.EmailService\ProgrammingLanguages.EmailService.csproj", "{73669589-BAED-4E1F-ADA0-9C1BDEDF1FBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguages.RabbitMqService", "Services\ProgrammingLanguages.RabbitMqService\ProgrammingLanguages.RabbitMqService.csproj", "{5F82D23C-1E7A-42F2-AD05-5239F4F8CF3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguages.RabbitMqService", "Services\ProgrammingLanguages.RabbitMqService\ProgrammingLanguages.RabbitMqService.csproj", "{5F82D23C-1E7A-42F2-AD05-5239F4F8CF3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguages.UserAccount", "Services\ProgrammingLanguages.UserAccount\ProgrammingLanguages.UserAccount.csproj", "{12CB39BC-98AF-409E-8F2A-59FD77B781F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguages.UserAccount", "Services\ProgrammingLanguages.UserAccount\ProgrammingLanguages.UserAccount.csproj", "{12CB39BC-98AF-409E-8F2A-59FD77B781F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgrammingLanguages.Worker", "System\Worker\ProgrammingLanguages.Worker\ProgrammingLanguages.Worker.csproj", "{39AA6899-3D7C-4768-84CB-6BF92EF7DDB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgrammingLanguages.Worker", "System\Worker\ProgrammingLanguages.Worker\ProgrammingLanguages.Worker.csproj", "{39AA6899-3D7C-4768-84CB-6BF92EF7DDB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

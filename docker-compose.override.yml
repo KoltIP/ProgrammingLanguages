@@ -5,7 +5,7 @@ services:
   programminglanguages_redis:
     image: redis
     ports:
-      - "26379:6379"
+      - "6379:6379"
     networks:
       - shared-programminglanguages-net
 
@@ -24,14 +24,14 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123456789
       - POSTGRES_DB=postgres
+    networks:
+      - shared-programminglanguages-net
     ports:
       - "25432:5432"
     volumes:
       - postgresvolume:/var/lib/postgresql/data
 
   programminglanguages_api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "20000:80"
     networks:
@@ -40,8 +40,6 @@ services:
       - env.api
   
   programminglanguages_identity:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "5083:80"
     networks:

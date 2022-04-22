@@ -1,10 +1,69 @@
 ﻿@page "/profile"
 @layout MainLayout
 
+@using ProgrammingLanguage.Web.Pages.Profile.Models
+@using System.ComponentModel.DataAnnotations
+@using ProgrammingLanguage.Web.Pages.Profile.Services
+
+@inject IProfileService profileService
+@inject IDialogService DialogService
+
 @attribute [Authorize]
 
-<PageTitle>Profile</PageTitle>
+<MudGrid Justify="Justify.Center" Class="pa-10">
+    <MudItem xs="12" sm="7">
+        <MudPaper Class="pa-4">
+            <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3">Profile <MudProgressCircular Color="Color.Primary" Size="Size.Medium" Indeterminate="@load" /></MudText>            
+            <MudText Align="Align.Center"><b>Username:</b> @username 
+                <MudTooltip Text="Edit username">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" 
+                        Variant="Variant.Outlined" 
+                        Color="Color.Primary" 
+                        Size="Size.Small" 
+                        />
+                </MudTooltip>
+            </MudText> 
+            <MudText Align="Align.Center"><b>Email:</b> @email
+                <MudTooltip Text="Edit email">
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" 
+                        Variant="Variant.Outlined" 
+                        Color="Color.Primary" 
+                        Size="Size.Small" 
+                        /> 
+                </MudTooltip>
+            </MudText>             
+            <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Size="Size.Large"
+                           ButtonType="ButtonType.Button"
+                           >
+                           Change password
+            </MudButton>
+        </MudPaper>        
+    </MudItem>    
+</MudGrid>
 
-<MudTHeadRow>
-    <MudText Typo="Typo.h4" Class="ma-4">Profile</MudText><br />
-</MudTHeadRow>
+@code {
+
+    private ProfileModel profileModel = new ProfileModel();
+
+    private bool load = false;
+    private string username;
+    private string email;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            load = true;
+            profileModel = await profileService.GetProfile();
+            username = profileModel.Name;
+            email = profileModel.Email;
+            load = false;
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }        
+}
