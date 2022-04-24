@@ -58,7 +58,7 @@
 
     private LoginModel model = new LoginModel()
     {
-        Email = "IKoltak02@yandex.com",
+        Email = "IKoltak02@yandex.ru",
         Password = "password"
     };
 
@@ -93,8 +93,8 @@
         ErrorDetail = "";
 
 
-        //if (await AuthService.InspectEmail(model.Email))
-        //{
+        if (await AuthService.InspectEmail(model.Email))
+        {
 
             var result = await AuthService.Login(model);
 
@@ -108,11 +108,11 @@
                 ErrorDetail = result.ErrorDescription;
                 ShowErrors = true;
             }
-        //}
-        //else
-        //{
-        //    throw new Exception();
-        //}
+        }
+        else
+        {
+            throw new Exception();
+        }
 
     }
 }

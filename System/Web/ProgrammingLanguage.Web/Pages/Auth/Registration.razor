@@ -12,7 +12,7 @@
     <MudItem xs="7" sm="4">
         <MudPaper Class="pa-4">           
                 
-                <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3">Registration</MudText>
+                <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3" >Registration</MudText>
 
                 <MudAlert Severity="Severity.Error" Class="@(ShowErrors ? "mb-3 d-block" : "d-none")">
                     @Error
@@ -89,7 +89,7 @@
 
         if (result.Successful)
         {
-            NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/login");
         }
         else
         {

@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using ProgrammingLanguage.Web.Pages.Profile.Models;
+using System.Text;
 using System.Text.Json;
 
 namespace ProgrammingLanguage.Web.Pages.Profile.Services
@@ -37,20 +38,67 @@ namespace ProgrammingLanguage.Web.Pages.Profile.Services
 
         }
 
-        public Task ChangeName(ChangeNameModel model)
+        public async Task<ErrorResponse> ChangeName(ChangeNameModel model)
         {
-            throw new NotImplementedException();
+            var token = await localStorage.GetItemAsync<string>("authToken");
+
+            string url = $"{Settings.ApiRoot}/v1/accounts/change/name/{token}/{model.Name}";
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            var result = new ErrorResponse();
+            if (!response.IsSuccessStatusCode)
+            {
+                result = JsonSerializer.Deserialize<ErrorResponse>(content);
+                return result;
+            }
+            result = JsonSerializer.Deserialize<ErrorResponse>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new ErrorResponse();
+
+            return result;
         }
 
-        public Task<ErrorResponse> ChangePassword(ChangePasswordModel model)
+        public async Task<ErrorResponse> ChangePassword(ChangePasswordModel model)
         {
-            throw new NotImplementedException();
+            var token = await localStorage.GetItemAsync<string>("authToken");
+
+            string url = $"{Settings.ApiRoot}/v1/accounts/changepassword/{token}";
+
+            var body = JsonSerializer.Serialize(model);
+            var request = new StringContent(body, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, request);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var result = new ErrorResponse();
+            if (!response.IsSuccessStatusCode)
+            {
+                result = JsonSerializer.Deserialize<ErrorResponse>(content);
+                return result;
+            }
+            return result;
+
         }
 
-        public Task<ErrorResponse> ChangeProfileEmail(ChangeEmailModel model)
+        public async Task<ErrorResponse> ChangeProfileEmail(ChangeEmailModel model)
         {
-            throw new NotImplementedException();
+            var token = await localStorage.GetItemAsync<string>("authToken");
+
+            string url = $"{Settings.ApiRoot}/v1/accounts/change/email/{token}/{model.Email}";
+
+            var response = await _httpClient.GetAsync(url);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var result = new ErrorResponse();
+            if (!response.IsSuccessStatusCode)
+            {
+                result = JsonSerializer.Deserialize<ErrorResponse>(content);
+                return result;
+            }
+            return result;
+
         }
-        
+
     }
 }

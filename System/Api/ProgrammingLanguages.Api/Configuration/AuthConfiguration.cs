@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using ProgrammingLanguages.Db.Context.Context;
 using ProgrammingLanguages.Db.Entities;
 using ProgrammingLanguages.Settings.Interface;
+using ProgrammingLanguages.Shared.Common.Security;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace ProgrammingLanguages.Api.Configuration
@@ -25,7 +26,7 @@ namespace ProgrammingLanguages.Api.Configuration
                 .AddUserManager<UserManager<User>>()
                 .AddDefaultTokenProviders();
 
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.AddAuthentication(options =>
             {
@@ -52,7 +53,8 @@ namespace ProgrammingLanguages.Api.Configuration
 
             services.AddAuthorization(options =>
             {
-               
+                options.AddPolicy(AppScopes.LanguageRead, policy => policy.RequireClaim("scope", AppScopes.LanguageRead));
+                options.AddPolicy(AppScopes.LanguageWrite, policy => policy.RequireClaim("scope", AppScopes.LanguageWrite));
             });
 
             return services;
