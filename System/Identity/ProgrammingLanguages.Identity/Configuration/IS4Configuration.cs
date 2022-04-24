@@ -29,10 +29,10 @@ namespace ProgrammingLanguages.Identity.Configuration
                 .AddInMemoryClients(AppClients.Clients)
                 .AddInMemoryApiResources(AppResources.Resources)
                 .AddInMemoryIdentityResources(AppIdentityResources.Resources)
+                .AddDeveloperSigningCredential()
+                .AddTestUsers(AppApiTestUsers.ApiUsers);
 
-                .AddTestUsers(AppApiTestUsers.ApiUsers)
-
-                .AddDeveloperSigningCredential();
+                
 
             return services;
         }

@@ -13,30 +13,29 @@
 <MudGrid Justify="Justify.Center" Class="pa-10">
     <MudItem xs="12" sm="7">
         <MudPaper Class="pa-4">
-            <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3">Profile <MudProgressCircular Color="Color.Primary" Size="Size.Medium" Indeterminate="@load" /></MudText>            
-            <MudText Align="Align.Center"><b>Username:</b> @username 
+            <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3">Profile <MudProgressCircular Color="Color.Primary" Size="Size.Medium" /></MudText>            
+            <MudText Align="Align.Left"><b>Your Name:</b> @username 
                 <MudTooltip Text="Edit username">
                     <MudIconButton Icon="@Icons.Material.Filled.Edit" 
                         Variant="Variant.Outlined" 
                         Color="Color.Primary" 
-                        Size="Size.Small" 
+                        Size="Size.Medium" 
                         />
                 </MudTooltip>
             </MudText> 
-            <MudText Align="Align.Center"><b>Email:</b> @email
+            <MudText Align="Align.Left"><b>Youe Email:</b> @email
                 <MudTooltip Text="Edit email">
                     <MudIconButton Icon="@Icons.Material.Filled.Edit" 
                         Variant="Variant.Outlined" 
                         Color="Color.Primary" 
-                        Size="Size.Small" 
+                        Size="Size.Medium" 
                         /> 
                 </MudTooltip>
             </MudText>             
             <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
                            Size="Size.Large"
-                           ButtonType="ButtonType.Button"
-                           >
+                           ButtonType="ButtonType.Button">
                            Change password
             </MudButton>
         </MudPaper>        
@@ -47,7 +46,6 @@
 
     private ProfileModel profileModel = new ProfileModel();
 
-    private bool load = false;
     private string username;
     private string email;
 
@@ -55,11 +53,10 @@
     {
         try
         {
-            load = true;
             profileModel = await profileService.GetProfile();
             username = profileModel.Name;
             email = profileModel.Email;
-            load = false;
+            
         }
         catch(Exception ex)
         {

@@ -30,6 +30,7 @@ namespace ProgrammingLanguage.Web.Pages.Auth.Services
         {
             var url = $"{Settings.IdentityRoot}/connect/token";
 
+
             var request_body = new[]
             {
             new KeyValuePair<string, string>("grant_type", "password"),
@@ -87,6 +88,7 @@ namespace ProgrammingLanguage.Web.Pages.Auth.Services
 
 
             var result = new RegistrErrorResponse();
+            result.Successful = response.IsSuccessStatusCode;
             if (!response.IsSuccessStatusCode)
             {
                 result = JsonSerializer.Deserialize<RegistrErrorResponse>(content);

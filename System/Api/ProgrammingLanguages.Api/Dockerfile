@@ -7,12 +7,15 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["System/Api/ProgrammingLanguages.Api/ProgrammingLanguages.Api.csproj", "System/Api/ProgrammingLanguages.Api/"]
-COPY ["Services/ProgrammingLanguages.LanguageService/ProgrammingLanguages.LanguageService.csproj", "Services/ProgrammingLanguages.LanguageService/"]
-COPY ["Shared/ProgrammingLanguages.Shared.Common/ProgrammingLanguages.Shared.Common.csproj", "Shared/ProgrammingLanguages.Shared.Common/"]
-COPY ["Data/ProgrammingLanguages.Db.Contex/ProgrammingLanguages.Db.Contex.csproj", "Data/ProgrammingLanguages.Db.Contex/"]
+COPY ["Services/ProgrammingLanguages.UserAccount/ProgrammingLanguages.UserAccount.csproj", "Services/ProgrammingLanguages.UserAccount/"]
 COPY ["Data/ProgrammingLanguages.Db.Entities/ProgrammingLanguages.Db.Entities.csproj", "Data/ProgrammingLanguages.Db.Entities/"]
+COPY ["Services/ProgrammingLanguages.RabbitMqService/ProgrammingLanguages.RabbitMqService.csproj", "Services/ProgrammingLanguages.RabbitMqService/"]
 COPY ["Services/ProgrammingLanguages.Settings/ProgrammingLanguages.Settings.csproj", "Services/ProgrammingLanguages.Settings/"]
+COPY ["Shared/ProgrammingLanguages.Shared.Common/ProgrammingLanguages.Shared.Common.csproj", "Shared/ProgrammingLanguages.Shared.Common/"]
+COPY ["Services/ProgrammingLanguages.LanguageService/ProgrammingLanguages.LanguageService.csproj", "Services/ProgrammingLanguages.LanguageService/"]
+COPY ["Data/ProgrammingLanguages.Db.Contex/ProgrammingLanguages.Db.Contex.csproj", "Data/ProgrammingLanguages.Db.Contex/"]
 COPY ["Services/ProgrammingLanguages.CategoryService/ProgrammingLanguages.CategoryService.csproj", "Services/ProgrammingLanguages.CategoryService/"]
+COPY ["Services/ProgrammingLanguages.EmailService/ProgrammingLanguages.EmailService.csproj", "Services/ProgrammingLanguages.EmailService/"]
 COPY ["Services/ProgrammingLanguages.OperatorService/ProgrammingLanguages.OperatorService.csproj", "Services/ProgrammingLanguages.OperatorService/"]
 RUN dotnet restore "System/Api/ProgrammingLanguages.Api/ProgrammingLanguages.Api.csproj"
 COPY . .

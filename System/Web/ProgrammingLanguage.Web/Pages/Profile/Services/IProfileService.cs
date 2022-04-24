@@ -5,7 +5,7 @@ namespace ProgrammingLanguage.Web.Pages.Profile.Services
     public interface IProfileService
     {
         Task<ProfileModel> GetProfile();
-        Task ChangeName(ChangeNameModel model);
+        Task<ErrorResponse> ChangeName(ChangeNameModel model);
         Task<ErrorResponse> ChangeProfileEmail(ChangeEmailModel model);
         Task<ErrorResponse> ChangePassword(ChangePasswordModel model);
     }
