@@ -16,9 +16,9 @@ services:
       context: .
       dockerfile: System/Api/ProgrammingLanguages.Api/Dockerfile
     depends_on:
-      - programminglanguages.redis
+      - programminglanguages_redis
       - programminglanguages_rabbitmq 
-      - programminglanguages.postgres
+      - programminglanguages_postgres
 
   programminglanguages_identity:
     image: ${DOCKER_REGISTRY-}programminglanguagesidentity
@@ -26,9 +26,9 @@ services:
       context: .
       dockerfile: System/Identity/ProgrammingLanguages.Identity/Dockerfile
     depends_on:
-      - programminglanguages.redis
+      - programminglanguages_redis
       - programminglanguages_rabbitmq 
-      - programminglanguages.postgres
+      - programminglanguages_postgres
 
   programminglanguages_web:
     image: ${DOCKER_REGISTRY-}programminglanguageweb
@@ -41,7 +41,7 @@ services:
       - programminglanguages_postgres     
 
   programminglanguages_worker:
-    image: ${DOCKER_REGISTRY-}programminglanguageworker
+    image: ${DOCKER_REGISTRY-}programminglanguagesworker
     build:
       context: .
       dockerfile: System/Worker/ProgrammingLanguages.Worker/Dockerfile

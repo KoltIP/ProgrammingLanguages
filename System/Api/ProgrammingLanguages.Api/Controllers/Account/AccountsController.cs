@@ -23,13 +23,36 @@ namespace ProgrammingLanguages.Api.Controllers.Account
         }
 
         [HttpPost("")]
-        public async Task<UserAccountResponse> Register([FromQuery] RegisterUserAccountRequest request)
+        public async Task<UserAccountResponse> Register([FromBody] RegisterUserAccountRequest request)
         {
             var user = await userAccountService.Create(mapper.Map<RegisterUserAccountModel>(request));
 
             var response = mapper.Map<UserAccountResponse>(user);
 
             return response;
+        }
+
+        [HttpGet("confirm/email")]
+        public async Task ConfirmEmail([FromQuery] string email, [FromQuery] string code)
+        {            
+            await userAccountService.ConfirmEmail(email,code);
+        }
+
+        [HttpGet("inspect/{email}")]
+        public async Task<bool> InspectEmail([FromRoute] string email)
+        {
+            return await userAccountService.InspectEmail(email);
+        }
+
+        [HttpGet("find/profile/{token}")]
+        public async Task<UserAccountResponse> GetUser([FromRoute] string token)
+        {
+            var user = await userAccountService.GetUser(token);
+
+            var response= mapper.Map<UserAccountResponse>(user);
+
+            return response;
+
         }
 
         [HttpDelete("")]

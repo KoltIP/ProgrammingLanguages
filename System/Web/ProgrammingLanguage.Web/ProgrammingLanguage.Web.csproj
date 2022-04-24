@@ -20,11 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Profile\Models\" />
-    <Folder Include="Pages\Profile\Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="nginx.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
