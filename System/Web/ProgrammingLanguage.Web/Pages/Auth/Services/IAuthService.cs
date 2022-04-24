@@ -8,6 +8,6 @@ namespace ProgrammingLanguage.Web.Pages.Auth.Services
         Task<LoginResult> Login(LoginModel loginModel);
         Task Logout();
         Task<RegistrErrorResponse> Registration(RegistrModel registrationModel);
-        Task<bool> InspectConfirmEmail(string email);
+        Task<bool> InspectEmail(string email);
     }
 }

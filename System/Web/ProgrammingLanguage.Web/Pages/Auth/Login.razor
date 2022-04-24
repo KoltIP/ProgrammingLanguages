@@ -5,7 +5,6 @@
 @using ProgrammingLanguage.Web.Pages.Auth.Services
 
 @inject IAuthService AuthService
-@inject ISnackbar Snackbar
 @inject NavigationManager NavigationManager
 
 <MudGrid Justify="Justify.Center" Class="pa-10">
@@ -94,8 +93,8 @@
         ErrorDetail = "";
 
 
-        if (await AuthService.InspectConfirmEmail(model.Email))
-        {
+        //if (await AuthService.InspectEmail(model.Email))
+        //{
 
             var result = await AuthService.Login(model);
 
@@ -109,11 +108,11 @@
                 ErrorDetail = result.ErrorDescription;
                 ShowErrors = true;
             }
-        }
-        else
-        {
-            throw new Exception();
-        }
+        //}
+        //else
+        //{
+        //    throw new Exception();
+        //}
 
     }
 }

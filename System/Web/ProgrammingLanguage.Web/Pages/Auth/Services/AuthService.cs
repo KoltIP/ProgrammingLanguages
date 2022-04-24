@@ -95,9 +95,9 @@ namespace ProgrammingLanguage.Web.Pages.Auth.Services
             return result;
         }
 
-        public async Task<bool> InspectConfirmEmail(string email)
+        public async Task<bool> InspectEmail(string email)
         {
-            string url = $"{Settings.ApiRoot}/v1/accounts/{email}";
+            string url = $"{Settings.ApiRoot}/v1/accounts/inspect/{email}";
 
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();

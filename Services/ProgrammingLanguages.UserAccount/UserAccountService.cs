@@ -55,7 +55,7 @@ namespace ProgrammingLanguages.UserAccount
             var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
             var codeB = System.Text.Encoding.UTF8.GetBytes(code);
             code = System.Convert.ToBase64String(codeB);
-            var url = $"http://localhost:20000/api/v1/accounts/confirm/email?user={user.Id}&code={code}";
+            var url = $"http://localhost:20000/api/v1/accounts/confirm/email?email={user.Email}&code={code}";
             
             // Send email to user
             // !!! Обратите внимание, что мы не отправляем письмо, а создаем задание на его отправку. Дальше уже все сделается само другими сервисами.
@@ -71,13 +71,13 @@ namespace ProgrammingLanguages.UserAccount
             return mapper.Map<UserAccountModel>(user);
         }
 
-        public async Task ConfirmEmail(Guid id, string code)
+        public async Task ConfirmEmail(string email, string code)
         {
-            string idString = id.ToString().ToLower();
+            //string idString = id.ToString().ToLower();
             
-           var user = await userManager.FindByIdAsync(idString);
+           //var user = await userManager.FindByIdAsync(idString);
             //здесь user=null
-            //var user = await userManager.FindByEmailAsync("IKoltak02@yandex.ru");
+            var user = await userManager.FindByEmailAsync(email);
 
             if (user == null)
                 throw new ProcessException("The user was not found");
@@ -94,7 +94,7 @@ namespace ProgrammingLanguages.UserAccount
             }
         }
 
-        public async Task<bool> InspectConfirmEmail(string email)
+        public async Task<bool> InspectEmail(string email)
         {
             var user = await userManager.FindByEmailAsync(email);
             if (user == null)

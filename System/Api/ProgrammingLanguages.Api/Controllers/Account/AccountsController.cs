@@ -33,15 +33,15 @@ namespace ProgrammingLanguages.Api.Controllers.Account
         }
 
         [HttpGet("confirm/email")]
-        public async Task ConfirmEmail([FromQuery] Guid id, [FromQuery] string code)
+        public async Task ConfirmEmail([FromQuery] string email, [FromQuery] string code)
         {            
-            await userAccountService.ConfirmEmail(id,code);
+            await userAccountService.ConfirmEmail(email,code);
         }
 
-        [HttpGet("{email}")]
-        public async Task<bool> InspectConfirmEmail([FromRoute] string email)
+        [HttpGet("inspect/{email}")]
+        public async Task<bool> InspectEmail([FromRoute] string email)
         {
-            return await userAccountService.InspectConfirmEmail(email);
+            return await userAccountService.InspectEmail(email);
         }
 
         [HttpGet("find/profile/{token}")]

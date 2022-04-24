@@ -11,8 +11,8 @@ namespace ProgrammingLanguages.UserAccount
     {
         Task<UserAccountModel> Create(RegisterUserAccountModel model);
         Task Delete(string model);
-        Task ConfirmEmail(Guid guid, string code);
-        Task<bool> InspectConfirmEmail(string email);
+        Task ConfirmEmail(string email, string code);
+        Task<bool> InspectEmail(string email);
 
         Task<UserAccountModel> GetUser(string token);
 
