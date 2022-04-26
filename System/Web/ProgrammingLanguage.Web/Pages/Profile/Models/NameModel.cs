@@ -2,13 +2,13 @@
 
 namespace ProgrammingLanguage.Web.Pages.Profile.Models
 {
-    public class ChangeNameModel
+    public class NameModel
     {
         public string Name { get; set; }
     }
-    public class ChangeFullNameModelValidator : AbstractValidator<ChangeNameModel>
+    public class NameModelValidator : AbstractValidator<NameModel>
     {
-        public ChangeFullNameModelValidator()
+        public NameModelValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("FullName is empty.")
@@ -17,7 +17,7 @@ namespace ProgrammingLanguage.Web.Pages.Profile.Models
         }
         public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
         {
-            var result = await ValidateAsync(ValidationContext<ChangeNameModel>.CreateWithOptions((ChangeNameModel)model, x => x.IncludeProperties(propertyName)));
+            var result = await ValidateAsync(ValidationContext<NameModel>.CreateWithOptions((NameModel)model, x => x.IncludeProperties(propertyName)));
             if (result.IsValid)
                 return Array.Empty<string>();
             return result.Errors.Select(e => e.ErrorMessage);

@@ -55,10 +55,29 @@ namespace ProgrammingLanguages.Api.Controllers.Account
 
         }
 
-        [HttpDelete("")]
-        public async Task Delete([FromQuery] string email)
+        [HttpGet("change/name/{token}/{name}")]
+        public async Task ChangeName([FromRoute] string token, [FromRoute] string name)
         {
-            await userAccountService.Delete(email);
+            await userAccountService.ChangeName(token, name);
+        }
+
+        [HttpGet("change/email/{token}/{email}")]
+        public async Task ChangeEmail([FromRoute] string token, [FromRoute] string email)
+        {
+            await userAccountService.ChangeEmail(token, email);
+        }
+
+        [HttpPost("change/password/{token}")]
+        public async Task ChangePassword([FromRoute] string token, [FromBody] PasswordRequest request)
+        {
+            var model = mapper.Map<PasswordModel>(request);
+            await userAccountService.ChangePassword(token, model);
+        }
+
+        [HttpPost("forgot/password/{email}")]
+        public async Task ForgotPassword([FromRoute] string email)
+        {
+            await userAccountService.ForgotPassword(email);
         }
     }
 }

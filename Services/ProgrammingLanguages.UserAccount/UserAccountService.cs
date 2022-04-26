@@ -73,10 +73,6 @@ namespace ProgrammingLanguages.UserAccount
 
         public async Task ConfirmEmail(string email, string code)
         {
-            //string idString = id.ToString().ToLower();
-            
-           //var user = await userManager.FindByIdAsync(idString);
-            //здесь user=null
             var user = await userManager.FindByEmailAsync(email);
 
             if (user == null)
@@ -98,7 +94,7 @@ namespace ProgrammingLanguages.UserAccount
         {
             var user = await userManager.FindByEmailAsync(email);
             if (user == null)
-                throw new ProcessException("The user wasn't found");
+                throw new ProcessException("The user was not found");
             return user.EmailConfirmed;
 
         }
@@ -116,12 +112,79 @@ namespace ProgrammingLanguages.UserAccount
                 throw new ProcessException("User was not found");
 
             return mapper.Map<UserAccountModel>(user);
+        }
+
+        public async Task ChangeName(string token, string name)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenSecurity = jsonToken as JwtSecurityToken;
+
+            var id = tokenSecurity.Claims.First(claim => claim.Type == "sub").Value;
+
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null)
+                throw new ProcessException("User was not found");
+
+            user.FullName = name;
+            await userManager.UpdateAsync(user);
+        }
+
+
+        public async Task ChangeEmail(string token, string email)
+        {
+            var userEmailExist = await userManager.FindByEmailAsync(email);
+            if (userEmailExist != null)
+                throw new ProcessException($"User account with email {email} already exist.");
+
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenSecurity = jsonToken as JwtSecurityToken;
+
+            var id = tokenSecurity.Claims.First(claim => claim.Type == "sub").Value;
+
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null)
+                throw new ProcessException("User was not found");
+            user.Email = email;
+            user.UserName = email;
+            user.EmailConfirmed = false;
+            //добавить проверку почты
+            await userManager.UpdateAsync(user);
+
+            var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            var codeB = System.Text.Encoding.UTF8.GetBytes(code);
+            code = System.Convert.ToBase64String(codeB);
+            var url = $"http://localhost:20000/api/v1/accounts/confirm/email?email={user.Email}&code={code}";
+            await rabbitMqTask.SendEmail(new EmailModel()
+            {
+                Email = email,
+                Subject = "ProgrammingLanguages",
+                Message = $"Your account will be create successful if you move on <a href ='{url}'>Link</a>"
+            });
+        }
+
+        public async Task ChangePassword(string token, PasswordModel model)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenSecurity = jsonToken as JwtSecurityToken;
+
+            var id = tokenSecurity.Claims.First(claim => claim.Type == "sub").Value;
+
+            var user = await userManager.FindByIdAsync(id);
+            if (user == null)
+                throw new ProcessException("User was not found");
+            var res = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (!res.Succeeded)
+                throw new ProcessException("Wrong old password");
+            await userManager.UpdateAsync(user);
 
         }
-        public async Task Delete(string email)
+
+        public Task ForgotPassword(string email)
         {
-            var user = await userManager.FindByEmailAsync(email);
-            await userManager.DeleteAsync(user);
+            throw new NotImplementedException();
         }
     }
 }

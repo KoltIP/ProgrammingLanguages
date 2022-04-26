@@ -10,12 +10,12 @@ namespace ProgrammingLanguages.UserAccount
     public interface IUserAccountService
     {
         Task<UserAccountModel> Create(RegisterUserAccountModel model);
-        Task Delete(string model);
         Task ConfirmEmail(string email, string code);
         Task<bool> InspectEmail(string email);
-
         Task<UserAccountModel> GetUser(string token);
-
-
+        Task ChangeName(string token, string name);
+        Task ChangeEmail(string token, string email);
+        Task ChangePassword(string token, PasswordModel password);
+        Task ForgotPassword(string email);
     }
 }

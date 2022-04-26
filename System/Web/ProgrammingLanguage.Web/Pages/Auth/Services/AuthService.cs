@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using ProgrammingLanguage.Web.Pages.Auth;
 using ProgrammingLanguage.Web.Pages.Auth.Registr;
+using ProgrammingLanguage.Web.Pages.Profile.Models;
 using ProgrammingLanguage.Web.Providers;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -113,6 +114,24 @@ namespace ProgrammingLanguage.Web.Pages.Auth.Services
 
             return result;
         }
+
+        public async Task<ErrorResponse> ForgotPassword(string email)
+        {
+            string url = $"{Settings.ApiRoot}/v1/forgot/password/{email}";
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(content);
+            }
+
+            var result = JsonSerializer.Deserialize<ErrorResponse>(content);
+
+            return result;
+        }
+
 
     }
 }
