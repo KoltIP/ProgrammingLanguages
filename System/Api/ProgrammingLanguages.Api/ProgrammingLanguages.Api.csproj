@@ -41,6 +41,7 @@
     <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.Settings\ProgrammingLanguages.Settings.csproj" />
     <ProjectReference Include="..\..\..\Services\ProgrammingLanguages.UserAccount\ProgrammingLanguages.UserAccount.csproj" />
     <ProjectReference Include="..\..\..\Shared\ProgrammingLanguages.Shared.Common\ProgrammingLanguages.Shared.Common.csproj" />
+    <ProjectReference Include="..\..\Web\ProgrammingLanguage.Web\ProgrammingLanguage.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>

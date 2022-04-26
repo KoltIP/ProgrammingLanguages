@@ -29,8 +29,8 @@ namespace ProgrammingLanguages.Identity.Configuration
                 .AddInMemoryClients(AppClients.Clients)
                 .AddInMemoryApiResources(AppResources.Resources)
                 .AddInMemoryIdentityResources(AppIdentityResources.Resources)
-                .AddDeveloperSigningCredential()
-                .AddTestUsers(AppApiTestUsers.ApiUsers);
+                .AddDeveloperSigningCredential();
+                //.AddTestUsers(AppApiTestUsers.ApiUsers);
 
                 
 

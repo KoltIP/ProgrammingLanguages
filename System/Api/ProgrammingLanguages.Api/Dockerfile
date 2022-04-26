@@ -14,6 +14,7 @@ COPY ["Services/ProgrammingLanguages.Settings/ProgrammingLanguages.Settings.cspr
 COPY ["Shared/ProgrammingLanguages.Shared.Common/ProgrammingLanguages.Shared.Common.csproj", "Shared/ProgrammingLanguages.Shared.Common/"]
 COPY ["Services/ProgrammingLanguages.LanguageService/ProgrammingLanguages.LanguageService.csproj", "Services/ProgrammingLanguages.LanguageService/"]
 COPY ["Data/ProgrammingLanguages.Db.Contex/ProgrammingLanguages.Db.Contex.csproj", "Data/ProgrammingLanguages.Db.Contex/"]
+COPY ["System/Web/ProgrammingLanguage.Web/ProgrammingLanguage.Web.csproj", "System/Web/ProgrammingLanguage.Web/"]
 COPY ["Services/ProgrammingLanguages.CategoryService/ProgrammingLanguages.CategoryService.csproj", "Services/ProgrammingLanguages.CategoryService/"]
 COPY ["Services/ProgrammingLanguages.EmailService/ProgrammingLanguages.EmailService.csproj", "Services/ProgrammingLanguages.EmailService/"]
 COPY ["Services/ProgrammingLanguages.OperatorService/ProgrammingLanguages.OperatorService.csproj", "Services/ProgrammingLanguages.OperatorService/"]

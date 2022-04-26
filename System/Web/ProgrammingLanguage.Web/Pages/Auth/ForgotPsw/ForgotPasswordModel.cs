@@ -1,14 +1,15 @@
 ﻿using FluentValidation;
 
-namespace ProgrammingLanguage.Web.Pages.Profile.Models
+namespace ProgrammingLanguage.Web.Pages.Auth.ForgotPsw
 {
-    public class ChangeEmailModel
+    public class ForgotPasswordModel
     {
         public string Email { get; set; }
     }
-    public class ChangeEmailModelValidator : AbstractValidator<ChangeEmailModel>
+
+    public class ForgotPasswordModelValidator : AbstractValidator<ForgotPasswordModel>
     {
-        public ChangeEmailModelValidator()
+        public ForgotPasswordModelValidator()
         {
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is empty.")
@@ -18,11 +19,10 @@ namespace ProgrammingLanguage.Web.Pages.Profile.Models
         }
         public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
         {
-            var result = await ValidateAsync(ValidationContext<ChangeEmailModel>.CreateWithOptions((ChangeEmailModel)model, x => x.IncludeProperties(propertyName)));
+            var result = await ValidateAsync(ValidationContext<ForgotPasswordModel>.CreateWithOptions((ForgotPasswordModel)model, x => x.IncludeProperties(propertyName)));
             if (result.IsValid)
                 return Array.Empty<string>();
             return result.Errors.Select(e => e.ErrorMessage);
         };
     }
-
 }

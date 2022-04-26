@@ -1,0 +1,64 @@
+﻿@using ProgrammingLanguage.Web.Pages.Categories.Models
+@using ProgrammingLanguage.Web.Pages.Categories.Services
+@using ProgrammingLanguage.Web.Pages.Profile.Models
+@using ProgrammingLanguage.Web.Pages.Profile.Services
+
+@inherits MudComponentBase
+
+@inject IProfileService profileService 
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Name" @bind-Value="model.Name"
+                                  For="@(() => model.Name)"
+                                  Required="true"
+                                  RequiredError="New Name is required!"
+                                  >
+                    </MudTextField>
+                </MudItem>        
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Change</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+
+    NameModelValidator modelValidator = new NameModelValidator();
+
+    private bool ShowErrors;
+    private string? Error; 
+
+    [Parameter]
+    public NameModel model { get; set; } = new();
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            var success = await profileService.ChangeName(model);
+            if (success.ErrorCode.HasValue)
+            {
+                Error = success.Message;
+                ShowErrors = true;
+            }
+            else
+            {
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}
