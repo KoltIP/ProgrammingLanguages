@@ -70,7 +70,12 @@ namespace ProgrammingLanguages.Api.Controllers.Account
         [HttpPost("change/password/{token}")]
         public async Task ChangePassword([FromRoute] string token, [FromBody] PasswordRequest request)
         {
-            var model = mapper.Map<PasswordModel>(request);
+            //PasswordModel model = mapper.Map<PasswordModel>(request);
+            PasswordModel model = new PasswordModel()
+            {
+                NewPassword = request.NewPassword,
+                OldPassword = request.OldPassword
+            };
             await userAccountService.ChangePassword(token, model);
         }
 
