@@ -16,6 +16,7 @@ namespace ProgrammingLanguages.UserAccount
         Task ChangeName(string token, string name);
         Task ChangeEmail(string token, string email);
         Task ChangePassword(string token, PasswordModel password);
-        Task ForgotPassword(string email);
+        Task ConfirmForgotPassword(string email, string code, string password);
+        Task ForgotPassword(ForgotPasswordModel model);
     }
 }

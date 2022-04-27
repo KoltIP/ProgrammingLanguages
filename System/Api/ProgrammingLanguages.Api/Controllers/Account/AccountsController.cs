@@ -79,10 +79,24 @@ namespace ProgrammingLanguages.Api.Controllers.Account
             await userAccountService.ChangePassword(token, model);
         }
 
-        [HttpPost("forgot/password/{email}")]
-        public async Task ForgotPassword([FromRoute] string email)
+        [HttpPost("forgot/password")]
+        public async Task ForgotPassword([FromBody] ForgotPasswordRequest request)
         {
-            await userAccountService.ForgotPassword(email);
+            //ForgotPasswordRequest passwordModel = mapper.Map<ForgotPasswordModel>(request);
+            ForgotPasswordModel forgotPassword = new ForgotPasswordModel()
+            {
+                Email = request.Email,
+                Password = request.Password
+            };
+            
+            await userAccountService.ForgotPassword(forgotPassword);
         }
+
+        [HttpGet("confirm/reset/password")]
+        public async Task ConfirmResetPassword([FromQuery] string email, [FromQuery] string code, [FromQuery] string password)
+        {
+            await userAccountService.ConfirmForgotPassword(email, code, password);
+        }
+
     }
 }

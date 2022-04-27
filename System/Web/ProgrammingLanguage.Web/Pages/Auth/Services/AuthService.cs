@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using ProgrammingLanguage.Web.Pages.Auth;
+using ProgrammingLanguage.Web.Pages.Auth.ForgotPsw;
 using ProgrammingLanguage.Web.Pages.Auth.Registr;
 using ProgrammingLanguage.Web.Pages.Profile.Models;
 using ProgrammingLanguage.Web.Providers;
@@ -115,21 +116,25 @@ namespace ProgrammingLanguage.Web.Pages.Auth.Services
             return result;
         }
 
-        public async Task<ErrorResponse> ForgotPassword(string email)
+        public async Task<ForgotPasswordResult> ForgotPassword(ForgotPasswordModel model)
         {
-            string url = $"{Settings.ApiRoot}/v1/forgot/password/{email}";
+            string url = $"{Settings.ApiRoot}/v1/accounts/forgot/password";
 
-            var response = await _httpClient.GetAsync(url);
+            var body = JsonSerializer.Serialize(model);
+            var request = new StringContent(body, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, request);
+
             var content = await response.Content.ReadAsStringAsync();
 
+            var result = new ForgotPasswordResult();
+            result.Successful = response.IsSuccessStatusCode;
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(content);
+                result = JsonSerializer.Deserialize<ForgotPasswordResult>(content);
+                return result;
             }
-
-            var result = JsonSerializer.Deserialize<ErrorResponse>(content);
-
             return result;
+
         }
 
 
