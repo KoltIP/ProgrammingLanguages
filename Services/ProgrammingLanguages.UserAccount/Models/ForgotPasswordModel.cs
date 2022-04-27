@@ -1,12 +1,17 @@
 ﻿using FluentValidation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ProgrammingLanguage.Web.Pages.Auth.ForgotPsw
+namespace ProgrammingLanguages.UserAccount.Models
 {
     public class ForgotPasswordModel
     {
-        public string Email { get; set; } =string.Empty;
+        public string Email { get; set; } = string.Empty;
 
-        public string Password { get; set; }=string.Empty;
+        public string Password { get; set; } = string.Empty;
     }
 
     public class ForgotPasswordModelValidator : AbstractValidator<ForgotPasswordModel>

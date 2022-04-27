@@ -78,7 +78,7 @@ namespace ProgrammingLanguages.UserAccount
             if (user == null)
                 throw new ProcessException("The user was not found");
 
-            var codeB = System.Convert.FromBase64String(code);
+            var codeB = Convert.FromBase64String(code);
             code = System.Text.Encoding.UTF8.GetString(codeB);
             
             var result = await userManager.ConfirmEmailAsync(user,code);
@@ -86,7 +86,7 @@ namespace ProgrammingLanguages.UserAccount
 
             if (!result.Succeeded)
             { 
-                throw new ProcessException("Couldn't confirm email.");
+                throw new ProcessException("Could not confirm email.");
             }
         }
 
@@ -154,7 +154,7 @@ namespace ProgrammingLanguages.UserAccount
 
             var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
             var codeB = System.Text.Encoding.UTF8.GetBytes(code);
-            code = System.Convert.ToBase64String(codeB);
+            code = Convert.ToBase64String(codeB);
             var url = $"http://localhost:20000/api/v1/accounts/confirm/email?email={user.Email}&code={code}";
             await rabbitMqTask.SendEmail(new EmailModel()
             {
@@ -182,9 +182,39 @@ namespace ProgrammingLanguages.UserAccount
 
         }
 
-        public Task ForgotPassword(string email)
+        public async Task ForgotPassword(ForgotPasswordModel model)
         {
-            throw new NotImplementedException();
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                throw new ProcessException($"User was not found");
+
+            var code = await userManager.GeneratePasswordResetTokenAsync(user);
+            var codeBytes = System.Text.Encoding.UTF8.GetBytes(code);
+            code = Convert.ToBase64String(codeBytes);
+
+            var url = $"http://localhost:20000/api/v1/accounts/confirm/reset/password?email={user.Email}&code={code}&password={model.Password}";
+
+            await rabbitMqTask.SendEmail(new EmailModel()
+            {
+                Email = model.Email,
+                Subject = "ProgrammingLanguages",
+                Message = $"Confirm password reset by following this <a href='{url}'>link</a>"
+            });
         }
+
+        public async Task ConfirmForgotPassword(string email, string code, string password)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+                throw new ProcessException("User was not found");
+
+            var codeBase64 = Convert.FromBase64String(code);
+            code = System.Text.Encoding.UTF8.GetString(codeBase64);
+
+            var res = await userManager.ResetPasswordAsync(user, code, password);
+            if (!res.Succeeded)
+                throw new ProcessException("Could not confirm password reset");
+        }
+
     }
 }
