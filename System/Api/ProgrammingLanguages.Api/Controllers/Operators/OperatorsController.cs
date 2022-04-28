@@ -1,18 +1,22 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 using ProgrammingLanguages.Api.Controllers.Operators.Models;
 using ProgrammingLanguages.Db.Entities;
 using ProgrammingLanguages.LanguageService.Models;
 using ProgrammingLanguages.OperatorService;
 using ProgrammingLanguages.OperatorService.Models;
+using ProgrammingLanguages.Shared.Common.Security;
 
 namespace ProgrammingLanguages.Api.Controllers.Operators
 {
     [Route("api/v{version:apiVersion}/operator")]
     [ApiController]
     [ApiVersion("1.0")]
+    [Authorize]
     public class OperatorsController : ControllerBase
     {
         private readonly IMapper mapper;
@@ -27,6 +31,7 @@ namespace ProgrammingLanguages.Api.Controllers.Operators
             this.userManager = userManager;
         }
 
+        [RequiredScope(AppScopes.LanguageRead)]
         [HttpGet("")]
         public async Task<IEnumerable<OperatorResponse>> GetOperatorsAsync()
         {
@@ -35,6 +40,7 @@ namespace ProgrammingLanguages.Api.Controllers.Operators
             return response;
         }
 
+        [RequiredScope(AppScopes.LanguageRead)]
         [HttpGet("{id}")]
         public async Task<OperatorResponse> GetOperatorById([FromRoute] int id)
         {
@@ -43,7 +49,7 @@ namespace ProgrammingLanguages.Api.Controllers.Operators
             return response;
         }
 
-
+        [RequiredScope(AppScopes.LanguageWrite)]
         [HttpPost("")]
         public async Task<OperatorResponse> AddOperatorAsync([FromBody] AddOperatorRequest request)
         {
@@ -53,6 +59,7 @@ namespace ProgrammingLanguages.Api.Controllers.Operators
             return result;
         }
 
+        [RequiredScope(AppScopes.LanguageWrite)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOperatorAsync([FromRoute] int id, [FromBody] UpdateOperatorRequest request)
         {
@@ -61,6 +68,7 @@ namespace ProgrammingLanguages.Api.Controllers.Operators
             return Ok();
         }
 
+        [RequiredScope(AppScopes.LanguageWrite)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOperatorAsync([FromRoute] int id)
         {

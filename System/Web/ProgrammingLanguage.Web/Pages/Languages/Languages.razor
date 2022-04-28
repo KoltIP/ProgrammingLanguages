@@ -41,6 +41,7 @@
         <MudTd>
             <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditLanguage(context.Id))" />
             <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteLanguage(context.Id))" />
+             @*<MudIconButton Icon="@Icons.Filled.Announcement" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddComment(context.Id))" />*@
         </MudTd>
     </RowTemplate>
     <PagerContent>
@@ -83,7 +84,7 @@
         return 
             string.IsNullOrWhiteSpace(searchString)
             ||
-            
+
             LanguageListItem.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)
             ||
             LanguageListItem.Description.Contains(searchString)
@@ -139,4 +140,19 @@
             await ReloadData();
         }
     }
+
+    //private async Task AddComment(int languageId)
+    //{
+    //     var parameters = new DialogParameters {};
+    //    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+    //    var dialog = DialogService.Show<LanguageDialog>("Add comment", parameters, options);
+    //    var result = await dialog.Result;
+
+    //    if (!result.Cancelled)
+    //    {
+    //        await languageService.AddComment(((LanguageDialog)dialog.Dialog).model);
+    //        await ReloadData();
+    //    }
+    //}
 }
