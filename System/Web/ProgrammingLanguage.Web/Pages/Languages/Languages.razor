@@ -3,6 +3,7 @@
 
 @using ProgrammingLanguage.Web.Components
 @using ProgrammingLanguage.Web.Pages.Languages.Models
+@using ProgrammingLanguage.Web.Pages.Languages.Services
 
 @attribute [Authorize]
 
@@ -10,6 +11,8 @@
 @inject IDialogService DialogService
 @inject ILanguageService languageService
 @inject NavigationManager navigationManager
+@inject ICommentService commentService
+
 
 <MudText Typo="Typo.h4" Class="ma-8">Languages</MudText>
 
@@ -41,13 +44,49 @@
         <MudTd>
             <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditLanguage(context.Id))" />
             <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteLanguage(context.Id))" />
-             @*<MudIconButton Icon="@Icons.Filled.Announcement" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddComment(context.Id))" />*@
+            <MudIconButton Icon="@Icons.Filled.Announcement" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => OpenComment(context.Id))" />
+            <MudIconButton Icon="@Icons.Filled.AddComment" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddComment(context.Id))" />
         </MudTd>
     </RowTemplate>
     <PagerContent>
         <MudTablePager />
     </PagerContent>
 </MudTable>
+        <col />
+
+<MudTable Items="@CommentListItems" Class="@invis" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped">
+    <ColGroup>
+        <col />
+        <col style="width:100px;" />
+    </ColGroup>
+    <ToolBarContent>
+        <MudText Typo="Typo.h4" GutterBottom="true" Class="mb-3">Comments</MudText>
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Filled.Close" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => CloseComment())"/>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<CommentListItem, object>(x=>x.UserName)">Username</MudTableSortLabel></MudTh>
+        <MudTh>Comment</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Username">@context.UserName</MudTd>
+        <MudTd DataLabel="Comment">@context.Content</MudTd>
+        <MudTd>
+            <MudTooltip Text="Edit">
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => UpdateComment(context.Id, context.LanguageId))" />
+            </MudTooltip>
+            <MudTooltip Text="Delete">
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteComment(context.Id, context.LanguageId))" />
+            </MudTooltip>
+            </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+
 
 
 @code {
@@ -59,7 +98,9 @@
     private string searchString = "";
 
     private IEnumerable<LanguageListItem> LanguageListItems = new List<LanguageListItem>();
-
+    private IEnumerable<CommentListItem> CommentListItems = new List<CommentListItem>();
+    private string invis = "invisible ma-8";
+    private int idLanguage;
     private async Task ReloadData()
     {
         LanguageListItems = await languageService.GetLanguages(0, 10000);
@@ -141,18 +182,80 @@
         }
     }
 
-    //private async Task AddComment(int languageId)
-    //{
-    //     var parameters = new DialogParameters {};
-    //    var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+    private async Task OpenComment(int languageId)
+    {
+        invis = "ma-8";
+        CommentListItems = await commentService.GetComments(languageId);
+    }
 
-    //    var dialog = DialogService.Show<LanguageDialog>("Add comment", parameters, options);
-    //    var result = await dialog.Result;
+    private async Task AddComment(int languageId)
+    {
+        var parameters = new DialogParameters {};
+        parameters.Add("languageId", languageId);
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
 
-    //    if (!result.Cancelled)
-    //    {
-    //        await languageService.AddComment(((LanguageDialog)dialog.Dialog).model);
-    //        await ReloadData();
-    //    }
-    //}
+        var dialog = DialogService.Show<CommentDialog>("Add comment", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await commentService.AddComment(((CommentDialog)dialog.Dialog).model);
+            CommentListItems = await commentService.GetComments(languageId);
+        }
+    }
+
+    private async Task CloseComment()
+    {
+        invis =  "invisible ma-8";
+    }
+
+    private async Task UpdateComment(int commentId, int languageId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("CommentId", commentId);
+        parameters.Add("LanguageId", languageId);
+
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<CommentDialog>("Update comment", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var res = await commentService.UpdateComment(commentId,((CommentDialog)dialog.Dialog).model);
+            if (res.Message==null)//else
+            {
+                invis = "ma-8";
+                CommentListItems = await commentService.GetComments(languageId);
+            }
+
+        }
+
+    }
+
+    private async Task DeleteComment(int commentId, int languageId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Are you sure, thay you want to delete this comment?");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = DialogService.Show<ConfirmationDialog>("Delete comment", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var res = await commentService.DeleteComment(commentId);
+            if (res.Message==null)//else
+            {
+                invis = "ma-8";
+                CommentListItems = await commentService.GetComments(languageId);
+            }
+
+        }
+    }
+
+
 }

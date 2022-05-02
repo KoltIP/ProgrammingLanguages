@@ -16,7 +16,7 @@ namespace ProgrammingLanguages.Api.Controllers.Categories.Models
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Name is required.")
-                .MaximumLength(199).WithMessage("Name is long.");
+                .MaximumLength(200).WithMessage("Name is long.");
             RuleFor(x => x.Description)
                .MaximumLength(2000).WithMessage("Description is long.");
         }

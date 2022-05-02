@@ -10,6 +10,7 @@ namespace ProgrammingLanguages.Db.Context.Context
         public DbSet<Language> Languages { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Operator> Operators { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options) { }
 

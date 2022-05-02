@@ -72,7 +72,7 @@ namespace ProgrammingLanguages.LanguageService
             using var context = await contextFactory.CreateDbContextAsync();
 
             var language = await context.Languages.FirstOrDefaultAsync(x => x.Id.Equals(id));
-            ProcessException.ThrowIf(() => language is null, $"The book (id: {id}) was not found");
+            ProcessException.ThrowIf(() => language is null, $"The language (id: {id}) was not found");
 
             language = mapper.Map(model, language);
 
@@ -85,7 +85,7 @@ namespace ProgrammingLanguages.LanguageService
             using var context = await contextFactory.CreateDbContextAsync();
 
             var language = await context.Languages.FirstOrDefaultAsync(x => x.Id.Equals(id))
-                ?? throw new ProcessException($"The book (id: {id}) was not found");
+                ?? throw new ProcessException($"The language (id: {id}) was not found");
 
             context.Remove(language);
             context.SaveChanges();
