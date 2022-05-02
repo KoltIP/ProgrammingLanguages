@@ -67,6 +67,8 @@ namespace ProgrammingLanguages.Api.Controllers.Languages
             return Ok();
         }
 
+
+
         [RequiredScope(AppScopes.LanguageWrite)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLanguageAsync([FromRoute] int id)

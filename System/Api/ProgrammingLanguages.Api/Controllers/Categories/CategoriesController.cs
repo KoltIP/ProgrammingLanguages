@@ -1,17 +1,21 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 using ProgrammingLanguages.Api.Controllers.Categories.Models;
 using ProgrammingLanguages.CategoryService;
 using ProgrammingLanguages.CategoryService.Models;
 using ProgrammingLanguages.Db.Entities;
+using ProgrammingLanguages.Shared.Common.Security;
 
 namespace ProgrammingLanguages.Api.Controllers.Categories
 {
     [Route("api/v{version:apiVersion}/category")]
     [ApiController]
     [ApiVersion("1.0")]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly IMapper mapper;
@@ -26,6 +30,7 @@ namespace ProgrammingLanguages.Api.Controllers.Categories
             this.userManager = userManager;
         }
 
+        [RequiredScope(AppScopes.LanguageRead)]
         [HttpGet("")]
         public async Task<IEnumerable<CategoryResponse>> GetCategoriesAsync()
         {
@@ -34,7 +39,8 @@ namespace ProgrammingLanguages.Api.Controllers.Categories
             return response;
         }
 
-        [HttpGet("{id}")]
+        [RequiredScope(AppScopes.LanguageRead)]
+        [HttpGet("{id}")]        
         public async Task<CategoryResponse> GetCategoryById([FromRoute] int id)
         {
             var language = await categoryService.GetCategory(id);
@@ -42,6 +48,7 @@ namespace ProgrammingLanguages.Api.Controllers.Categories
             return response;
         }
 
+        [RequiredScope(AppScopes.LanguageWrite)]
         [HttpPost("")]
         public async Task<CategoryResponse> AddCategoryAsync([FromBody] AddCategoryRequest request)
         {
@@ -51,6 +58,7 @@ namespace ProgrammingLanguages.Api.Controllers.Categories
             return result;
         }
 
+        [RequiredScope(AppScopes.LanguageWrite)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategoryAsync([FromRoute] int id, [FromBody] UpdateCategoryRequest request)
         {
@@ -59,6 +67,7 @@ namespace ProgrammingLanguages.Api.Controllers.Categories
             return Ok();
         }
 
+        [RequiredScope(AppScopes.LanguageWrite)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategoryAsync([FromRoute] int id)
         {

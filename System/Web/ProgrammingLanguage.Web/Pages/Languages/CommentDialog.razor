@@ -1,0 +1,68 @@
+﻿@using ProgrammingLanguage.Web.Pages.Languages.Models
+@using ProgrammingLanguage.Web.Pages.Languages.Services
+@inject ICommentService commentService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Comment" @bind-Value="model.Content"
+                                  For="@(() => model.Content)"
+                                  Required="true"
+                                  RequiredError="Comment is required!">
+                    </MudTextField>
+                </MudItem>                
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;    
+
+    CommentModelValidator modelValidator = new CommentModelValidator();
+
+    [Parameter]
+    public int? CommentId { get; set; } = default;
+    [Parameter]
+    public int LanguageId { get; set; } = default;
+
+    bool isNew = false;
+
+    [Parameter]
+    public CommentModel model { get; set; } = new() { };  
+
+    protected override async Task OnInitializedAsync()
+    {
+        isNew = CommentId == null;
+        if (!isNew)
+        {
+            var comment = await commentService.GetComment(CommentId ?? 0);
+
+            model.LanguageId = comment.LanguageId;
+            model.Id = comment.Id;
+            model.Content = comment.Content;            
+        }
+    }
+
+    async Task Submit()
+    {
+        model.LanguageId = LanguageId;
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}
+

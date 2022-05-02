@@ -1,4 +1,5 @@
 ﻿using ProgrammingLanguages.CategoryService;
+using ProgrammingLanguages.CommentService;
 using ProgrammingLanguages.EmailService;
 using ProgrammingLanguages.LanguageService;
 using ProgrammingLanguages.OperatorService;
@@ -19,8 +20,8 @@ namespace ProgrammingLanguages.Api
                 .AddOperatorService()
                 .AddEmailSender()
                 .AddRabbitMq()
-                .AddUserAccountService();
-
+                .AddUserAccountService()
+                .AddCommentService();
 
         }
     }

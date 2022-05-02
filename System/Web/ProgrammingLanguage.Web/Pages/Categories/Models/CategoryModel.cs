@@ -13,11 +13,11 @@ namespace ProgrammingLanguage.Web.Pages.Categories.Models
     {
         public CategoryModelValidator()
         {
-            RuleFor(v => v.Name)
-                .MaximumLength(256)
-                .NotEmpty();
-            RuleFor(v => v.Name)
-                .MaximumLength(1024);
+            RuleFor(x => x.Name)
+                 .NotEmpty().WithMessage("Name is required.")
+                 .MaximumLength(200).WithMessage("Name is long.");
+            RuleFor(x => x.Description)
+               .MaximumLength(2000).WithMessage("Description is long.");
         }
 
         public Func<object, object, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>

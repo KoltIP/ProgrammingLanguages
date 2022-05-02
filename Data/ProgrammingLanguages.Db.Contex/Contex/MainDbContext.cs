@@ -10,6 +10,7 @@ namespace ProgrammingLanguages.Db.Context.Context
         public DbSet<Language> Languages { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Operator> Operators { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options) { }
 
@@ -41,8 +42,15 @@ namespace ProgrammingLanguages.Db.Context.Context
             modelBuilder.Entity<Category>().Property(x => x.Name).HasMaxLength(50);
             modelBuilder.Entity<Category>().HasIndex(x => x.Name).IsUnique();
 
+            modelBuilder.Entity<Comment>().ToTable("comments");
+            modelBuilder.Entity<Comment>().Property(x => x.Content).IsRequired();
+
             modelBuilder.Entity<Language>().HasOne(x => x.Category).WithMany(x => x.Languages).HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Operator>().HasOne(x => x.Language).WithMany(x => x.Operators).HasForeignKey(x => x.LanguageId).OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Comment>().HasOne(x => x.User).WithMany(x => x.Comments).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Comment>().HasOne(x => x.Languguage).WithMany(x => x.Comments).HasForeignKey(x => x.LanguageId).OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }
