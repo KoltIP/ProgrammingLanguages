@@ -21,20 +21,18 @@ namespace ProgrammingLanguages.Api.Controllers.Languages
         private readonly IMapper mapper;
         private readonly ILogger<LanguagesController> logger;
         private readonly ILanguageService languageService;
-        private readonly UserManager<User> userManager;
         public LanguagesController(IMapper mapper, ILogger<LanguagesController> logger, ILanguageService languageService, UserManager<User> userManager)
         {
             this.mapper = mapper;
             this.logger = logger;
             this.languageService = languageService;
-            this.userManager = userManager;
         }
 
         [RequiredScope(AppScopes.LanguageRead)]
         [HttpGet("")]
-        public async Task<IEnumerable<LanguageResponse>> GetLanguagesAsync()
+        public async Task<IEnumerable<LanguageResponse>> GetLanguagesAsync([FromQuery] int offset = 0, [FromQuery] int limit = 10)
         {
-            var languages = await languageService.GetLanguages();
+            var languages = await languageService.GetLanguages(offset,limit);
             var response = mapper.Map<IEnumerable<LanguageResponse>>(languages);
             return response;
         }
@@ -77,5 +75,7 @@ namespace ProgrammingLanguages.Api.Controllers.Languages
             await languageService.DeleteLanguage(id);
             return Ok();
         }
+
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProgrammingLanguages.CommentService.Model;
 using ProgrammingLanguages.Db.Context.Context;
@@ -19,6 +20,7 @@ namespace ProgrammingLanguages.CommentService
         private readonly IDbContextFactory<MainDbContext> contextFactory;
         private readonly IModelValidator<AddCommentModel> addCommentModelValidator;
         private readonly IModelValidator<UpdateCommentModel> updateCommentModelValidator;
+
         public CommentService(IDbContextFactory<MainDbContext> contextFactory, IMapper mapper,
             IModelValidator<AddCommentModel> addCommentModelValidator,
              IModelValidator<UpdateCommentModel> updateCommentModelValidator)
@@ -37,7 +39,7 @@ namespace ProgrammingLanguages.CommentService
             var comment = mapper.Map<Comment>(model);
             await context.Comments.AddAsync(comment);
             context.SaveChanges();
-
+          
             return mapper.Map<CommentModel>(comment);
         }
 
@@ -87,7 +89,6 @@ namespace ProgrammingLanguages.CommentService
 
             context.Remove(comment);
             context.SaveChanges();
-
-        }
+        }        
     }
 }

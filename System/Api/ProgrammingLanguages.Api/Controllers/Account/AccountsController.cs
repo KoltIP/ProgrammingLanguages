@@ -97,6 +97,5 @@ namespace ProgrammingLanguages.Api.Controllers.Account
         {
             await userAccountService.ConfirmForgotPassword(email, code, password);
         }
-
     }
 }

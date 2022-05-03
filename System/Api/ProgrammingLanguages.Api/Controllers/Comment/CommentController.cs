@@ -21,14 +21,12 @@ namespace ProgrammingLanguages.Api.Controllers.Comment
         private readonly IMapper mapper;
         private readonly ILogger<CommentController> logger;
         private readonly ICommentService commentService;
-        private readonly UserManager<User> userManager;
 
         public CommentController(IMapper mapper, ILogger<CommentController> logger, ICommentService commentService, UserManager<User> userManager)
         {
             this.mapper = mapper;
             this.logger = logger;
             this.commentService = commentService;
-            this.userManager = userManager;
         }
 
 
