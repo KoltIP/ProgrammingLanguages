@@ -86,7 +86,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
                 }
 
                 var queryString = string.Join("&", queryParameters);
-                return $"/api/v1/languages{queryString}";
+                return $"/api/v1/language?{queryString}";
             }
 
             public static string GetLanguage(string id) => $"/api/v1/language/{id}";
