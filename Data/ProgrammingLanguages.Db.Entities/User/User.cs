@@ -8,6 +8,6 @@ namespace ProgrammingLanguages.Db.Entities
         public string FullName { get; set; }
         public UserStatus Status { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        //public bool NotifyArticle { get; set; } = false;
+       
     }
 }

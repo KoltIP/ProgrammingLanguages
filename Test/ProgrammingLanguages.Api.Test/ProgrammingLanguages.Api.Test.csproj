@@ -7,7 +7,20 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<None Remove="appsettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+
+
+	<ItemGroup>
     <PackageReference Include="DotNet.Testcontainers" Version="1.5.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.8" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
@@ -25,15 +38,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TestIdentityServer\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Data\ProgrammingLanguages.Db.Contex\ProgrammingLanguages.Db.Contex.csproj" />
     <ProjectReference Include="..\..\Data\ProgrammingLanguages.Db.Entities\ProgrammingLanguages.Db.Entities.csproj" />
     <ProjectReference Include="..\..\Services\ProgrammingLanguages.Settings\ProgrammingLanguages.Settings.csproj" />
     <ProjectReference Include="..\..\System\Api\ProgrammingLanguages.Api\ProgrammingLanguages.Api.csproj" />
     <ProjectReference Include="..\..\System\Identity\ProgrammingLanguages.Identity\ProgrammingLanguages.Identity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Tests\Unit\" />
   </ItemGroup>
 
 </Project>

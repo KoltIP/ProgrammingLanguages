@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Logging;
 using ProgrammingLanguages.Api.Configuration;
+using ProgrammingLanguages.Db.Context.Setup;
 using ProgrammingLanguages.Settings;
 using ProgrammingLanguages.Settings.Settings;
 using Serilog;
@@ -43,7 +44,7 @@ namespace ProgrammingLanguages.Api.Test.TestApiServer
             
             services.AddAppDbContext(settings);
 
-            services.AddAppHealthCheck();
+            //services.AddAppHealthCheck();
 
             services.AddAppVersions();
 
@@ -87,7 +88,8 @@ namespace ProgrammingLanguages.Api.Test.TestApiServer
                 endpoints.MapControllers();
             });
 
-            app.UseAppDbContext();
+            //app.UseAppDbContext();
+            DbInit.Execute(app.ApplicationServices);
         }
     }
 }

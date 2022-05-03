@@ -14,6 +14,5 @@ namespace ProgrammingLanguages.CommentService
         Task<CommentModel> AddComment(AddCommentModel model);
         Task UpdateComment(int id, UpdateCommentModel model);
         Task DeleteComment(int id);
-
     }
 }

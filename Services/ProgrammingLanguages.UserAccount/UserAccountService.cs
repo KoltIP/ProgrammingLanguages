@@ -215,6 +215,5 @@ namespace ProgrammingLanguages.UserAccount
             if (!res.Succeeded)
                 throw new ProcessException("Could not confirm password reset");
         }
-
     }
 }
