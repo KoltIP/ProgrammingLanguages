@@ -8,7 +8,7 @@ namespace ProgrammingLanguages.Shared.Common.Security
 {
     public class AppScopes
     {
-        public const string LanguageRead = "language.read";
-        public const string LanguageWrite = "language.write";
+        public const string LanguageRead = "language_read";
+        public const string LanguageWrite = "language_write";
     }
 }

@@ -17,12 +17,12 @@ namespace ProgrammingLanguage.Web.Pages.Operators.Models
         public OperatorModelValidator()
         {
             RuleFor(v => v.Name)
-                .MaximumLength(256)
+                .MaximumLength(50)
                 .NotEmpty();
             RuleFor(v => v.LanguageId)
                 .NotEmpty();
-            RuleFor(v => v.Name)
-                .MaximumLength(1024);
+            RuleFor(v => v.Description)
+                .MaximumLength(50);
         }
 
         public Func<object, object, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>

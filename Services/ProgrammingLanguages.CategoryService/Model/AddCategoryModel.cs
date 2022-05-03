@@ -16,9 +16,9 @@ namespace ProgrammingLanguages.CategoryService.Models
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Name is required.")
-                .MaximumLength(200).WithMessage("Name is long.");
+                .MaximumLength(50).WithMessage("Name is long.");
             RuleFor(x => x.Description)
-               .MaximumLength(2000).WithMessage("Description is long.");
+               .MaximumLength(50).WithMessage("Description is long.");
         }
     }
 

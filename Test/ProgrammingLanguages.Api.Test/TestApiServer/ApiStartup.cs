@@ -88,8 +88,8 @@ namespace ProgrammingLanguages.Api.Test.TestApiServer
                 endpoints.MapControllers();
             });
 
-            //app.UseAppDbContext();
-            DbInit.Execute(app.ApplicationServices);
+            app.UseAppDbContext();
+            //DbInit.Execute(app.ApplicationServices);
         }
     }
 }

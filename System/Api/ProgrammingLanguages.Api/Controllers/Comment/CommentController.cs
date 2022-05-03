@@ -15,7 +15,7 @@ namespace ProgrammingLanguages.Api.Controllers.Comment
     [Route("api/v{version:apiVersion}/comments")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize]
+    //[Authorize]
     public class CommentController : ControllerBase
     {
         private readonly IMapper mapper;
@@ -30,7 +30,7 @@ namespace ProgrammingLanguages.Api.Controllers.Comment
         }
 
 
-        [RequiredScope(AppScopes.LanguageRead)]
+        [Authorize(AppScopes.LanguageRead)]
         [HttpGet("get/many/{languageId}")]
         public async Task<IEnumerable<CommentResponse>> GetCommentByLanguageId([FromRoute]  int languageId)
         {
@@ -39,7 +39,7 @@ namespace ProgrammingLanguages.Api.Controllers.Comment
             return response;
         }
 
-        [RequiredScope(AppScopes.LanguageRead)]
+        [Authorize(AppScopes.LanguageRead)]
         [HttpGet("get/one/{id}")]
         public async Task<CommentResponse> GetCommentByCommentId([FromRoute] int id)
         {
@@ -48,7 +48,7 @@ namespace ProgrammingLanguages.Api.Controllers.Comment
             return response;
         }
 
-        [RequiredScope(AppScopes.LanguageWrite)]
+        [Authorize(AppScopes.LanguageWrite)]
         [HttpPost("add")]
         public async Task<CommentResponse> AddCommentAsync([FromBody] AddCommentRequest request)
         {
@@ -58,7 +58,7 @@ namespace ProgrammingLanguages.Api.Controllers.Comment
             return result;
         }
 
-        [RequiredScope(AppScopes.LanguageWrite)]
+        [Authorize(AppScopes.LanguageWrite)]
         [HttpPut("update/{commentId}")]
         public async Task<IActionResult> UpdateCommentAsync([FromRoute] int commentId, [FromBody] UpdateCommentRequest request)
         {
@@ -69,7 +69,7 @@ namespace ProgrammingLanguages.Api.Controllers.Comment
 
 
 
-        [RequiredScope(AppScopes.LanguageWrite)]
+        [Authorize(AppScopes.LanguageWrite)]
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteCommentAsync([FromRoute] int id)
         {
@@ -77,5 +77,7 @@ namespace ProgrammingLanguages.Api.Controllers.Comment
             await commentService.DeleteComment(id);
             return Ok();
         }
+
+        ///Subscribe
     }
 }

@@ -22,16 +22,14 @@ namespace ProgrammingLanguages.Api.Controllers.Operators
         private readonly IMapper mapper;
         private readonly ILogger<OperatorsController> logger;
         private readonly IOperatorService operatorService;
-        private readonly UserManager<User> userManager;
-        public OperatorsController(IMapper mapper, ILogger<OperatorsController> logger, IOperatorService operatorService, UserManager<User> userManager)
+        public OperatorsController(IMapper mapper, ILogger<OperatorsController> logger, IOperatorService operatorService)
         {
             this.mapper = mapper;
             this.logger = logger;
             this.operatorService = operatorService;
-            this.userManager = userManager;
         }
 
-        [RequiredScope(AppScopes.LanguageRead)]
+        [Authorize(AppScopes.LanguageRead)]
         [HttpGet("")]
         public async Task<IEnumerable<OperatorResponse>> GetOperatorsAsync()
         {
@@ -40,7 +38,7 @@ namespace ProgrammingLanguages.Api.Controllers.Operators
             return response;
         }
 
-        [RequiredScope(AppScopes.LanguageRead)]
+        [Authorize(AppScopes.LanguageRead)]
         [HttpGet("{id}")]
         public async Task<OperatorResponse> GetOperatorById([FromRoute] int id)
         {
@@ -49,7 +47,7 @@ namespace ProgrammingLanguages.Api.Controllers.Operators
             return response;
         }
 
-        [RequiredScope(AppScopes.LanguageWrite)]
+        [Authorize(AppScopes.LanguageWrite)]
         [HttpPost("")]
         public async Task<OperatorResponse> AddOperatorAsync([FromBody] AddOperatorRequest request)
         {
@@ -59,7 +57,7 @@ namespace ProgrammingLanguages.Api.Controllers.Operators
             return result;
         }
 
-        [RequiredScope(AppScopes.LanguageWrite)]
+        [Authorize(AppScopes.LanguageWrite)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOperatorAsync([FromRoute] int id, [FromBody] UpdateOperatorRequest request)
         {
@@ -68,7 +66,7 @@ namespace ProgrammingLanguages.Api.Controllers.Operators
             return Ok();
         }
 
-        [RequiredScope(AppScopes.LanguageWrite)]
+        [Authorize(AppScopes.LanguageWrite)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOperatorAsync([FromRoute] int id)
         {

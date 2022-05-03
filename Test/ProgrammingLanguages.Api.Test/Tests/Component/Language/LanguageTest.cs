@@ -18,7 +18,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
         {
             await using var context = await DbContext();
 
-            //context.Operators.RemoveRange(context.Operators);
+            context.Operators.RemoveRange(context.Operators);
             context.Languages.RemoveRange(context.Languages);
             context.Categories.RemoveRange(context.Categories);
             //context.Comments.RemoveRange(context.Comments);
@@ -162,24 +162,24 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
             }
 
             await using var context1 = await DbContext();
-            var author = context1.Languages.AsEnumerable().First();
-            return author.Id;
+            var category = context1.Languages.AsEnumerable().First();
+            return category.Id;
         }
 
         public async Task<int> GetNotExistedCategoryId()
         {
             await using var context = await DbContext();
-            var maxExistedAuthorId = context.Categories.Max(x => x.Id);
+            var maxExistedLanguageId = context.Categories.Max(x => x.Id);
 
-            return maxExistedAuthorId + 1;
+            return maxExistedLanguageId + 1;
         }
 
         public async Task<int> GetNotExistedLanguageId()
         {
             await using var context = await DbContext();
-            var maxExistedAuthorId = context.Languages.Max(x => x.Id);
+            var maxExistedLanguageId = context.Languages.Max(x => x.Id);
 
-            return maxExistedAuthorId + 1;
+            return maxExistedLanguageId + 1;
         }
 
         //public async Task<int> GetNotExistedOperatorId()
