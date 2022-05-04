@@ -8,5 +8,6 @@
         Task EditLanguage(int languageId, LanguageModel model);
         Task DeleteLanguage(int languageId);
         Task<IEnumerable<CategoryModel>> GetCategoryList();
+        Task AddSubscribe(int languageId);
     }
 }

@@ -46,6 +46,8 @@
             <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteLanguage(context.Id))" />
             <MudIconButton Icon="@Icons.Filled.Announcement" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => OpenComment(context.Id))" />
             <MudIconButton Icon="@Icons.Filled.AddComment" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddComment(context.Id))" />
+            <MudIconButton Icon="@Icons.Filled.Subscriptions" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => AddSubscribe(context.Id))" />
+
         </MudTd>
     </RowTemplate>
     <PagerContent>
@@ -204,7 +206,7 @@
         }
     }
 
-    
+
     private async Task CloseComment()
     {
         invis =  "invisible ma-8";
@@ -256,6 +258,11 @@
             }
 
         }
+    }
+
+    private async Task AddSubscribe(int languageId)
+    {        
+        await languageService.AddSubscribe(languageId);
     }
 
 }

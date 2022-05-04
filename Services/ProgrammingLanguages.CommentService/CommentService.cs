@@ -43,6 +43,9 @@ namespace ProgrammingLanguages.CommentService
             return mapper.Map<CommentModel>(comment);
         }
 
+
+
+
         public async Task<CommentModel> GetCommentByCommentId(int id)
         {
             using var context = await contextFactory.CreateDbContextAsync();
@@ -89,8 +92,6 @@ namespace ProgrammingLanguages.CommentService
 
             context.Remove(comment);
             context.SaveChanges();
-        }        
-
-
+        }
     }
 }

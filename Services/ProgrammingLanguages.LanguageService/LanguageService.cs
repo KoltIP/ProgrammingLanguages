@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProgrammingLanguages.Db.Context.Context;
 using ProgrammingLanguages.Db.Entities;
+using ProgrammingLanguages.LanguageService.Model;
 using ProgrammingLanguages.LanguageService.Models;
 using ProgrammingLanguages.Shared.Common.Exceptions;
 using ProgrammingLanguages.Shared.Common.Validator;
@@ -89,6 +90,16 @@ namespace ProgrammingLanguages.LanguageService
 
             context.Remove(language);
             context.SaveChanges();
+        }
+
+        public async Task AddSubscribe(AddSubscribeModel model)
+        {
+            using var context = await contextFactory.CreateDbContextAsync();
+
+            var sub = mapper.Map<Subscription>(model);
+            await context.Subscriptions.AddAsync(sub);
+            context.SaveChanges();
+
         }
     }
 }
