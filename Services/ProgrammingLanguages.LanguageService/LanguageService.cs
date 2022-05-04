@@ -53,14 +53,14 @@ namespace ProgrammingLanguages.LanguageService
         }
 
         public async Task<IEnumerable<LanguageModel>> GetLanguages(int offset = 0, int limit =10)
-        {
+        {            
             using var context = await contextFactory.CreateDbContextAsync();
 
             var languages = context.Languages.Include(x=>x.Category).AsQueryable();
 
             languages = languages
                         .Skip(Math.Max(offset, 0))
-                        .Take(Math.Min(limit, 1000));
+                        .Take(Math.Max(0, Math.Min(limit, 1000)));
 
             var data = (await languages.ToListAsync()).Select(language => mapper.Map<LanguageModel>(language));
             return data;

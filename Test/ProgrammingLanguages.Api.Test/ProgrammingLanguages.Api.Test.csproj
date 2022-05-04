@@ -18,7 +18,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
-    <PackageReference Include="coverlet.collector" Version="3.1.2"/>
+    <PackageReference Include="coverlet.collector" Version="3.1.2" />
     <PackageReference Include="OpenIddict.Abstractions" Version="3.1.1" />
   </ItemGroup>
 
@@ -28,6 +28,15 @@
     <ProjectReference Include="..\..\Services\ProgrammingLanguages.Settings\ProgrammingLanguages.Settings.csproj" />
     <ProjectReference Include="..\..\System\Api\ProgrammingLanguages.Api\ProgrammingLanguages.Api.csproj" />
     <ProjectReference Include="..\..\System\Identity\ProgrammingLanguages.Identity\ProgrammingLanguages.Identity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Tests\Component\Category\" />
+    <Folder Include="Tests\Component\Comment\" />
+    <Folder Include="Tests\Component\Operator\" />
+    <Folder Include="Tests\Unit\Category\" />
+    <Folder Include="Tests\Unit\Operator\" />
+    <Folder Include="Tests\Unit\Comment\" />
   </ItemGroup>
 
 </Project>

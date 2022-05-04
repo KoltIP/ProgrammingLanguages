@@ -32,7 +32,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
         public async Task GetLanguages_NegativeParameters_OkResponse()
         {
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
-            var url = Urls.GetLanguages(0, 0);
+            var url = Urls.GetLanguages(-1, -1);
             var response = await apiClient.Get(url, accessToken);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
