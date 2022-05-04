@@ -9,7 +9,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
     public partial class LanguageIntegrationTest
     {
         [Test]
-        public async Task AddBook_ValidParameters_Authenticated_OkResponse()
+        public async Task AddLanguage_ValidParameters_Authenticated_OkResponse()
         {
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
             var url = Urls.AddLanguage();
@@ -31,7 +31,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
 
         [Test]
         [TestCaseSource(typeof(Generator), nameof(Generator.InvalidCategoryIds))]
-        public async Task AddBook_InvalidAuthor_Authenticated_BadRequest(int categoryId)
+        public async Task AddLanguage_InvalidAuthor_Authenticated_BadRequest(int categoryId)
         {
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
             var url = Urls.AddLanguage();
@@ -42,7 +42,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
         }
 
         [Test]
-        public async Task AddBook_ValidAuthor_Authenticated_OkResponse()
+        public async Task AddLanguage_ValidAuthor_Authenticated_OkResponse()
         {
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
             var url = Urls.AddLanguage();
@@ -55,7 +55,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
 
         [Test]
         [TestCaseSource(typeof(Generator), nameof(Generator.InvalidNames))]
-        public async Task AddBook_InvalidTitle_Authenticated_BadRequest(string title)
+        public async Task AddLanguage_InvalidTitle_Authenticated_BadRequest(string title)
         {
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
             var url = Urls.AddLanguage();
@@ -68,7 +68,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
 
         [Test]
         [TestCaseSource(typeof(Generator), nameof(Generator.ValidNames))]
-        public async Task AddBook_ValidTitle_Authenticated_OkResponse(string title)
+        public async Task AddLanguage_ValidTitle_Authenticated_OkResponse(string title)
         {
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
             var url = Urls.AddLanguage();
@@ -81,7 +81,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
 
         [Test]
         [TestCaseSource(typeof(Generator), nameof(Generator.InvalidDescriptions))]
-        public async Task AddBook_InvalidDescription_Authenticated_BadRequest(string description)
+        public async Task AddLanguage_InvalidDescription_Authenticated_BadRequest(string description)
         {
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
             var url = Urls.AddLanguage();
@@ -94,7 +94,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
 
         [Test]
         [TestCaseSource(typeof(Generator), nameof(Generator.ValidDescriptions))]
-        public async Task AddBook_ValidDescription_Authenticated_OkResponse(string description)
+        public async Task AddLanguage_ValidDescription_Authenticated_OkResponse(string description)
         {
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
             var url = Urls.AddLanguage();
@@ -106,7 +106,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
         }
 
         [Test]
-        public async Task AddBook_Unauthorized()
+        public async Task AddLanguage_Unauthorized()
         {
             var url = Urls.AddLanguage();
 
@@ -117,7 +117,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
         }
 
         [Test]
-        public async Task AddBook_Forbidden()
+        public async Task AddLanguage_Forbidden()
         {
             var accessToken = await AuthenticateUser_EmptyScope();
             var url = Urls.AddLanguage();
