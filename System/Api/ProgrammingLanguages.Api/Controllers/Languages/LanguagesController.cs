@@ -7,6 +7,7 @@ using Microsoft.Identity.Web.Resource;
 using ProgrammingLanguages.Api.Controllers.Languages.Models;
 using ProgrammingLanguages.Db.Entities;
 using ProgrammingLanguages.LanguageService;
+using ProgrammingLanguages.LanguageService.Model;
 using ProgrammingLanguages.LanguageService.Models;
 using ProgrammingLanguages.Shared.Common.Security;
 
@@ -76,6 +77,15 @@ namespace ProgrammingLanguages.Api.Controllers.Languages
             return Ok();
         }
 
+
+        [Authorize(AppScopes.LanguageWrite)]
+        [HttpPost("sub/")]
+        public async Task<IActionResult> SubscribeAsync([FromBody] AddSubscribeRequest request)
+        {
+            var model = mapper.Map<AddSubscribeModel>(request);
+            await languageService.AddSubscribe(model);
+            return Ok();
+        }
 
     }
 }

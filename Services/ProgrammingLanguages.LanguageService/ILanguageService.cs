@@ -1,4 +1,5 @@
-﻿using ProgrammingLanguages.LanguageService.Models;
+﻿using ProgrammingLanguages.LanguageService.Model;
+using ProgrammingLanguages.LanguageService.Models;
 
 namespace ProgrammingLanguages.LanguageService
 {
@@ -8,6 +9,7 @@ namespace ProgrammingLanguages.LanguageService
         Task<LanguageModel> GetLanguage(int id);
         Task<IEnumerable<LanguageModel>> GetLanguages(int offset = 0, int limit = 10);       
         Task UpdateLanguage(int id, UpdateLanguageModel model);
-        Task DeleteLanguage(int bookId);
+        Task DeleteLanguage(int languageId);
+        Task AddSubscribe(AddSubscribeModel model);
     }
 }

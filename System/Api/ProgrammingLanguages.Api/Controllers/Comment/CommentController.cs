@@ -78,6 +78,5 @@ namespace ProgrammingLanguages.Api.Controllers.Comment
             return Ok();
         }
 
-        ///Subscribe
     }
 }

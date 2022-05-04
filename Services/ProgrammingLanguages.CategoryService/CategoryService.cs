@@ -48,7 +48,7 @@ namespace ProgrammingLanguages.CategoryService
 
             category = category
                         .Skip(Math.Max(offset, 0))
-                        .Take(Math.Min(limit, 1000));
+                        .Take(Math.Max(0, Math.Min(limit, 1000)));
 
             var data = (await category.ToListAsync()).Select(category => mapper.Map<CategoryModel>(category));
             return data;

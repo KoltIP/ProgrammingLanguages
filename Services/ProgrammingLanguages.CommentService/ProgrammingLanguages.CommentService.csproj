@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\Data\ProgrammingLanguages.Db.Contex\ProgrammingLanguages.Db.Contex.csproj" />
     <ProjectReference Include="..\..\Data\ProgrammingLanguages.Db.Entities\ProgrammingLanguages.Db.Entities.csproj" />
     <ProjectReference Include="..\..\Shared\ProgrammingLanguages.Shared.Common\ProgrammingLanguages.Shared.Common.csproj" />
+    <ProjectReference Include="..\ProgrammingLanguages.RabbitMqService\ProgrammingLanguages.RabbitMqService.csproj" />
   </ItemGroup>
 
 </Project>

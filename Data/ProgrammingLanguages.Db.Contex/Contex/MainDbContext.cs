@@ -11,6 +11,7 @@ namespace ProgrammingLanguages.Db.Context.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<Operator> Operators { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
 
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options) { }
 
@@ -50,6 +51,9 @@ namespace ProgrammingLanguages.Db.Context.Context
 
             modelBuilder.Entity<Comment>().HasOne(x => x.User).WithMany(x => x.Comments).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Comment>().HasOne(x => x.Languguage).WithMany(x => x.Comments).HasForeignKey(x => x.LanguageId).OnDelete(DeleteBehavior.Restrict);
+            //???
+            modelBuilder.Entity<Subscription>().HasOne(x => x.User).WithMany(x => x.Subscriptions).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Subscription>().HasOne(x => x.Languguage).WithMany(x => x.Subscriptions).HasForeignKey(x => x.LanguageId).OnDelete(DeleteBehavior.Restrict);
 
         }
     }

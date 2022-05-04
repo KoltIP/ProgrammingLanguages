@@ -14,5 +14,9 @@ namespace ProgrammingLanguages.Db.Entities
         public virtual Category Category { get; set; }
         public virtual ICollection<Operator> Operators { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        //?
+        public virtual ICollection<Subscription> Subscriptions { get; set; }
+
+
     }
 }
