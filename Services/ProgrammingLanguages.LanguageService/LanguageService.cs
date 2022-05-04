@@ -96,6 +96,12 @@ namespace ProgrammingLanguages.LanguageService
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
+            var find_sub = context.Subscriptions.FirstOrDefaultAsync(x=>x.UserId==model.UserId && x.LanguageId==model.LanguageId);
+            if (find_sub.Result != null)
+            {
+                throw new ProcessException("The subscription has already been issued.");
+            }
+
             var sub = mapper.Map<Subscription>(model);
             await context.Subscriptions.AddAsync(sub);
             context.SaveChanges();

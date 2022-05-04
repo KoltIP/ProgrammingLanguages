@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ProgrammingLanguages.CommentService.Model;
 using ProgrammingLanguages.Db.Context.Context;
 using ProgrammingLanguages.Db.Entities;
+using ProgrammingLanguages.RabbitMqService;
 using ProgrammingLanguages.Shared.Common.Exceptions;
 using ProgrammingLanguages.Shared.Common.Validator;
 using System;
@@ -20,15 +21,18 @@ namespace ProgrammingLanguages.CommentService
         private readonly IDbContextFactory<MainDbContext> contextFactory;
         private readonly IModelValidator<AddCommentModel> addCommentModelValidator;
         private readonly IModelValidator<UpdateCommentModel> updateCommentModelValidator;
+        private readonly IRabbitMqTask rabbitMqTask;
 
         public CommentService(IDbContextFactory<MainDbContext> contextFactory, IMapper mapper,
             IModelValidator<AddCommentModel> addCommentModelValidator,
-             IModelValidator<UpdateCommentModel> updateCommentModelValidator)
+             IModelValidator<UpdateCommentModel> updateCommentModelValidator, IRabbitMqTask rabbitMqTask
+            )
         {
             this.contextFactory = contextFactory;
             this.mapper = mapper;
             this.addCommentModelValidator = addCommentModelValidator;
             this.updateCommentModelValidator = updateCommentModelValidator;
+            this.rabbitMqTask = rabbitMqTask;
         }
 
         public async Task<CommentModel> AddComment(AddCommentModel model)
@@ -39,8 +43,36 @@ namespace ProgrammingLanguages.CommentService
             var comment = mapper.Map<Comment>(model);
             await context.Comments.AddAsync(comment);
             context.SaveChanges();
-          
+
+            NotificationSub(model);
+
             return mapper.Map<CommentModel>(comment);
+        }
+
+
+
+
+
+        private async Task NotificationSub(AddCommentModel model)
+        { 
+            using var context = await contextFactory.CreateDbContextAsync();
+            var subscriptions = context.Subscriptions.ToList();
+            foreach (var subscription in subscriptions)
+            {
+                if (subscription.LanguageId == model.LanguageId)
+                {
+                    var user = context.Users.FirstOrDefault(x => x.Id == model.UserId);
+                    if (user==null)
+                        throw new ProcessException("The user was not found");
+
+                    await rabbitMqTask.SendEmail(new RabbitMqService.Models.EmailModel()
+                    {
+                        Email = user.Email,
+                        Subject = "ProgrammingLanguages",
+                        Message = "A new comment has appeared on the server"
+                    });
+                }
+            }
         }
 
 
