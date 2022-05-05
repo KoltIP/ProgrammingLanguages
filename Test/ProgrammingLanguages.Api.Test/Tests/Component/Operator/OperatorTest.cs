@@ -1,17 +1,14 @@
 ﻿using NUnit.Framework;
 using ProgrammingLanguages.Api.Test.Common;
-using ProgrammingLanguages.Db.Entities;
 using ProgrammingLanguages.Shared.Common.Security;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
+namespace ProgrammingLanguages.Api.Test.Tests.Component.Operator
 {
     [TestFixture]
-    public partial class LanguageIntegrationTest : ComponentTest
+    public partial class OperatorIntegrationTest : ComponentTest
     {
         [SetUp]
         public async Task SetUp()
@@ -33,22 +30,38 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
             var category2 = new Db.Entities.Category()
             {
                 Name = "neOOP",
-                Description="Second"
+                Description = "Second"
             };
             context.Categories.Add(category2);
 
-            context.Languages.Add(new Db.Entities.Language()
+            var language1 = new Db.Entities.Language()
             {
                 Name = "Java",
                 Description = "descriptionOne",
                 Category = category1
-            });
+            };
+            context.Languages.Add(language1);
 
-            context.Languages.Add(new Db.Entities.Language()
+            var language2 = new Db.Entities.Language()
             {
                 Name = "PHP",
                 Description = "descriptionTwo",
                 Category = category2
+            };
+            context.Languages.Add(language2);
+
+            context.Operators.Add(new Db.Entities.Operator()
+            {
+                Name = "Plus",
+                Description = "descriptionOne",
+                Language = language1
+            });
+
+            context.Operators.Add(new Db.Entities.Operator()
+            {
+                Name = "Minus",
+                Description = "descriptionTwo",
+                Language = language2
             });
 
             context.SaveChanges();
@@ -58,7 +71,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
         public async override Task TearDown()
         {
             await using var context = await DbContext();
-            //context.Operators.RemoveRange(context.Operators);
+            context.Operators.RemoveRange(context.Operators);
             context.Languages.RemoveRange(context.Languages);
             context.Categories.RemoveRange(context.Categories);
             //context.Comments.RemoveRange(context.Comments);
@@ -68,11 +81,11 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
 
         protected static class Urls
         {
-            public static string GetLanguages(int? offset = null, int? limit = null)
+            public static string GetOperators(int? offset = null, int? limit = null)
             {
 
                 if (offset is null && limit is null)
-                    return $"/api/v1/language";
+                    return $"/api/v1/operator";
                 List<string> queryParameters = new List<string>();
 
                 if (offset.HasValue)
@@ -86,16 +99,16 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
                 }
 
                 var queryString = string.Join("&", queryParameters);
-                return $"/api/v1/language?{queryString}";
+                return $"/api/v1/operator?{queryString}";
             }
 
-            public static string GetLanguage(string id) => $"/api/v1/language/{id}";
+            public static string GetOperator(string id) => $"/api/v1/operator/{id}";
 
-            public static string DeleteLanguage(string id) => $"/api/v1/language/{id}";
+            public static string DeleteOperator(string id) => $"/api/v1/operator/{id}";
 
-            public static string UpdateLanguage(string id) => $"/api/v1/language/{id}";
+            public static string UpdateOperator(string id) => $"/api/v1/operator/{id}";
 
-            public static string AddLanguage() => $"/api/v1/language";
+            public static string AddOperator() => $"/api/v1/operator";
         }
 
         public static class Scopes
@@ -152,17 +165,47 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
                     Name = "Test",
                     Description = "testDescription",
                     Category = new Db.Entities.Category()
-                    { 
+                    {
                         Name = "Test",
                         Description = "testDescription"
                     }
-                };  
+                };
                 context.Languages.Add(language);
                 context.SaveChanges();
             }
 
             await using var context1 = await DbContext();
             var category = context1.Languages.AsEnumerable().First();
+            return category.Id;
+        }
+
+        public async Task<int> GetExistedOperatorId()
+        {
+            await using var context = await DbContext();
+            if (context.Operators.Count() == 0)
+            {
+                Db.Entities.Operator operator1 = new Db.Entities.Operator()
+                {
+                    Name = "test",
+                    Description = "test",
+                    Language = new Db.Entities.Language()
+                    {
+                        Name = "Test",
+                        Description = "testDescription",
+                        Category = new Db.Entities.Category()
+                        {
+                            Name = "Test",
+                            Description = "testDescription"
+                        }
+                    }
+                };              
+            
+                context.Operators.Add(operator1);
+                context.SaveChanges();
+            }
+
+            await using var context1 = await DbContext();
+            var category = context1.Operators.AsEnumerable().First();
             return category.Id;
         }
 
@@ -182,12 +225,13 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
             return maxExistedLanguageId + 1;
         }
 
-        //public async Task<int> GetNotExistedOperatorId()
-        //{
-        //    await using var context = await DbContext();
-        //    var maxExistedAuthorId = context.Operators.Max(x => x.Id);
+        public async Task<int> GetNotExistedOperatorId()
+        {
+            await using var context = await DbContext();
+            var maxExistedLanguageId = context.Operators.Max(x => x.Id);
 
-        //    return maxExistedAuthorId + 1;
-        //}
+            return maxExistedLanguageId + 1;
+        }
+
     }
 }

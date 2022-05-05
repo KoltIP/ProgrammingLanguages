@@ -31,9 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tests\Component\Category\" />
-    <Folder Include="Tests\Component\Comment\" />
-    <Folder Include="Tests\Component\Operator\" />
+    <Folder Include="Tests\Component\Profile\" />
     <Folder Include="Tests\Unit\Category\" />
     <Folder Include="Tests\Unit\Operator\" />
     <Folder Include="Tests\Unit\Comment\" />
