@@ -1,17 +1,14 @@
 ﻿using NUnit.Framework;
 using ProgrammingLanguages.Api.Test.Common;
-using ProgrammingLanguages.Db.Entities;
 using ProgrammingLanguages.Shared.Common.Security;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
+namespace ProgrammingLanguages.Api.Test.Tests.Component.Category
 {
     [TestFixture]
-    public partial class LanguageIntegrationTest : ComponentTest
+    public partial class CategoryIntegrationTest : ComponentTest
     {
         [SetUp]
         public async Task SetUp()
@@ -33,23 +30,10 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
             var category2 = new Db.Entities.Category()
             {
                 Name = "neOOP",
-                Description="Second"
+                Description = "Second"
             };
             context.Categories.Add(category2);
-
-            context.Languages.Add(new Db.Entities.Language()
-            {
-                Name = "Java",
-                Description = "descriptionOne",
-                Category = category1
-            });
-
-            context.Languages.Add(new Db.Entities.Language()
-            {
-                Name = "PHP",
-                Description = "descriptionTwo",
-                Category = category2
-            });
+                       
 
             context.SaveChanges();
         }
@@ -59,7 +43,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
         {
             await using var context = await DbContext();
             //context.Operators.RemoveRange(context.Operators);
-            context.Languages.RemoveRange(context.Languages);
+            //context.Languages.RemoveRange(context.Languages);
             context.Categories.RemoveRange(context.Categories);
             //context.Comments.RemoveRange(context.Comments);
             context.SaveChanges();
@@ -68,11 +52,11 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
 
         protected static class Urls
         {
-            public static string GetLanguages(int? offset = null, int? limit = null)
+            public static string GetCategories(int? offset = null, int? limit = null)
             {
 
                 if (offset is null && limit is null)
-                    return $"/api/v1/language";
+                    return $"/api/v1/category";
                 List<string> queryParameters = new List<string>();
 
                 if (offset.HasValue)
@@ -86,16 +70,16 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
                 }
 
                 var queryString = string.Join("&", queryParameters);
-                return $"/api/v1/language?{queryString}";
+                return $"/api/v1/category?{queryString}";
             }
 
-            public static string GetLanguage(string id) => $"/api/v1/language/{id}";
+            public static string GetCategory(string id) => $"/api/v1/category/{id}";
 
-            public static string DeleteLanguage(string id) => $"/api/v1/language/{id}";
+            public static string DeleteCategory(string id) => $"/api/v1/category/{id}";
 
-            public static string UpdateLanguage(string id) => $"/api/v1/language/{id}";
+            public static string UpdateCategory(string id) => $"/api/v1/category/{id}";
 
-            public static string AddLanguage() => $"/api/v1/language";
+            public static string AddCategory() => $"/api/v1/category";
         }
 
         public static class Scopes
@@ -142,52 +126,13 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
             return new_category.Id;
         }
 
-        public async Task<int> GetExistedLanguageId()
-        {
-            await using var context = await DbContext();
-            if (context.Languages.Count() == 0)
-            {
-                Db.Entities.Language language = new Db.Entities.Language()
-                {
-                    Name = "Test",
-                    Description = "testDescription",
-                    Category = new Db.Entities.Category()
-                    { 
-                        Name = "Test",
-                        Description = "testDescription"
-                    }
-                };  
-                context.Languages.Add(language);
-                context.SaveChanges();
-            }
-
-            await using var context1 = await DbContext();
-            var category = context1.Languages.AsEnumerable().First();
-            return category.Id;
-        }
-
+        
         public async Task<int> GetNotExistedCategoryId()
         {
             await using var context = await DbContext();
             var maxExistedLanguageId = context.Categories.Max(x => x.Id);
 
             return maxExistedLanguageId + 1;
-        }
-
-        public async Task<int> GetNotExistedLanguageId()
-        {
-            await using var context = await DbContext();
-            var maxExistedLanguageId = context.Languages.Max(x => x.Id);
-
-            return maxExistedLanguageId + 1;
-        }
-
-        //public async Task<int> GetNotExistedOperatorId()
-        //{
-        //    await using var context = await DbContext();
-        //    var maxExistedAuthorId = context.Operators.Max(x => x.Id);
-
-        //    return maxExistedAuthorId + 1;
-        //}
+        }        
     }
 }

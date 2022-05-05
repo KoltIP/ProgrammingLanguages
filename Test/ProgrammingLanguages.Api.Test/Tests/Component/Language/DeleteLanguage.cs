@@ -53,7 +53,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
         {
             int id = await GetExistedLanguageId();
             var accessToken = await AuthenticateUser_EmptyScope();
-            var url = Urls.GetLanguage(id.ToString());
+            var url = Urls.DeleteLanguage(id.ToString());
             var response = await apiClient.Delete(url, accessToken);
             Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
         }
