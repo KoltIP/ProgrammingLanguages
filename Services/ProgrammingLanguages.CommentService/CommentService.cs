@@ -44,7 +44,7 @@ namespace ProgrammingLanguages.CommentService
             await context.Comments.AddAsync(comment);
             context.SaveChanges();
 
-            NotificationSub(model);
+            NotificationSub(model.LanguageId);
 
             return mapper.Map<CommentModel>(comment);
         }
@@ -53,16 +53,16 @@ namespace ProgrammingLanguages.CommentService
 
 
 
-        private async Task NotificationSub(AddCommentModel model)
+        private async Task NotificationSub(int languageId)
         { 
             using var context = await contextFactory.CreateDbContextAsync();
             var subscriptions = context.Subscriptions.ToList();
             foreach (var subscription in subscriptions)
             {
-                if (subscription.LanguageId == model.LanguageId)
+                if (subscription.LanguageId == languageId)
                 {
-                    var user = context.Users.FirstOrDefault(x => x.Id == model.UserId);
-                    if (user==null)
+                    var user = context.Users.FirstOrDefault(x => x.Id == subscription.UserId);
+                    if (user == null)
                         throw new ProcessException("The user was not found");
 
                     await rabbitMqTask.SendEmail(new RabbitMqService.Models.EmailModel()
