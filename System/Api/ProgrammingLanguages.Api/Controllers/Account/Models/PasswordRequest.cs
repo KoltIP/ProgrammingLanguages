@@ -15,7 +15,7 @@ namespace ProgrammingLanguages.Api.Controllers.Account.Models
         {
             RuleFor(x => x.NewPassword)
                 .NotEmpty().WithMessage("Password is required.")
-                .MaximumLength(50).WithMessage("Password is long.")
+                .MaximumLength(100).WithMessage("Password is long.")
                 .MinimumLength(3).WithMessage("Password is short (minimum 3 characters).");
         }
     }

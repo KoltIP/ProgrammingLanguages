@@ -16,7 +16,6 @@ namespace ProgrammingLanguage.Web.Pages.Auth.ForgotPsw
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is empty.")
                 .MaximumLength(100).WithMessage("Email is long.")
-                .MinimumLength(5).WithMessage("Email is short")
                 .EmailAddress().WithMessage("Email is required.");
 
             RuleFor(x => x.Password)

@@ -116,6 +116,9 @@ namespace ProgrammingLanguages.UserAccount
 
         public async Task ChangeName(string token, string name)
         {
+            if (string.IsNullOrEmpty(name) || name.Count() > 100 )
+                throw new ProcessException("Invalid fullName!");
+
             var handler = new JwtSecurityTokenHandler();
             var jsonToken = handler.ReadToken(token);
             var tokenSecurity = jsonToken as JwtSecurityToken;
@@ -215,5 +218,26 @@ namespace ProgrammingLanguages.UserAccount
             if (!res.Succeeded)
                 throw new ProcessException("Could not confirm password reset");
         }
+
+        //public async Task<DateTime> LifetimeAccessToken(string token)
+        //{
+        //    try
+        //    {
+        //        var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        //        var handler = new JwtSecurityTokenHandler();
+        //        var jsonToken = handler.ReadToken(token);
+        //        var tokenS = jsonToken as JwtSecurityToken;
+
+        //        var dateTimeOffset = tokenS.Claims.First(claim => claim.Type == "exp").Value;
+
+        //        return dateTime.AddSeconds(int.Parse(dateTimeOffset)).ToLocalTime();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return DateTime.MinValue;
+        //    }
+        //}
+
     }
 }

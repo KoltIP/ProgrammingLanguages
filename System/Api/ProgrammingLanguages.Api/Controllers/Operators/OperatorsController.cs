@@ -42,8 +42,8 @@ namespace ProgrammingLanguages.Api.Controllers.Operators
         [HttpGet("{id}")]
         public async Task<OperatorResponse> GetOperatorById([FromRoute] int id)
         {
-            var language = await operatorService.GetOperator(id);
-            var response = mapper.Map<OperatorResponse>(language);
+            var _operator = await operatorService.GetOperator(id);
+            var response = mapper.Map<OperatorResponse>(_operator);
             return response;
         }
 

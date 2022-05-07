@@ -12,8 +12,7 @@ namespace ProgrammingLanguage.Web.Pages.Profile.Models
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("FullName is empty.")
-                .MaximumLength(100).WithMessage("FullName is long.")
-                .MinimumLength(1).WithMessage("FullName is short.");
+                .MaximumLength(100).WithMessage("FullName is long.");
         }
         public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
         {

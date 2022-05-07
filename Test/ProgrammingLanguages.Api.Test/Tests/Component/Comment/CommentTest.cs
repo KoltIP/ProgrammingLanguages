@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using ProgrammingLanguages.Api.Test.Common;
+using ProgrammingLanguages.Db.Entities;
 using ProgrammingLanguages.Shared.Common.Security;
 using System;
 using System.Linq;
@@ -10,19 +11,33 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Comment
     [TestFixture]
     public partial class CommentIntegrationTest : ComponentTest
     {
-        const string EmailTestUser = "test@test.ru";
-        const string PasswordTestUser = "test";
+        const string TestEmail = "ilya.kolt@gmail.com";
+        const string TestPassword = "mypassword";
 
         [SetUp]
         public async Task SetUp()
         {
             await using var context = await DbContext();
 
-            context.Comments.RemoveRange(context.Comments);
+
             context.Operators.RemoveRange(context.Operators);
+            context.Comments.RemoveRange(context.Comments);
             context.Languages.RemoveRange(context.Languages);
             context.Categories.RemoveRange(context.Categories);
-            
+            context.Users.RemoveRange(context.Users);
+            context.SaveChanges();
+
+            var user = new User()
+            {
+                Status = UserStatus.Active,
+                FullName = TestEmail,
+                UserName = TestEmail,
+                Email = TestEmail,
+                EmailConfirmed = true,
+                PhoneNumber = null,
+                PhoneNumberConfirmed = false
+            };
+            await userManager.CreateAsync(user, TestPassword);
             context.SaveChanges();
 
             var category1 = new Db.Entities.Category()
@@ -63,6 +78,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Comment
             context.Operators.RemoveRange(context.Operators);
             context.Languages.RemoveRange(context.Languages);
             context.Categories.RemoveRange(context.Categories);
+            context.Users.RemoveRange(context.Users);
             context.SaveChanges();
             await base.TearDown();
         }
@@ -135,7 +151,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Comment
 
         public async Task<Guid> GetExistedUserId()
         {
-            return (await userManager.FindByEmailAsync(EmailTestUser)).Id;
+            return (await userManager.FindByEmailAsync(TestEmail)).Id;
         }
 
         public async Task<int> GetExistedLanguageId()

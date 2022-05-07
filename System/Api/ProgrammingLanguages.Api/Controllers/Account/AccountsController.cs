@@ -3,6 +3,8 @@ using ProgrammingLanguages.Api.Controllers.Account.Models;
 using ProgrammingLanguages.UserAccount;
 using Microsoft.AspNetCore.Mvc;
 using ProgrammingLanguages.UserAccount.Models;
+using Microsoft.AspNetCore.Authorization;
+using ProgrammingLanguages.Shared.Common.Security;
 
 namespace ProgrammingLanguages.Api.Controllers.Account
 {
@@ -39,12 +41,14 @@ namespace ProgrammingLanguages.Api.Controllers.Account
         }
 
         [HttpGet("inspect/{email}")]
+        //[Authorize(AppScopes.LanguageRead)]
         public async Task<bool> InspectEmail([FromRoute] string email)
         {
             return await userAccountService.InspectEmail(email);
         }
 
         [HttpGet("find/profile/{token}")]
+        //[Authorize(AppScopes.LanguageRead)]
         public async Task<UserAccountResponse> GetUser([FromRoute] string token)
         {
             var user = await userAccountService.GetUser(token);
@@ -56,18 +60,21 @@ namespace ProgrammingLanguages.Api.Controllers.Account
         }
 
         [HttpGet("change/name/{token}/{name}")]
+        [Authorize(AppScopes.LanguageRead)]
         public async Task ChangeName([FromRoute] string token, [FromRoute] string name)
         {
             await userAccountService.ChangeName(token, name);
         }
 
         [HttpGet("change/email/{token}/{email}")]
+        [Authorize(AppScopes.LanguageRead)]
         public async Task ChangeEmail([FromRoute] string token, [FromRoute] string email)
         {
             await userAccountService.ChangeEmail(token, email);
         }
 
         [HttpPost("change/password/{token}")]
+        [Authorize(AppScopes.LanguageRead)]
         public async Task ChangePassword([FromRoute] string token, [FromBody] PasswordRequest request)
         {
             //PasswordModel model = mapper.Map<PasswordModel>(request);
@@ -97,5 +104,12 @@ namespace ProgrammingLanguages.Api.Controllers.Account
         {
             await userAccountService.ConfirmForgotPassword(email, code, password);
         }
+
+        //[HttpGet("lifetimetoken/{token}")]
+        //public async Task<DateTime> LifetimeAccessToken([FromRoute] string token)
+        //{
+        //    return await userAccountService.LifetimeAccessToken(token);
+        //}
+
     }
 }

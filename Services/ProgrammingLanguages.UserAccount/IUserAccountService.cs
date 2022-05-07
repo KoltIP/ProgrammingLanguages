@@ -18,5 +18,6 @@ namespace ProgrammingLanguages.UserAccount
         Task ChangePassword(string token, PasswordModel password);
         Task ConfirmForgotPassword(string email, string code, string password);
         Task ForgotPassword(ForgotPasswordModel model);
+        //Task<DateTime> LifetimeAccessToken(string token);
     }
 }

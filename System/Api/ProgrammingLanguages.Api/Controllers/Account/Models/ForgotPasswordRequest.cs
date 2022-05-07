@@ -15,7 +15,7 @@ namespace ProgrammingLanguages.Api.Controllers.Account.Models
         public ResetPasswordUserRequestValidator()
         {
             RuleFor(x => x.Email)
-                .MinimumLength(8).WithMessage("Email is short")
+                .NotEmpty().WithMessage("Email is empty.")
                 .MaximumLength(100).WithMessage("Email is long.")
                 .EmailAddress().WithMessage("Email is required.");
 

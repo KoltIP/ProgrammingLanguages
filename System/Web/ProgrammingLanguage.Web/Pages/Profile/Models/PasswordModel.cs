@@ -13,8 +13,8 @@ namespace ProgrammingLanguage.Web.Pages.Profile.Models
         {
             RuleFor(x => x.NewPassword)
                 .NotEmpty().WithMessage("Password is required.")
-                .MaximumLength(50).WithMessage("Password is long.")
-                .MinimumLength(3).WithMessage("Password is short (minimum 3 characters).");
+                .MaximumLength(100).WithMessage("Password is long.")
+                .MinimumLength(3).WithMessage("Password is short.");
         }
         public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
         {
