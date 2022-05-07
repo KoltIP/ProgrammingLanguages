@@ -13,7 +13,6 @@ namespace ProgrammingLanguage.Web.Pages.Profile.Models
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is empty.")
                 .MaximumLength(100).WithMessage("Email is long.")
-                .MinimumLength(5).WithMessage("Email is short")
                 .EmailAddress().WithMessage("Email is required.");
         }
         public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>

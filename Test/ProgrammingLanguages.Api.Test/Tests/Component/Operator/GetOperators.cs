@@ -26,18 +26,18 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Operator
             Assert.AreEqual(operators_from_db.Count(), operators_from_api.Count());
         }
 
-        [Test]
-        public async Task GetOperators_NegativeParameters_OkResponse()
-        {
-            var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
-            var url = Urls.GetOperators(-1, -1);
-            var response = await apiClient.Get(url, accessToken);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+        //[Test]
+        //public async Task GetOperators_NegativeParameters_OkResponse()
+        //{
+        //    var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
+        //    var url = Urls.GetOperators(-1, -1);
+        //    var response = await apiClient.Get(url, accessToken);
+        //    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
-            var operators_from_api = await response.ReadAsObject<IEnumerable<OperatorResponse>>();
+        //    var operators_from_api = await response.ReadAsObject<IEnumerable<OperatorResponse>>();
 
-            Assert.AreEqual(0, operators_from_api.Count());
-        }
+        //    Assert.AreEqual(0, operators_from_api.Count());
+        //}
 
         [Test]
         public async Task GetOperators_Unauthorized()

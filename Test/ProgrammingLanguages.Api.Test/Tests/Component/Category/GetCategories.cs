@@ -26,18 +26,18 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Category
             Assert.AreEqual(categories_from_db.Count(), categories_from_api.Count());
         }
 
-        [Test]
-        public async Task GetCategories_NegativeParameters_OkResponse()
-        {
-            var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
-            var url = Urls.GetCategories(-1, -1);
-            var response = await apiClient.Get(url, accessToken);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+        //[Test]
+        //public async Task GetCategories_NegativeParameters_OkResponse()
+        //{
+        //    var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
+        //    var url = Urls.GetCategories(-1, -1);
+        //    var response = await apiClient.Get(url, accessToken);
+        //    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
-            var categories_from_api = await response.ReadAsObject<IEnumerable<CategoryResponse>>();
+        //    var categories_from_api = await response.ReadAsObject<IEnumerable<CategoryResponse>>();
 
-            Assert.AreEqual(0, categories_from_api.Count());
-        }
+        //    Assert.AreEqual(0, categories_from_api.Count());
+        //}
 
         [Test]
         public async Task GetCategories_Unauthorized()

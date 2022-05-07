@@ -18,7 +18,7 @@ namespace ProgrammingLanguages.Api.Test.Common
             {
                 Val("CONNECTION_STRING_HOST", "localhost,host.docker.internal"),
                 Val("CONNECTION_STRING_PORT", "25432"),
-                Val("CONNECTION_STRING_DATABASE", "ProgrammingLanguages"),
+                Val("CONNECTION_STRING_DATABASE", "ProgrammingLanguages_TDb"),
                 Val("CONNECTION_STRING_USER", "postgres"),
                 Val("CONNECTION_STRING_PASSWORD", "123456789"),
 

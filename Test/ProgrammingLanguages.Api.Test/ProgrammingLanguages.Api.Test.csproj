@@ -31,10 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tests\Component\Profile\" />
     <Folder Include="Tests\Unit\Category\" />
     <Folder Include="Tests\Unit\Operator\" />
     <Folder Include="Tests\Unit\Comment\" />
+    <Folder Include="Tests\Unit\Profile\" />
   </ItemGroup>
 
 </Project>

@@ -18,8 +18,8 @@ namespace ProgrammingLanguages.UserAccount.Models
         {
             RuleFor(x => x.NewPassword)
                 .NotEmpty().WithMessage("Password is required.")
-                .MaximumLength(50).WithMessage("Password is long.")
-                .MinimumLength(8).WithMessage("Password is short.");
+                .MaximumLength(100).WithMessage("Password is long.")
+                .MinimumLength(3).WithMessage("Password is short.");
         }
     }
 

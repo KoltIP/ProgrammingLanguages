@@ -16,14 +16,18 @@ namespace ProgrammingLanguages.Api.Controllers.Account.Models
         public RegisterUserAccountRequestValidator()
         {
             RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("User name is required.");
+                .NotEmpty().WithMessage("User name is required.")
+                .MaximumLength(100).WithMessage("Name is long.");
 
             RuleFor(x => x.Email)
-                .EmailAddress().WithMessage("Email is required.");
+               .NotEmpty().WithMessage("Email is required.")
+               .MaximumLength(100).WithMessage("Email is long.")
+            .EmailAddress().WithMessage("Email is required.");
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Password is required.")
-                .MaximumLength(50).WithMessage("Password is long.");
+                .MaximumLength(100).WithMessage("Password is long.")
+                .MinimumLength(3).WithMessage("Password is short (minimum 3 simbols).");
         }
     }
 

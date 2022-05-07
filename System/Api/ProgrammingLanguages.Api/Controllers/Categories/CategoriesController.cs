@@ -32,8 +32,8 @@ namespace ProgrammingLanguages.Api.Controllers.Categories
         [HttpGet("")]
         public async Task<IEnumerable<CategoryResponse>> GetCategoriesAsync()
         {
-            var languages = await categoryService.GetCategories();
-            var response = mapper.Map<IEnumerable<CategoryResponse>>(languages);
+            var categories = await categoryService.GetCategories();
+            var response = mapper.Map<IEnumerable<CategoryResponse>>(categories);
             return response;
         }
 
@@ -41,8 +41,8 @@ namespace ProgrammingLanguages.Api.Controllers.Categories
         [HttpGet("{id}")]        
         public async Task<CategoryResponse> GetCategoryById([FromRoute] int id)
         {
-            var language = await categoryService.GetCategory(id);
-            var response = mapper.Map<CategoryResponse>(language);
+            var category = await categoryService.GetCategory(id);
+            var response = mapper.Map<CategoryResponse>(category);
             return response;
         }
 
@@ -51,8 +51,8 @@ namespace ProgrammingLanguages.Api.Controllers.Categories
         public async Task<CategoryResponse> AddCategoryAsync([FromBody] AddCategoryRequest request)
         {
             var model = mapper.Map<AddCategoryModel>(request);
-            var language = await categoryService.AddCategory(model);
-            var result = mapper.Map<CategoryResponse>(language);
+            var category = await categoryService.AddCategory(model);
+            var result = mapper.Map<CategoryResponse>(category);
             return result;
         }
 

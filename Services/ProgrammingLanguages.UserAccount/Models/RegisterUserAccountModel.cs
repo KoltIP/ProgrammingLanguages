@@ -19,14 +19,18 @@ namespace ProgrammingLanguages.UserAccount.Models
         public RegisterUserAccountModelValidator()
         {
             RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("User name is required.");
+                .NotEmpty().WithMessage("Name is required.")
+                .MaximumLength(100).WithMessage("Name is long.");
 
             RuleFor(x => x.Email)
-                .EmailAddress().WithMessage("Email is required.");
+                .EmailAddress().WithMessage("Email is required.")
+                .NotEmpty().WithMessage("Email email is required.")
+               .MaximumLength(100).WithMessage("Email name is long.");
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Password is required.")
-                .MaximumLength(50).WithMessage("Password is long.");
+                .MaximumLength(100).WithMessage("Password is long.")
+                .MinimumLength(3).WithMessage("Password is short (minimum 3 simbols).");
         }
     }
 }
