@@ -36,7 +36,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
 
         [Test]
         [TestCaseSource(typeof(Generator), nameof(Generator.InvalidCategoryIds))]
-        public async Task UpdateLanguage_InvalidAuthor_Authenticated_BadRequest(int categoryId)
+        public async Task UpdateLanguage_InvalidCategory_Authenticated_BadRequest(int categoryId)
         {
             int id = await GetExistedLanguageId();
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
@@ -48,7 +48,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
         }
 
         [Test]
-        public async Task UpdateLanguage_ValidAuthor_Authenticated_OkResponse()
+        public async Task UpdateLanguage_ValidCategory_Authenticated_OkResponse()
         {
             int id = await GetExistedLanguageId();
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();

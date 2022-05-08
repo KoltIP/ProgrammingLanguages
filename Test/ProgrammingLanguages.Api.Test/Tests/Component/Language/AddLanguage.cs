@@ -31,7 +31,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
 
         [Test]
         [TestCaseSource(typeof(Generator), nameof(Generator.InvalidCategoryIds))]
-        public async Task AddLanguage_InvalidAuthor_Authenticated_BadRequest(int categoryId)
+        public async Task AddLanguage_InvalidCategory_Authenticated_BadRequest(int categoryId)
         {
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
             var url = Urls.AddLanguage();
@@ -42,7 +42,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Language
         }
 
         [Test]
-        public async Task AddLanguage_ValidAuthor_Authenticated_OkResponse()
+        public async Task AddLanguage_ValidCategory_Authenticated_OkResponse()
         {
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
             var url = Urls.AddLanguage();

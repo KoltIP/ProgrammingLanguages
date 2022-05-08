@@ -31,7 +31,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Operator
 
         [Test]
         [TestCaseSource(typeof(Generator), nameof(Generator.InvalidLanguageIds))]
-        public async Task AddOperator_InvalidAuthor_Authenticated_BadRequest(int languageId)
+        public async Task AddOperator_InvalidLanguage_Authenticated_BadRequest(int languageId)
         {
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
             var url = Urls.AddOperator();
@@ -42,7 +42,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Operator
         }
 
         [Test]
-        public async Task AddOperator_ValidAuthor_Authenticated_OkResponse()
+        public async Task AddOperator_ValidOperator_Authenticated_OkResponse()
         {
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
             var url = Urls.AddOperator();

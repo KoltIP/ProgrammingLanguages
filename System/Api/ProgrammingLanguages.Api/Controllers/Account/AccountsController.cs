@@ -105,11 +105,5 @@ namespace ProgrammingLanguages.Api.Controllers.Account
             await userAccountService.ConfirmForgotPassword(email, code, password);
         }
 
-        //[HttpGet("lifetimetoken/{token}")]
-        //public async Task<DateTime> LifetimeAccessToken([FromRoute] string token)
-        //{
-        //    return await userAccountService.LifetimeAccessToken(token);
-        //}
-
     }
 }

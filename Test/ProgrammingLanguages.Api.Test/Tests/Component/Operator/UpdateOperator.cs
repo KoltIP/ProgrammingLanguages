@@ -33,7 +33,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Operator
 
         [Test]
         [TestCaseSource(typeof(Generator), nameof(Generator.InvalidLanguageIds))]
-        public async Task UpdateOperator_InvalidAuthor_Authenticated_BadRequest(int languageId)
+        public async Task UpdateOperator_InvalidLanguage_Authenticated_BadRequest(int languageId)
         {
             int id = await GetExistedOperatorId();
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
@@ -45,7 +45,7 @@ namespace ProgrammingLanguages.Api.Test.Tests.Component.Operator
         }
 
         [Test]
-        public async Task UpdateOperator_ValidAuthor_Authenticated_OkResponse()
+        public async Task UpdateOperator_ValidLanguage_Authenticated_OkResponse()
         {
             int id = await GetExistedOperatorId();
             var accessToken = await AuthenticateUser_ReadAndWriteLanguageScope();
