@@ -263,6 +263,7 @@
     private async Task AddSubscribe(int languageId)
     {        
         await languageService.AddSubscribe(languageId);
+        Snackbar.Add("You have successfully subscribed");
     }
 
 }
