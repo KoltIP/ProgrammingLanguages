@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ProgrammingLanguages.Shared.Common.Responses;
 
 namespace ProgrammingLanguage.Web.Pages.Operators.Services
 {
@@ -14,7 +15,7 @@ namespace ProgrammingLanguage.Web.Pages.Operators.Services
         {
             _httpClient = httpClient;
         }
-        public async Task AddOperator(OperatorModel model)
+        public async Task<ErrorResponse> AddOperator(OperatorModel model)
         {
             string url = $"{Settings.ApiRoot}/v1/operator";
 
@@ -24,26 +25,34 @@ namespace ProgrammingLanguage.Web.Pages.Operators.Services
 
             var content = await response.Content.ReadAsStringAsync();
 
+            var error = new ErrorResponse();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(content);
+                error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                if (error.ErrorCode == -1)
+                    error.Message = "An unexpected error has occurred. Transaction rejected.";
             }
+            return error;
         }
 
-        public async Task DeleteOperator(int operatorId)
+        public async Task<ErrorResponse> DeleteOperator(int operatorId)
         {
             string url = $"{Settings.ApiRoot}/v1/operator/{operatorId}";
 
             var response = await _httpClient.DeleteAsync(url);
             var content = await response.Content.ReadAsStringAsync();
 
+            var error = new ErrorResponse();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(content);
+                error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                if (error.ErrorCode == -1)
+                    error.Message = "An unexpected error has occurred. Transaction rejected.";
             }
+            return error;
         }
 
-        public async Task EditOperator(int operatorId, OperatorModel model)
+        public async Task<ErrorResponse> EditOperator(int operatorId, OperatorModel model)
         {
             string url = $"{Settings.ApiRoot}/v1/operator/{operatorId}";
 
@@ -54,10 +63,14 @@ namespace ProgrammingLanguage.Web.Pages.Operators.Services
 
             var content = await response.Content.ReadAsStringAsync();
 
+            var error = new ErrorResponse();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(content);
+                error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                if (error.ErrorCode == -1)
+                    error.Message = "An unexpected error has occurred. Transaction rejected.";
             }
+            return error;
         }
 
         public async Task<IEnumerable<LanguageModel>> GetLanguageList()

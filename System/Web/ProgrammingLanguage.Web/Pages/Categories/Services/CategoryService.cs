@@ -1,4 +1,5 @@
 ﻿using ProgrammingLanguage.Web.Pages.Categories.Models;
+using ProgrammingLanguages.Shared.Common.Responses;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -49,7 +50,7 @@ namespace ProgrammingLanguage.Web.Pages.Categories.Services
             return data;
         }
 
-        public async Task AddCategory(CategoryModel model)
+        public async Task<ErrorResponse> AddCategory(CategoryModel model)
         {
             string url = $"{Settings.ApiRoot}/v1/category";
 
@@ -59,13 +60,18 @@ namespace ProgrammingLanguage.Web.Pages.Categories.Services
 
             var content = await response.Content.ReadAsStringAsync();
 
+            var error = new ErrorResponse();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(content);
+                error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                if (error.ErrorCode == -1)
+                    error.Message = "An unexpected error has occurred. Transaction rejected.";
             }
+            return error;
+
         }
 
-        public async Task EditCategory(int categoryId, CategoryModel model)
+        public async Task<ErrorResponse> EditCategory(int categoryId, CategoryModel model)
         {
             string url = $"{Settings.ApiRoot}/v1/category/{categoryId}";
 
@@ -76,23 +82,31 @@ namespace ProgrammingLanguage.Web.Pages.Categories.Services
 
             var content = await response.Content.ReadAsStringAsync();
 
+            var error = new ErrorResponse();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(content);
+                error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                if (error.ErrorCode == -1)
+                    error.Message = "An unexpected error has occurred. Transaction rejected.";
             }
+            return error;
         }
 
-        public async Task DeleteCategory(int categoryId)
+        public async Task<ErrorResponse> DeleteCategory(int categoryId)
         {
             string url = $"{Settings.ApiRoot}/v1/category/{categoryId}";
 
             var response = await _httpClient.DeleteAsync(url);
             var content = await response.Content.ReadAsStringAsync();
 
+            var error = new ErrorResponse();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(content);
+                error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                if (error.ErrorCode == -1)
+                    error.Message = "An unexpected error has occurred. Transaction rejected.";
             }
+            return error;
         }
     }
 }

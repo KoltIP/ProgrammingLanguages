@@ -93,27 +93,23 @@
         Error = "";
         ErrorDetail = "";
 
-        var inspect = await AuthService.InspectEmail(model.Email);
-        if (inspect)
+
+        var result = await AuthService.Login(model);
+
+        if (result.Successful)
         {
-
-            var result = await AuthService.Login(model);
-
-            if (result.Successful)
-            {
-                NavigationManager.NavigateTo("/");
+            var inspect = await AuthService.InspectEmail(model.Email);
+                if (!inspect)
+                    Snackbar.Add("Please, confirm your email!A confirmation email has been sent to", Severity.Warning);
+                else
+                    NavigationManager.NavigateTo("/");                
             }
             else
             {
                 Error = result.Error;
                 ErrorDetail = result.ErrorDescription;
                 ShowErrors = true;
-            }
-        }
-        else
-        {
-            Snackbar.Add("Please, confirm your email and try again", Severity.Warning);
-        }
-
+            }            
+        
     }
 }
