@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using ProgrammingLanguages.Shared.Common.Responses;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Text;
@@ -52,7 +53,7 @@ namespace ProgrammingLanguage.Web.Pages.Languages.Models
             return data;
         }
 
-        public async Task AddLanguage(LanguageModel model)
+        public async Task<ErrorResponse> AddLanguage(LanguageModel model)
         {
             string url = $"{Settings.ApiRoot}/v1/language";
 
@@ -61,14 +62,17 @@ namespace ProgrammingLanguage.Web.Pages.Languages.Models
             var response = await _httpClient.PostAsync(url, request);
 
             var content = await response.Content.ReadAsStringAsync();
-
+            var error = new ErrorResponse();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(content);
+                error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                if (error.ErrorCode == -1)
+                    error.Message = "An unexpected error has occurred. Transaction rejected.";
             }
+            return error;
         }
 
-        public async Task EditLanguage(int languageId, LanguageModel model)
+        public async Task<ErrorResponse> EditLanguage(int languageId, LanguageModel model)
         {
             string url = $"{Settings.ApiRoot}/v1/language/{languageId}";
 
@@ -78,24 +82,30 @@ namespace ProgrammingLanguage.Web.Pages.Languages.Models
             var response = await _httpClient.PutAsync(url, request);
 
             var content = await response.Content.ReadAsStringAsync();
-
+            var error = new ErrorResponse();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(content);
+                error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                if (error.ErrorCode == -1)
+                    error.Message = "An unexpected error has occurred. Transaction rejected.";
             }
+            return error;
         }
 
-        public async Task DeleteLanguage(int languageId)
+        public async Task<ErrorResponse> DeleteLanguage(int languageId)
         {
             string url = $"{Settings.ApiRoot}/v1/language/{languageId}";
 
             var response = await _httpClient.DeleteAsync(url);
             var content = await response.Content.ReadAsStringAsync();
-
+            var error = new ErrorResponse();
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(content);
+                error = JsonSerializer.Deserialize<ErrorResponse>(content);
+                if (error.ErrorCode == -1)
+                    error.Message = "An unexpected error has occurred. Transaction rejected.";
             }
+            return error;
         }
 
         public async Task<IEnumerable<CategoryModel>> GetCategoryList()
@@ -137,14 +147,6 @@ namespace ProgrammingLanguage.Web.Pages.Languages.Models
 
             var content = await response.Content.ReadAsStringAsync();
 
-            //var error = new ErrorResponse();
-            //if (!response.IsSuccessStatusCode)
-            //{
-            //    error = JsonSerializer.Deserialize<ErrorResponse>(content);
-            //    if (error.ErrorCode == -1)
-            //        error.Message = "Operation failed";
-            //}
-            //return error;
         }
 
     }

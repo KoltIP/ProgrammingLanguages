@@ -102,8 +102,11 @@
 
         if (!result.Cancelled)
         {
-            await operatorService.AddOperator(((OperatorDialog)dialog.Dialog).model);
-            await ReloadData();
+            var addResult = await operatorService.AddOperator(((OperatorDialog)dialog.Dialog).model);
+             if (addResult.ErrorCode != null)
+                Snackbar.Add(addResult.Message, Severity.Error);
+            else
+                await ReloadData();
         }
     }
 
@@ -118,8 +121,11 @@
 
         if (!result.Cancelled)
         {
-            await operatorService.EditOperator(operatorId, ((OperatorDialog)dialog.Dialog).model);
-            await ReloadData();
+            var editResult = await operatorService.EditOperator(operatorId, ((OperatorDialog)dialog.Dialog).model);
+            if (editResult.ErrorCode != null)
+                Snackbar.Add(editResult.Message, Severity.Error);
+            else
+                await ReloadData();
         }
     }
 
@@ -137,8 +143,11 @@
 
         if (!result.Cancelled)
         {
-            await operatorService.DeleteOperator(operatorId);
-            await ReloadData();
+            var deleteResult = await operatorService.DeleteOperator(operatorId);
+            if (deleteResult.ErrorCode != null)
+                Snackbar.Add(deleteResult.Message, Severity.Error);
+            else
+                await ReloadData();
         }
     }
 }

@@ -144,8 +144,11 @@
 
         if (!result.Cancelled)
         {
-            await languageService.AddLanguage(((LanguageDialog)dialog.Dialog).model);
-            await ReloadData();
+            var addResult = await languageService.AddLanguage(((LanguageDialog)dialog.Dialog).model);
+            if (addResult.ErrorCode != null)
+                Snackbar.Add(addResult.Message, Severity.Error);
+            else
+                await ReloadData();
         }
     }
 
@@ -160,8 +163,11 @@
 
         if (!result.Cancelled)
         {
-            await languageService.EditLanguage(languageId, ((LanguageDialog)dialog.Dialog).model);
-            await ReloadData();
+            var editResult = await languageService.EditLanguage(languageId, ((LanguageDialog)dialog.Dialog).model);
+            if (editResult.ErrorCode != null)
+                Snackbar.Add(editResult.Message, Severity.Error);
+            else
+                await ReloadData();
         }
     }
 
@@ -179,8 +185,11 @@
 
         if (!result.Cancelled)
         {
-            await languageService.DeleteLanguage(languageId);
-            await ReloadData();
+            var deleteResult = await languageService.DeleteLanguage(languageId);
+           if (deleteResult.ErrorCode != null)
+                Snackbar.Add(deleteResult.Message, Severity.Error);
+            else
+                await ReloadData();
         }
     }
 
